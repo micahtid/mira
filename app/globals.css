@@ -5,17 +5,21 @@
 @tailwind utilities;
 
 @layer components {
-  .standard-container {
-    @apply max-w-standard mx-auto p-standard
+  .default-container {
+    @apply mx-auto p-standard max-w-standard
   }
 
-  .dynamic-heading {
-    @apply text-6xl max-lg:text-4xl uppercase
+  .default-heading {
+    @apply font-poppins font-semibold text-6xl max-lg:text-4xl
   }
 
-  .dynamic-text {
-    @apply text-xl max-lg:text-lg
+  .default-text {
+    @apply font-poppins text-xl max-lg:text-lg
   }
+
+  .default-button {
+      @apply w-fit text-white uppercase font-medium py-3 px-5 bg-primary-400 rounded-md shadow-[0_3px_0_0_#2b206440] transition-all duration-100 hover:brightness-90
+    }
 }
 
 
