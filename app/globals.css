@@ -17,6 +17,10 @@
     @apply font-poppins text-xl max-lg:text-lg
   }
 
+  .default-label {
+    @apply font-poppins text-lg max-lg:text-base
+  }
+
   .default-button {
       @apply w-fit text-white uppercase font-medium py-3 px-5 bg-primary-400 rounded-md shadow-[0_3px_0_0_#2b206440] transition-all duration-100 hover:brightness-90
     }
