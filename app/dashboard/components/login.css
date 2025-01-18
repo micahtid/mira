@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .form-container {
+    @apply space-y-6;
+  }
+
+  .form-field {
+    @apply w-full p-3 border rounded-md mt-2 font-poppins outline-none;
+  }
+
+  .form-field-multiline {
+    @apply form-field min-h-[100px] resize-y;
+  }
+}
