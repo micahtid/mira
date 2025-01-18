@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .standard-container {
+    @apply max-w-standard mx-auto p-standard
+  }
+
+  .dynamic-heading {
+    @apply text-6xl max-lg:text-4xl uppercase
+  }
+
+  .dynamic-text {
+    @apply text-xl max-lg:text-lg
+  }
+}
+
+
+@keyframes fadeInSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px); 
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); 
+  }
+}
+
+.fade-in-animation {
+  opacity: 0;
+  animation: fadeInSlideUp 1s ease-in-out forwards;
+}
