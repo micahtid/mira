@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { addUser } from "@/utils/userFunctions";
 import "./login.css";
 
 type RegistrationType = "organization" | "individual";
@@ -31,7 +32,24 @@ const fields: Record<RegistrationType, FormField[]> = {
 
 const Registration = () => {
     const [registrationType, setRegistrationType] = useState<RegistrationType>("individual");
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, reset } = useForm();
+
+    const onSubmit = async (formData: any) => {
+        try {
+            const relevantFields = fields[registrationType].map(field => field.name);
+            const filteredData = Object.fromEntries(
+                Object.entries(formData).filter(([key]) => relevantFields.includes(key))
+            );
+
+            await addUser({
+                ...filteredData,
+                type: registrationType
+            });
+            window.location.reload();
+        } catch (error) {
+            console.error("Registration failed:", error);
+        }
+    };
 
     const renderField = (field: FormField) => (
         <div key={field.name}>
@@ -83,7 +101,7 @@ const Registration = () => {
                     ))}
                 </div>
 
-                <form onSubmit={handleSubmit(console.log)} className="form-container">
+                <form onSubmit={handleSubmit(onSubmit)} className="form-container">
                     {fields[registrationType].map(renderField)}
                     <button type="submit" className="default-button w-full">
                         Submit Registration

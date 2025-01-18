@@ -16,3 +16,25 @@ export const getUser = async (uid: string): Promise<DocumentData | null> => {
 
   return user;
 };
+
+export const addUser = async (userData: {[key:string]: any}) => {
+  const auth = getUserAuth(true);
+  const firestore = getFireStore(true);
+
+  if (!auth.currentUser) {
+    throw new Error("No authenticated user found");
+  }
+
+  try {
+    const { uid } = auth.currentUser;
+    await addDoc(collection(firestore, "users"), {
+      uid,
+      ...userData,
+      createdAt: serverTimestamp()
+    });
+    return true;
+  } catch (error) {
+    console.error("Error adding user:", error);
+    throw error;
+  }
+};

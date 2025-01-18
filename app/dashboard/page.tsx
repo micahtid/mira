@@ -1,6 +1,7 @@
 "use client";
 
 import { useUser } from "@/providers/UsersProvider";
+import { signOut } from "@/utils/databaseFunctions";
 
 import Registration from "./components/Registration";
 import Login from "./components/Login";
@@ -19,8 +20,9 @@ const Dashboard = () => {
   }
 
   return (
-    <div>
-      Dashboard!
+    <div className="default-container flex flex-col gap-4">
+      <h3 className="default-heading">Dashboard</h3>
+      <button onClick={signOut} className="default-button">Log Out</button>
     </div>
   )
 }
