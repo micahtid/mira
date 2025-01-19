@@ -8,10 +8,14 @@
   }
 
   .form-field {
-    @apply w-full p-3 border rounded-md mt-2 font-poppins outline-none;
+    @apply w-full p-3 border rounded-md mt-2 font-poppins outline-none shadow-sm;
   }
 
   .form-field-multiline {
     @apply form-field min-h-[100px] resize-y;
+  }
+
+  .form-field-error {
+    @apply text-red-500 text-sm mt-1;
   }
 }
