@@ -34,6 +34,7 @@ const Registration = () => {
     const [registrationType, setRegistrationType] = useState<RegistrationType>("individual");
     const { register, handleSubmit, reset } = useForm();
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const onSubmit = async (formData: any) => {
         try {
             const relevantFields = fields[registrationType].map(field => field.name);
