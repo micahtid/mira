@@ -1,23 +1,28 @@
 import { addDoc, query, DocumentData, onSnapshot, collection, updateDoc, serverTimestamp, where, getDocs, arrayUnion, doc } from "firebase/firestore";
 import { initializeFirebase, getUserAuth, getFireStore } from "./databaseFunctions";
 
-export const getUser = async (uid: string) => {
+export const getPositions = (
+  oid: string,
+  onUpdate: (positions: DocumentData[]) => void
+) => {
   const app = initializeFirebase();
   const firestore = getFireStore(true);
 
-  const q = query(collection(firestore, `/users`), where("uid", "==", uid));
+  const q = query(
+    collection(firestore, `/positions`),
+    where("oid", "==", oid)
+  );
 
-  const querySnapshot = await getDocs(q);
-
-  let user: DocumentData | null = null;
-  querySnapshot.forEach((doc) => {
-    user = doc.data();
+  return onSnapshot(q, (querySnapshot) => {
+    const positions = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+    onUpdate(positions);
   });
-
-  return user;
 };
 
-export const addUser = async (userData: {[key:string]: any}) => {
+export const addPosition = async (positionData: {[key:string]: any}) => {
   const auth = getUserAuth(true);
   const firestore = getFireStore(true);
 
@@ -27,14 +32,16 @@ export const addUser = async (userData: {[key:string]: any}) => {
 
   try {
     const { uid } = auth.currentUser;
-    await addDoc(collection(firestore, "users"), {
-      uid,
-      ...userData,
+    await addDoc(collection(firestore, "positions"), {
+      oid: uid,
+      ...positionData,
       createdAt: serverTimestamp()
     });
     return true;
   } catch (error) {
-    console.error("Error adding user:", error);
+    console.error("Error creating position:", error);
     throw error;
   }
 };
+
+// TO ADD: Edit Position, Delete Position

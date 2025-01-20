@@ -8,7 +8,7 @@ import { getUser } from "@/utils/userFunctions";
 
 type UserContextType = {
   user: null | undefined | DocumentData;
-  isRegistered: boolean;
+  userData: null | undefined | DocumentData;
 };
 
 export const UserContext = createContext<UserContextType | undefined>(
@@ -24,16 +24,16 @@ export const UserContextProvider = (props: Props) => {
   const auth = getUserAuth(true);
 
   const [user, setUser] = useState<User | undefined | null>(undefined);
-  const [isRegistered, setIsRegistered] = useState(false);
+  const [userData, setUserData] = useState<DocumentData | undefined | null>(undefined);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
       setUser(firebaseUser);
       if (firebaseUser) {
-        const userData = await getUser(firebaseUser.uid);
-        setIsRegistered(!!userData);
+        const userDoc = await getUser(firebaseUser.uid);
+        setUserData(userDoc);
       } else {
-        setIsRegistered(false);
+        setUserData(null);
       }
     });
 
@@ -43,7 +43,7 @@ export const UserContextProvider = (props: Props) => {
 
   const value = {
     user,
-    isRegistered
+    userData
   };
 
   return <UserContext.Provider value={value} {...props} />;

@@ -6,16 +6,17 @@ import { signOut } from "@/utils/databaseFunctions";
 import Registration from "./components/Registration";
 import Login from "./components/Login";
 
+import OrganizationDashboard from "./components/AdminDashboard/OrganizationDashboard";
+import ApplicationDashboard from "./components/ApplicantDashboard/ApplicationDashboard";
+
 const Dashboard = () => {
-  const { user, isRegistered } = useUser();
+  const { user, userData } = useUser();
 
-  console.log(user, isRegistered);
-
-  if (!user && !isRegistered) {
+  if (!user && !userData) {
     return (<Login />)
   }
 
-  if (user && !isRegistered) {
+  if (user && !userData) {
     return (<Registration />)
   }
 
@@ -23,6 +24,8 @@ const Dashboard = () => {
     <div className="default-container flex flex-col gap-4">
       <h3 className="default-heading">Dashboard</h3>
       <button onClick={signOut} className="default-button">Log Out</button>
+
+      { userData?.type === "organization" ? <OrganizationDashboard /> : <ApplicationDashboard /> }
     </div>
   )
 }

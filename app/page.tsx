@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <div className="default-container flex flex-col gap-4">
       <h3 className="default-heading">This is Mira</h3>
-      <p className="default-text">We'll help you connect!</p>
+      <p className="default-text">We&apos;ll help you connect!</p>
       <button onClick={signOut} className="default-button">
         Log Out
       </button>
