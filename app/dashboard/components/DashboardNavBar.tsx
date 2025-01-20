@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface NavItem {
   label: string;
@@ -13,8 +13,6 @@ interface DashboardNavBarProps {
 
 const DashboardNavBar = ({ items }: DashboardNavBarProps) => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const currentPage = searchParams.get("page");
 
   const handleNavClick = (link: string) => {
     router.push(`/dashboard?page=${link}`);
