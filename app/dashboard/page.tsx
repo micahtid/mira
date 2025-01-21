@@ -6,7 +6,7 @@ import { signOut } from "@/utils/databaseFunctions";
 import Registration from "./components/Registration";
 import Login from "./components/Login";
 
-import OrganizationDashboard from "./components/AdminDashboard/OrganizationDashboard";
+import OrganizationDashboard from "./components/OrganizationDashboard/OrganizationDashboard";
 import ApplicationDashboard from "./components/ApplicantDashboard/ApplicationDashboard";
 
 const Dashboard = () => {

@@ -87,6 +87,7 @@ const Registration = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const [selectedFileName, setSelectedFileName] = useState<string>("");
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const onSubmit = async (formData: any) => {
         try {
             const relevantFields = fields[registrationType].map(field => field.name);

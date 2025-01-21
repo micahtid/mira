@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
 import { FaDiscord, FaGithub } from "react-icons/fa";
 import { RiArrowRightLine } from "react-icons/ri";
-import "./login.css";
 
 const Login = () => {
     return (
