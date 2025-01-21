@@ -45,7 +45,7 @@ const ManagePositions = () => {
                   </div>
                   <div className="flex gap-2">
                     <button
-                      onClick={() => router.push(`/dashboard/review?pid=${position.pid}`)}
+                      onClick={() => router.push(`/dashboard/organization-dashboard/review?pid=${position.pid}`)}
                       className="default-button"
                     >
                       Review
@@ -67,7 +67,7 @@ const ManagePositions = () => {
       </div>
       
       <button 
-        onClick={() => router.push("/dashboard/create-position")}
+        onClick={() => router.push("/dashboard/organization-dashboard/create-position")}
         className="default-button"
       >
         Create Position

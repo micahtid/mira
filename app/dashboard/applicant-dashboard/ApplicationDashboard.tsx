@@ -1,11 +1,11 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import DashboardNavBar from "../DashboardNavBar";
+import DashboardNavBar from "../components/DashboardNavBar";
 
 import AccountSettings from "./components/AccountSettings";
 import ActiveApplications from "./components/ActiveApplications";
-import PositionListing from "../PositionListing";
+import PositionListing from "../components/PositionListing";
 
 const ApplicationDashboard = () => {
   const searchParams = useSearchParams();

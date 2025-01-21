@@ -23,7 +23,7 @@ const PositionListing = ({ allowApply }: PositionListingProps) => {
   }, []);
 
   return (
-    <div className="default-container space-y-6">
+    <div className="space-y-6">
       <h2 className="default-heading">View Listings</h2>
       <div className="space-y-4">
         {positions.map((position) => (
@@ -33,7 +33,7 @@ const PositionListing = ({ allowApply }: PositionListingProps) => {
             <p className="text-gray-600 line-clamp-2">{position.positionDescription}</p>
             {allowApply && (
               <button
-                onClick={() => router.push(`/dashboard/apply?pid=${position.pid}`)}
+                onClick={() => router.push(`/dashboard/applicant-dashboard/apply?pid=${position.pid}`)}
                 className="default-button mt-2"
               >
                 Apply

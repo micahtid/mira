@@ -1,10 +1,10 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import DashboardNavBar from "../DashboardNavBar"
+import DashboardNavBar from "../components/DashboardNavBar";
 
 import ManagePositions from "./components/ManagePositions"
-import PositionListing from "../PositionListing"
+import PositionListing from "../components/PositionListing";
 import AccountSettings from "./components/AccountSettings"
 
 const OrganizationDashboard = () => {
