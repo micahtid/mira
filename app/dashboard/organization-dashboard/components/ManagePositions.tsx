@@ -43,10 +43,11 @@ const ManagePositions = () => {
                     <h3 className="font-semibold text-lg mb-1">{position.positionTitle}</h3>
                     <p className="text-gray-600">{position.positionDescription}</p>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex items-center gap-x-4">
+                    <p className=''>Applicants to Review: {position.positionApplicants}</p>
                     <button
                       onClick={() => router.push(`/dashboard/organization-dashboard/review?pid=${position.pid}`)}
-                      className="default-button"
+                      className="text-primary-500 hover:text-primary-700"
                     >
                       Review
                     </button>

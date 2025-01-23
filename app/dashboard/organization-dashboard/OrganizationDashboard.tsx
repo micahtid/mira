@@ -30,7 +30,7 @@ const OrganizationDashboard = () => {
         { label: "Settings", link: "account-settings" }
       ]} />
       
-      <div className="">
+      <div className="default-content">
         {renderContent()}
       </div>
     </div>

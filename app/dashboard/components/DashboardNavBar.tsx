@@ -19,7 +19,7 @@ const DashboardNavBar = ({ items }: DashboardNavBarProps) => {
   };
 
   return (
-    <nav className="flex gap-4 p-4 bg-gray-100 rounded-lg">
+    <nav className="flex gap-4 bg-gray-100 rounded-lg">
       {items.map((item) => (
         <button
           key={item.link}

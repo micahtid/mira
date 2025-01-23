@@ -22,9 +22,8 @@ const ApplicationDashboard = () => {
     }
   };
 
-
   return (
-    <div className="flex flex-col gap-6">
+    <div className="default-container w-full flex flex-col gap-6">
       <DashboardNavBar items={[
         { label: "View Listings", link: "positions" }, 
         { label: "Active Applications", link: "active-applications" },

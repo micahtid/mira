@@ -2,15 +2,18 @@
 
 import React, { useEffect, useState } from 'react';
 import { DocumentData } from 'firebase/firestore';
-
-import { useSearchParams } from 'next/navigation';
-import { getPosition } from '@/utils/applicationFunctions';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { getPosition, addApplication, incrementPositionCount } from '@/utils/applicationFunctions';
 import { useForm } from 'react-hook-form';
+import { useUser } from '@/providers/UsersProvider';
 
 const Apply = () => {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const pid = searchParams.get('pid');
   const [position, setPosition] = useState<DocumentData | null>(null);
+  const [acknowledgeRequirements, setAcknowledgeRequirements] = useState(false);
+  const { userData } = useUser();
 
   const { register, handleSubmit } = useForm();
 
@@ -24,10 +27,54 @@ const Apply = () => {
     }
   }, [pid]);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: any) => {
-    console.log(data);
-    // Handle form submission logic here
+  const onSubmit = async (data: any) => {
+    if (!acknowledgeRequirements) {
+      alert('Please confirm that you have read the description and meet the requirements.');
+      return;
+    }
+
+    if (!userData) {
+      alert('Please sign in to submit an application.');
+      return;
+    }
+
+    if (!pid) {
+      alert('Invalid position ID.');
+      return;
+    }
+
+    try {
+      interface ApplicationData {
+        pid: string;
+        applicantResponses: string[];
+        fullName: string;
+        education: string;
+        currentEmployment: string;
+        resume?: string;
+      }
+
+      const applicationData: ApplicationData = {
+        pid,
+        applicantResponses: position?.positionQuestions?.map((_: string, index: number) => data.questions[index]) || [],
+        fullName: userData.fullName || '',
+        education: userData.education || '',
+        currentEmployment: userData.currentEmployment || ''
+      };
+
+      if (position?.requireResume && userData.resume) {
+        applicationData.resume = userData.resume;
+      }
+
+      await addApplication(applicationData);
+      await incrementPositionCount(pid);
+
+      alert('Application submitted successfully!');
+      router.push('/dashboard');
+
+    } catch (error) {
+      console.error('Error submitting application:', error);
+      alert('Failed to submit application. Please try again.');
+    }
   };
 
   return (
@@ -88,6 +135,18 @@ const Apply = () => {
                 </div>
               ))}
               
+              <div className="mb-4">
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    checked={acknowledgeRequirements}
+                    onChange={(e) => setAcknowledgeRequirements(e.target.checked)}
+                    className="form-checkbox h-4 w-4 text-blue-500"
+                  />
+                  <span className="text-gray-700">I confirm that I have read the description and meet the requirements.</span>
+                </label>
+              </div>
+
               <div className="mt-6">
                 <button
                   type="submit"

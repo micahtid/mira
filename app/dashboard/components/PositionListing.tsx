@@ -29,12 +29,12 @@ const PositionListing = ({ allowApply }: PositionListingProps) => {
         {positions.map((position) => (
           <div key={position.id} className="p-4 border rounded-lg shadow">
             <h3 className="font-semibold">{position.positionTitle}</h3>
-            <p className="text-gray-600">{position.organizationName}</p>
-            <p className="text-gray-600 line-clamp-2">{position.positionDescription}</p>
+            <p className="text-gray-600 default-text">{position.organizationName}</p>
+            <p className="text-gray-600 default-text line-clamp-2">{position.positionDescription}</p>
             {allowApply && (
               <button
                 onClick={() => router.push(`/dashboard/applicant-dashboard/apply?pid=${position.pid}`)}
-                className="default-button mt-2"
+                className="default-button mt-4"
               >
                 Apply
               </button>
