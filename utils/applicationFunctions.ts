@@ -156,3 +156,23 @@ export const toggleApplicantBookmark = async (uid: string) => {
     throw error;
   }
 };
+
+export const getUserApplications = (
+  uid: string,
+  onUpdate: (applications: Applicant[]) => void
+) => {
+  const app = initializeFirebase();
+  const firestore = getFireStore(true);
+
+  const q = query(
+    collection(firestore, "applications"),
+    where("uid", "==", uid)
+  );
+
+  return onSnapshot(q, (querySnapshot) => {
+    const applications = querySnapshot.docs.map(doc => 
+      doc.data() as Applicant
+    );
+    onUpdate(applications);
+  });
+};
