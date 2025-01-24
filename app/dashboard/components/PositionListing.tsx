@@ -26,8 +26,8 @@ const PositionListing = ({ allowApply }: PositionListingProps) => {
     <div className="space-y-6">
       <h2 className="default-heading">View Listings</h2>
       <div className="space-y-4">
-        {positions.map((position) => (
-          <div key={position.id} className="p-4 border rounded-lg shadow">
+        {positions.map((position, index) => (
+          <div key={index} className="p-4 border rounded-lg shadow">
             <h3 className="font-semibold">{position.positionTitle}</h3>
             <p className="text-gray-600 default-text">{position.organizationName}</p>
             <p className="text-gray-600 default-text line-clamp-2">{position.positionDescription}</p>

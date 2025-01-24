@@ -1,9 +1,10 @@
 import { addDoc, query, DocumentData, onSnapshot, collection, serverTimestamp, where, doc, deleteDoc, orderBy } from "firebase/firestore";
 import { initializeFirebase, getUserAuth, getFireStore } from "./databaseFunctions";
+import { Position, Applicant } from "../data/types";
 
 export const getOrgPositions = (
   oid: string,
-  onUpdate: (positions: DocumentData[]) => void
+  onUpdate: (positions: Position[]) => void
 ) => {
   const app = initializeFirebase();
   const firestore = getFireStore(true);
@@ -14,15 +15,14 @@ export const getOrgPositions = (
   );
 
   return onSnapshot(q, (querySnapshot) => {
-    const positions = querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
+    const positions = querySnapshot.docs.map(doc => 
+      doc.data() as Position
+    );
     onUpdate(positions);
   });
 };
 
-export const getAllPositions = (onUpdate: (positions: DocumentData[]) => void) => {
+export const getAllPositions = (onUpdate: (positions: Position[]) => void) => {
   const app = initializeFirebase();
   const firestore = getFireStore(true);
 
@@ -32,15 +32,14 @@ export const getAllPositions = (onUpdate: (positions: DocumentData[]) => void) =
   );
 
   return onSnapshot(q, (querySnapshot) => {
-    const positions = querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
+    const positions = querySnapshot.docs.map(doc => 
+      doc.data() as Position
+    );
     onUpdate(positions);
   });
 };
 
-export const addPosition = async (positionData: {[key:string]: any}) => {
+export const addPosition = async (positionData: Partial<Position>) => {
   const app = initializeFirebase();
   const auth = getUserAuth(true);
   const firestore = getFireStore(true);
@@ -84,7 +83,7 @@ export const deletePosition = async (pid: string) => {
 
 export const getApplicants = (
   pid: string,
-  onUpdate: (applications: DocumentData[]) => void
+  onUpdate: (applications: Applicant[]) => void
 ) => {
   const app = initializeFirebase();
   const firestore = getFireStore(true);
@@ -95,10 +94,9 @@ export const getApplicants = (
   );
 
   return onSnapshot(q, (querySnapshot) => {
-    const applications = querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
+    const applications = querySnapshot.docs.map(doc => 
+      doc.data() as Applicant
+    );
     onUpdate(applications);
   });
 };

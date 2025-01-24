@@ -1,9 +1,10 @@
 import { DocumentData, query, collection, onSnapshot, where, addDoc, serverTimestamp, doc, updateDoc, increment, getDocs } from "firebase/firestore";
 import { initializeFirebase, getUserAuth, getFireStore } from "./databaseFunctions";
+import { Position, Applicant } from "../data/types";
 
 export const getPosition = (
   pid: string,
-  onUpdate: (position: DocumentData | null) => void
+  onUpdate: (position: Position | null) => void
 ) => {
   const app = initializeFirebase();
   const firestore = getFireStore(true);
@@ -16,14 +17,14 @@ export const getPosition = (
   return onSnapshot(q, (querySnapshot) => {
     const positionDoc = querySnapshot.docs[0];
     if (positionDoc) {
-      onUpdate({ id: positionDoc.id, ...positionDoc.data() });
+      onUpdate(positionDoc.data() as Position);
     } else {
       onUpdate(null);
     }
   });
 };
 
-export const addApplication = async (applicationData: {[key:string]: any}) => {
+export const addApplication = async (applicationData: Partial<Applicant>) => {
   const app = initializeFirebase();
   const auth = getUserAuth(true);
   const firestore = getFireStore(true);

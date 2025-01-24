@@ -40,12 +40,12 @@ const ReviewPosition = () => {
         <div className="w-1/3 bg-gray-50 rounded-lg p-4 space-y-4">
           <h2 className="default-heading">Applicants</h2>
           <div className="space-y-2">
-            {applicants.map((applicant) => (
+            {applicants.map((applicant, index) => (
               <button
-                key={applicant.id}
+                key={index}
                 onClick={() => setSelectedApplicant(applicant)}
                 className={`w-full text-left p-3 rounded-md hover:bg-gray-100 transition-colors ${
-                  selectedApplicant?.id === applicant.id ? 'bg-gray-200' : ''
+                  selectedApplicant?.uid === applicant.uid ? 'bg-gray-200' : ''
                 }`}
               >
                 <p className="font-medium">{applicant.fullName}</p>

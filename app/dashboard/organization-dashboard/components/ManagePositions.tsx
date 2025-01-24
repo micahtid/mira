@@ -36,8 +36,8 @@ const ManagePositions = () => {
       <div className="space-y-4">
         {positions.length > 0 ? (
           <div className="space-y-2">
-            {positions.map((position) => (
-              <div key={position.id} className="p-4 border rounded-lg shadow">
+            {positions.map((position, index) => (
+              <div key={index} className="p-4 border rounded-lg shadow">
                 <div className="flex justify-between items-start gap-4">
                   <div className="flex-1">
                     <h3 className="font-semibold text-lg mb-1">{position.positionTitle}</h3>
