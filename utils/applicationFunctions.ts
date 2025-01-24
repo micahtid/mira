@@ -37,6 +37,10 @@ export const addApplication = async (applicationData: Partial<Applicant>) => {
     const { uid } = auth.currentUser;
     await addDoc(collection(firestore, "applications"), {
       uid,
+      //////
+      status: "pending",
+      bookMark: false,
+      //////
       ...applicationData,
       createdAt: serverTimestamp()
     });
@@ -70,6 +74,85 @@ export const incrementPositionCount = async (pid: string) => {
     return true;
   } catch (error) {
     console.error("Error incrementing position count:", error);
+    throw error;
+  }
+};
+
+export const acceptApplicant = async (uid: string) => {
+  try {
+    const app = initializeFirebase();
+    const firestore = getFireStore(true);
+
+    const q = query(
+      collection(firestore, "applications"),
+      where("uid", "==", uid)
+    );
+
+    const querySnapshot = await getDocs(q);
+    const applicantDoc = querySnapshot.docs[0];
+    
+    if (applicantDoc) {
+      await updateDoc(doc(firestore, "applications", applicantDoc.id), {
+        status: "accepted"
+      });
+    } else {
+      throw new Error("Applicant not found");
+    }
+  } catch (error) {
+    console.error("Error accepting applicant:", error);
+    throw error;
+  }
+};
+
+export const rejectApplicant = async (uid: string) => {
+  try {
+    const app = initializeFirebase();
+    const firestore = getFireStore(true);
+
+    const q = query(
+      collection(firestore, "applications"),
+      where("uid", "==", uid)
+    );
+
+    const querySnapshot = await getDocs(q);
+    const applicantDoc = querySnapshot.docs[0];
+    
+    if (applicantDoc) {
+      await updateDoc(doc(firestore, "applications", applicantDoc.id), {
+        status: "rejected"
+      });
+    } else {
+      throw new Error("Applicant not found");
+    }
+  } catch (error) {
+    console.error("Error rejecting applicant:", error);
+    throw error;
+  }
+};
+
+export const toggleApplicantBookmark = async (uid: string) => {
+  try {
+    const app = initializeFirebase();
+    const firestore = getFireStore(true);
+
+    const q = query(
+      collection(firestore, "applications"),
+      where("uid", "==", uid)
+    );
+
+    const querySnapshot = await getDocs(q);
+    const applicantDoc = querySnapshot.docs[0];
+    
+    if (applicantDoc) {
+      const currentData = applicantDoc.data();
+      await updateDoc(doc(firestore, "applications", applicantDoc.id), {
+        bookMark: !currentData.bookMark
+      });
+    } else {
+      throw new Error("Applicant not found");
+    }
+  } catch (error) {
+    console.error("Error toggling applicant bookmark:", error);
     throw error;
   }
 };

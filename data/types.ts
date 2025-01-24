@@ -21,6 +21,9 @@ export interface Applicant {
     uid: string;
     fullName: string;
     ////////////////////////
+    status: string;                         // "pending" | "accepted" | "rejected"
+    bookMark: boolean;
+    ////////////////////////
     education: string;
     currentEmployment: string;
     resume?: string;

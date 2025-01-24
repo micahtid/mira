@@ -3,27 +3,38 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { DocumentData } from 'firebase/firestore';
-import { getPosition } from '@/utils/applicationFunctions';
+import { getPosition, acceptApplicant, rejectApplicant, toggleApplicantBookmark } from '@/utils/applicationFunctions';
 import { getApplicants } from '@/utils/positionFunctions';
+import { Applicant } from '@/data/types';
 
 const ReviewPosition = () => {
   const searchParams = useSearchParams();
   const pid = searchParams.get('pid');
   
   const [position, setPosition] = useState<DocumentData | null>(null);
-  const [applicants, setApplicants] = useState<DocumentData[]>([]);
-  const [selectedApplicant, setSelectedApplicant] = useState<DocumentData | null>(null);
+  const [applicants, setApplicants] = useState<Applicant[]>([]);
+  const [selectedApplicant, setSelectedApplicant] = useState<Applicant | null>(null);
 
   useEffect(() => {
     if (pid) {
-      // Get position details
+      //////// Get Position Details //////////
       const unsubscribePosition = getPosition(pid, (fetchedPosition) => {
         setPosition(fetchedPosition);
       });
 
-      // Get applicants
+      //////// Get Applicants //////////
       const unsubscribeApplicants = getApplicants(pid, (fetchedApplicants) => {
         setApplicants(fetchedApplicants);
+
+        if (selectedApplicant) {                                            // Update selected applicant!
+          const updatedSelectedApplicant = fetchedApplicants.find(
+            (applicant) => applicant.uid === selectedApplicant.uid
+          );
+
+          if (updatedSelectedApplicant) {
+            setSelectedApplicant(updatedSelectedApplicant);
+          }
+        }
       });
 
       return () => {
@@ -31,7 +42,7 @@ const ReviewPosition = () => {
         unsubscribeApplicants();
       };
     }
-  }, [pid]);
+  }, [pid, selectedApplicant?.uid]);
 
   return (
     <div className="default-container">
@@ -40,16 +51,26 @@ const ReviewPosition = () => {
         <div className="w-1/3 bg-gray-50 rounded-lg p-4 space-y-4">
           <h2 className="default-heading">Applicants</h2>
           <div className="space-y-2">
-            {applicants.map((applicant, index) => (
-              <button
-                key={index}
-                onClick={() => setSelectedApplicant(applicant)}
-                className={`w-full text-left p-3 rounded-md hover:bg-gray-100 transition-colors ${
-                  selectedApplicant?.uid === applicant.uid ? 'bg-gray-200' : ''
-                }`}
-              >
-                <p className="font-medium">{applicant.fullName}</p>
-              </button>
+            {[...applicants]
+              .sort((a, b) => {
+                // Sort by status (accepted first, then pending, then rejected)
+                const statusOrder = { accepted: 0, pending: 1, rejected: 2 };
+                return statusOrder[a.status as keyof typeof statusOrder] - statusOrder[b.status as keyof typeof statusOrder];
+              })
+              .map((applicant, index) => (
+                <button
+                  key={index}
+                  onClick={() => setSelectedApplicant(applicant)}
+                  className={`w-full text-left p-3 rounded-md hover:bg-gray-100 transition-colors ${
+                    selectedApplicant?.uid === applicant.uid ? 'bg-gray-200' : ''
+                  } ${
+                    applicant.status === 'accepted' ? 'bg-green-100' : 
+                    applicant.status === 'rejected' ? 'bg-red-100' : 
+                    applicant.bookMark ? 'bg-yellow-100' : ''
+                  }`}
+                >
+                  <p className="font-medium">{applicant.fullName}</p>
+                </button>
             ))}
           </div>
         </div>
@@ -86,7 +107,7 @@ const ReviewPosition = () => {
                     <div key={index} className="bg-gray-50 p-4 rounded-lg">
                       <p className="font-medium text-gray-700">{question}</p>
                       <p className="mt-2 default-text">
-                        {selectedApplicant.applicantResponses[index]}
+                        {selectedApplicant.applicantResponses && selectedApplicant.applicantResponses[index]}
                       </p>
                     </div>
                   ))}
@@ -95,14 +116,42 @@ const ReviewPosition = () => {
 
               {/* Action Buttons */}
               <div className="flex gap-4 pt-4">
-                <button className="default-button bg-green-600 hover:bg-green-700">
+                <button 
+                  onClick={async () => {
+                    if (selectedApplicant && window.confirm('Are you sure you want to accept this applicant? This action cannot be undone.')) {
+                      await acceptApplicant(selectedApplicant.uid);
+                    }
+                  }}
+                  disabled={selectedApplicant?.status !== 'pending'}
+                  className={`default-button bg-green-600 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed`}
+                >
                   Accept
                 </button>
-                <button className="default-button bg-red-600 hover:bg-red-700">
+                <button 
+                  onClick={async () => {
+                    if (selectedApplicant && window.confirm('Are you sure you want to reject this applicant? This action cannot be undone.')) {
+                      await rejectApplicant(selectedApplicant.uid);
+                    }
+                  }}
+                  disabled={selectedApplicant?.status !== 'pending'}
+                  className={`default-button bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed`}
+                >
                   Reject
                 </button>
-                <button className="default-button bg-yellow-600 hover:bg-yellow-700">
-                  Bookmark
+                <button 
+                  onClick={async () => {
+                    if (selectedApplicant) {
+                      await toggleApplicantBookmark(selectedApplicant.uid);
+                    }
+                  }}
+                  disabled={selectedApplicant?.status !== 'pending'}
+                  className={`default-button ${
+                    selectedApplicant?.bookMark 
+                      ? 'bg-gray-600 hover:bg-gray-700' 
+                      : 'bg-yellow-600 hover:bg-yellow-700'
+                  } disabled:opacity-50 disabled:cursor-not-allowed`}
+                >
+                  {selectedApplicant?.bookMark ? 'Remove Bookmark' : 'Bookmark'}
                 </button>
               </div>
             </div>
