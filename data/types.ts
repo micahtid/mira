@@ -28,5 +28,7 @@ export interface Applicant {
     education: string;
     currentEmployment: string;
     resume?: string;
+    resumeLink?: string;
+    portfolioLink?: string;
     applicantResponses?: string[];
 }

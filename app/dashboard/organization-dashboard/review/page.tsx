@@ -69,7 +69,18 @@ const ReviewPosition = () => {
                     applicant.bookMark ? 'bg-yellow-100' : ''
                   }`}
                 >
-                  <p className="font-medium">{applicant.fullName}</p>
+                  <div className="flex justify-between items-center">
+                    <p className="font-medium">{applicant.fullName}</p>
+                    {applicant.status === 'accepted' && applicant.commitment && (
+                      <span className={`text-sm font-medium px-2 py-1 rounded ${
+                        applicant.commitment === 'committed' 
+                          ? 'bg-green-200 text-green-800' 
+                          : 'bg-red-200 text-red-800'
+                      }`}>
+                        {applicant.commitment === 'committed' ? 'Accepted' : 'Withdrawn'}
+                      </span>
+                    )}
+                  </div>
                 </button>
             ))}
           </div>
@@ -93,7 +104,37 @@ const ReviewPosition = () => {
                   {selectedApplicant.resume && (
                     <div>
                       <h3 className="font-semibold text-gray-700">Resume</h3>
-                      <p className="default-text">{selectedApplicant.resume}</p>
+                      <p className="default-text whitespace-pre-wrap">{selectedApplicant.resume}</p>
+                    </div>
+                  )}
+                  {(selectedApplicant.resumeLink || selectedApplicant.portfolioLink) && (
+                    <div className="space-y-2">
+                      {selectedApplicant.resumeLink && (
+                        <div>
+                          <h3 className="font-semibold text-gray-700">Resume Link</h3>
+                          <a 
+                            href={selectedApplicant.resumeLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:text-blue-800 underline"
+                          >
+                            View Resume
+                          </a>
+                        </div>
+                      )}
+                      {selectedApplicant.portfolioLink && (
+                        <div>
+                          <h3 className="font-semibold text-gray-700">Portfolio Link</h3>
+                          <a 
+                            href={selectedApplicant.portfolioLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:text-blue-800 underline"
+                          >
+                            View Portfolio
+                          </a>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>

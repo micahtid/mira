@@ -6,6 +6,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { getPosition, addApplication, incrementPositionCount } from '@/utils/applicationFunctions';
 import { useForm } from 'react-hook-form';
 import { useUser } from '@/providers/UsersProvider';
+import { Applicant } from '@/data/types';
 
 const Apply = () => {
   const searchParams = useSearchParams();
@@ -43,6 +44,7 @@ const Apply = () => {
       return;
     }
 
+    // TODO : CLEAN UP UNECESSARY TYPE!
     try {
       interface ApplicationData {
         pid: string;
@@ -51,6 +53,8 @@ const Apply = () => {
         education: string;
         currentEmployment: string;
         resume?: string;
+        resumeLink?: string;
+        portfolioLink?: string;
       }
 
       const applicationData: ApplicationData = {
@@ -63,6 +67,14 @@ const Apply = () => {
 
       if (position?.requireResume && userData.resume) {
         applicationData.resume = userData.resume;
+      }
+
+      if (userData.resumeLink) {
+        applicationData.resumeLink = userData.resumeLink;
+      }
+
+      if (userData.portfolioLink) {
+        applicationData.portfolioLink = userData.portfolioLink;
       }
 
       await addApplication(applicationData);
@@ -121,6 +133,9 @@ const Apply = () => {
                 <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded">
                   <p className="text-blue-600">
                     Your resume will be sent in (This is the same resume in your account settings).
+                    {(userData?.resumeLink || userData?.portfolioLink) && (
+                      <> Your resume link and portfolio link will also be included in your application.</>
+                    )}
                   </p>
                 </div>
               )}

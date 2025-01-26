@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { addUser } from "@/utils/userFunctions";
 import { motion, AnimatePresence } from "framer-motion";
-import { RiArrowRightLine, RiBuildingLine, RiUserLine, RiUpload2Line, RiBriefcaseLine, RiGraduationCapLine, RiCalendarLine } from "react-icons/ri";
+import { RiArrowRightLine, RiBuildingLine, RiUserLine, RiUpload2Line, RiBriefcaseLine, RiGraduationCapLine, RiCalendarLine, RiLink } from "react-icons/ri";
 
 type RegistrationType = "organization" | "individual";
 
@@ -16,8 +16,8 @@ type FormField = {
     type?: string;
     multiline?: boolean;
     icon?: React.ReactNode;
-    accept?: string;
     placeholder?: string;
+    required?: boolean;
 };
 
 const fields: Record<RegistrationType, FormField[]> = {
@@ -27,20 +27,23 @@ const fields: Record<RegistrationType, FormField[]> = {
             label: "Organization Name", 
             maxLength: 50, 
             icon: <RiBuildingLine className="text-lg" />,
-            placeholder: "Enter organization name"
+            placeholder: "Enter organization name",
+            required: true
         },
         { 
             name: "organizationMission", 
             label: "Organization Mission", 
             maxLength: 100,
-            placeholder: "Brief mission statement"
+            placeholder: "Brief mission statement",
+            required: true
         },
         { 
             name: "organizationDescription", 
             label: "Organization Description", 
             maxLength: 500, 
             multiline: true,
-            placeholder: "Detailed description of your organization"
+            placeholder: "Detailed description of your organization",
+            required: true
         },
     ],
     individual: [
@@ -49,35 +52,57 @@ const fields: Record<RegistrationType, FormField[]> = {
             label: "Full Name", 
             maxLength: 50, 
             icon: <RiUserLine className="text-lg" />,
-            placeholder: "Enter your full name"
+            placeholder: "Enter your full name",
+            required: true
         },
         { 
             name: "age", 
             label: "Age", 
             type: "number",
             icon: <RiCalendarLine className="text-lg" />,
-            placeholder: "Enter your age"
+            placeholder: "Enter your age",
+            required: true
         },
         { 
             name: "currentEmployment", 
             label: "Current Employment", 
             maxLength: 100, 
             icon: <RiBriefcaseLine className="text-lg" />,
-            placeholder: "Current job title"
+            placeholder: "Current job title",
+            required: true
         },
         { 
             name: "education", 
             label: "Highest Level of Education", 
             maxLength: 100, 
             icon: <RiGraduationCapLine className="text-lg" />,
-            placeholder: "e.g., Bachelor's in Computer Science"
+            placeholder: "e.g., Bachelor's in Computer Science",
+            required: true
+        },
+        {
+            name: "resumeLink",
+            label: "Resume Link (Optional)",
+            type: "url",
+            icon: <RiLink className="text-lg" />,
+            placeholder: "Link to your resume (e.g., Google Drive)",
+            required: false
+        },
+        {
+            name: "portfolioLink",
+            label: "Portfolio Link (Optional)",
+            type: "url",
+            icon: <RiLink className="text-lg" />,
+            placeholder: "Link to your portfolio",
+            required: false
         },
         { 
             name: "resume", 
-            label: "Resume", 
-            type: "file", 
-            icon: <RiUpload2Line className="text-lg" />, 
-            accept: ".pdf,.doc,.docx" 
+            label: "Resume Text", 
+            maxLength: 2000,
+            multiline: true,
+            icon: <RiUpload2Line className="text-lg" />,
+            placeholder: "Enter your resume text (max 2000 characters)",
+            required: true
         },
     ],
 };
@@ -115,7 +140,7 @@ const Registration = () => {
         >
             <label className="text-sm md:text-base font-medium flex items-center gap-2 text-gray-300">
                 {field.label}
-                <span className="text-red-400 text-xs">*</span>
+                {field.required && <span className="text-red-400 text-xs">*</span>}
                 {field.maxLength && (
                     <span className="text-gray-500 text-xs italic font-normal ml-auto">
                         max {field.maxLength} {field.type === "number" ? "" : "characters"}
@@ -130,27 +155,10 @@ const Registration = () => {
                     </span>
                 )}
                 
-                {field.type === "file" ? (
-                    <div className="relative">
-                        <input
-                            type="file"
-                            {...register(field.name, { required: true })}
-                            accept={field.accept}
-                            className="hidden"
-                            onChange={(e) => setSelectedFileName(e.target.files?.[0]?.name || "")}
-                            id={field.name}
-                        />
-                        <label
-                            htmlFor={field.name}
-                            className="w-full h-11 bg-gray-800/50 border-gray-700/50 text-gray-400 rounded-xl px-4 outline-none border transition-all duration-200 hover:bg-gray-800/70 hover:border-primary-500/50 hover:text-white cursor-pointer flex items-center gap-3 pl-10"
-                        >
-                            {selectedFileName || "Upload your resume (PDF, DOC, DOCX)"}
-                        </label>
-                    </div>
-                ) : field.multiline ? (
+                {field.multiline ? (
                     <textarea
                         {...register(field.name, {
-                            required: true,
+                            required: field.required,
                             maxLength: field.maxLength
                         })}
                         placeholder={field.placeholder}
@@ -161,9 +169,9 @@ const Registration = () => {
                     <input
                         type={field.type || "text"}
                         {...register(field.name, {
-                            required: true,
+                            required: field.required,
                             maxLength: field.maxLength,
-                            ...(field.type === "number" ? { min: 18, max: 100 } : {})
+                            ...(field.type === "number" ? { min: 12, max: 100 } : {})
                         })}
                         placeholder={field.placeholder}
                         className={`w-full h-11 bg-gray-800/50 border-gray-700/50 text-white placeholder:text-gray-500 rounded-xl px-4 outline-none border transition-all duration-200 hover:bg-gray-800/70 focus:border-primary-500/50 focus:ring-2 focus:ring-primary-500/20 ${field.icon ? 'pl-10' : ''}`}
@@ -177,7 +185,7 @@ const Registration = () => {
                         animate={{ opacity: 1, y: 0 }}
                         className="text-red-400 text-xs absolute -bottom-5 left-0"
                     >
-                        {field.type === "number" ? "Age must be between 18 and 100" : "This field is required"}
+                        {field.type === "number" ? "Age must be between 12 and 100" : "This field is required"}
                     </motion.span>
                 )}
             </div>
