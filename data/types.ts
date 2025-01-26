@@ -22,6 +22,7 @@ export interface Applicant {
     fullName: string;
     ////////////////////////
     status: string;                         // "pending" | "accepted" | "rejected"
+    commitment?: string                     // "committed" | "uncommitted"
     bookMark: boolean;
     ////////////////////////
     education: string;

@@ -1,9 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { getUserAuth } from '@/utils/databaseFunctions';
-import { getUserApplications } from '@/utils/applicationFunctions';
+import { getUserApplications, setApplicantCommitment } from '@/utils/applicationFunctions';
 import { Applicant } from '@/data/types';
 
 const ActiveApplications = () => {
@@ -11,13 +10,22 @@ const ActiveApplications = () => {
   const auth = getUserAuth(true);
 
   useEffect(() => {
-    if (auth.currentUser) {
-      const unsubscribe = getUserApplications(auth.currentUser.uid, (fetchedApplications) => {
-        setApplications(fetchedApplications);
-      });
+    let unsubscribe: () => void;
 
-      return () => unsubscribe();
-    }
+    const setupSubscription = async () => {
+      if (auth.currentUser) {
+        unsubscribe = getUserApplications(auth.currentUser.uid, (fetchedApplications) => {
+          setApplications(fetchedApplications);
+        });
+      }
+    };
+
+    setupSubscription();
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
   }, [auth.currentUser]);
 
   const getStatusColor = (status: string) => {
@@ -28,6 +36,20 @@ const ActiveApplications = () => {
         return 'text-red-600';
       default:
         return 'text-yellow-600';
+    }
+  };
+
+  const handleCommitment = async (uid: string, isCommitting: boolean) => {
+    const action = isCommitting ? 'accept' : 'withdraw from';
+    const confirmed = window.confirm(`Are you sure you want to ${action} this position? This action cannot be undone if you accept.`);
+    
+    if (confirmed) {
+      try {
+        await setApplicantCommitment(uid, isCommitting);
+      } catch (error) {
+        console.error('Error updating commitment:', error);
+        alert('Failed to update commitment status. Please try again.');
+      }
     }
   };
 
@@ -46,16 +68,40 @@ const ActiveApplications = () => {
                 >
                   Position ID: {application.pid}
                 </a>
-                <span className={`font-medium capitalize ${getStatusColor(application.status)}`}>
-                  {application.status}
-                </span>
+                <div className="flex items-center gap-4">
+                  <span className={`font-medium capitalize ${getStatusColor(application.status)}`}>
+                    {application.status}
+                  </span>
+                  {application.status === 'accepted' && (
+                    <div className="flex gap-2">
+                      {application.commitment ? (
+                        <span className="text-green-600 font-medium">
+                          {application.commitment === 'committed' ? 'Committed' : 'Withdrawn'}
+                        </span>
+                      ) : (
+                        <>
+                          <button
+                            onClick={() => handleCommitment(application.uid, true)}
+                            className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm"
+                          >
+                            Accept
+                          </button>
+                          <button
+                            onClick={() => handleCommitment(application.uid, false)}
+                            className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 text-sm"
+                          >
+                            Withdraw
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           ))
         ) : (
-          <div className="text-center text-gray-500 py-8">
-            You haven't submitted any applications yet
-          </div>
+          <p className="text-gray-600">No active applications found.</p>
         )}
       </div>
     </div>

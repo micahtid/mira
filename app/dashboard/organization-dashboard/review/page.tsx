@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { DocumentData } from 'firebase/firestore';
-import { getPosition, acceptApplicant, rejectApplicant, toggleApplicantBookmark } from '@/utils/applicationFunctions';
+import { getPosition, updateApplicantStatus, toggleApplicantBookmark } from '@/utils/applicationFunctions';
 import { getApplicants } from '@/utils/positionFunctions';
 import { Applicant } from '@/data/types';
 
@@ -119,7 +119,7 @@ const ReviewPosition = () => {
                 <button 
                   onClick={async () => {
                     if (selectedApplicant && window.confirm('Are you sure you want to accept this applicant? This action cannot be undone.')) {
-                      await acceptApplicant(selectedApplicant.uid);
+                      await updateApplicantStatus(selectedApplicant.uid, "accepted");
                     }
                   }}
                   disabled={selectedApplicant?.status !== 'pending'}
@@ -130,7 +130,7 @@ const ReviewPosition = () => {
                 <button 
                   onClick={async () => {
                     if (selectedApplicant && window.confirm('Are you sure you want to reject this applicant? This action cannot be undone.')) {
-                      await rejectApplicant(selectedApplicant.uid);
+                      await updateApplicantStatus(selectedApplicant.uid, "rejected");
                     }
                   }}
                   disabled={selectedApplicant?.status !== 'pending'}

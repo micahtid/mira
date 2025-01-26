@@ -78,11 +78,9 @@ export const incrementPositionCount = async (pid: string) => {
   }
 };
 
-export const acceptApplicant = async (uid: string) => {
+export const updateApplicantStatus = async (uid: string, status: "accepted" | "rejected") => {
   try {
-    const app = initializeFirebase();
     const firestore = getFireStore(true);
-
     const q = query(
       collection(firestore, "applications"),
       where("uid", "==", uid)
@@ -93,22 +91,21 @@ export const acceptApplicant = async (uid: string) => {
     
     if (applicantDoc) {
       await updateDoc(doc(firestore, "applications", applicantDoc.id), {
-        status: "accepted"
+        status
       });
+      return true;
     } else {
       throw new Error("Applicant not found");
     }
   } catch (error) {
-    console.error("Error accepting applicant:", error);
+    console.error(`Error updating applicant status to ${status}:`, error);
     throw error;
   }
 };
 
-export const rejectApplicant = async (uid: string) => {
+export const setApplicantCommitment = async (uid: string, isCommitted: boolean) => {
   try {
-    const app = initializeFirebase();
     const firestore = getFireStore(true);
-
     const q = query(
       collection(firestore, "applications"),
       where("uid", "==", uid)
@@ -119,13 +116,14 @@ export const rejectApplicant = async (uid: string) => {
     
     if (applicantDoc) {
       await updateDoc(doc(firestore, "applications", applicantDoc.id), {
-        status: "rejected"
+        commitment: isCommitted ? "committed" : "uncommitted"
       });
+      return true;
     } else {
       throw new Error("Applicant not found");
     }
   } catch (error) {
-    console.error("Error rejecting applicant:", error);
+    console.error("Error updating applicant commitment:", error);
     throw error;
   }
 };
