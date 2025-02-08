@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUser } from '@/providers/UsersProvider';
+import { useAccount } from '@/providers/AccountProvider';
 import { addPosition } from '@/utils/positionFunctions';
 import { Position } from '@/data/types';
 import { v4 as uuidv4 } from 'uuid';
@@ -53,7 +53,7 @@ interface FormData {
 
 const CreatePosition = () => {
   const router = useRouter();
-  const { user, userData } = useUser();
+  const { account, accountData } = useAccount();
   const [formData, setFormData] = useState<FormData>({
     title: '',
     description: '',
@@ -96,7 +96,7 @@ const CreatePosition = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!user || !userData) {
+    if (!account || !accountData) {
       alert('Please sign in to create a position.');
       return;
     }
@@ -104,8 +104,8 @@ const CreatePosition = () => {
     try {
       const position: Omit<Position, 'positionApplicants'> = {
         pid: uuidv4(),
-        oid: user.uid,
-        organizationName: userData.organizationName || '',
+        oid: account.uid,
+        organizationName: accountData.organizationName || '',
         positionTitle: formData.title,
         positionType: formData.type,
         positionLocation: formData.location || undefined,
@@ -118,7 +118,7 @@ const CreatePosition = () => {
 
       await addPosition(position);
       alert('Position created successfully!');
-      router.push('/dashboard');
+      router.push('/organization-dashboard');
     } catch (error) {
       console.error('Error creating position:', error);
       alert('Failed to create position. Please try again.');

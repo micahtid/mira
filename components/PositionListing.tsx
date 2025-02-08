@@ -33,7 +33,7 @@ const PositionListing = ({ allowApply }: PositionListingProps) => {
             <p className="text-gray-600 default-text line-clamp-2">{position.positionDescription}</p>
             {allowApply && (
               <button
-                onClick={() => router.push(`/dashboard/applicant-dashboard/apply?pid=${position.pid}`)}
+                onClick={() => router.push(`/applicant-dashboard/apply?pid=${position.pid}`)}
                 className="default-button mt-4"
               >
                 Apply

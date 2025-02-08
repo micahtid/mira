@@ -4,6 +4,8 @@ import { signOut } from "@/utils/databaseFunctions";
 
 import Accordian from "@/components/Accordian"
 
+import Login from "@/components/Login";
+
 const Home = () => {
   return (
     <div className="default-container flex flex-col gap-4">
@@ -13,6 +15,8 @@ const Home = () => {
         Log Out
       </button>
       <Accordian title="What is Mira?" content="This is a test!" />
+
+      <Login />
     </div>
   )
 }

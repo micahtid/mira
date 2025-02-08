@@ -2,24 +2,24 @@
 
 import React, { useEffect, useState } from 'react';
 import { DocumentData } from 'firebase/firestore';
-import { useUser } from '@/providers/UsersProvider';
+import { useAccount } from '@/providers/AccountProvider';
 import { getOrgPositions, deletePosition } from '@/utils/positionFunctions';
 import { useRouter } from 'next/navigation';
 
 const ManagePositions = () => {
-  const { user } = useUser();
+  const { account } = useAccount();
   const [positions, setPositions] = useState<DocumentData[]>([]);
   const router = useRouter();
 
   useEffect(() => {
-    if (!user?.uid) return;
+    if (!account?.uid) return;
 
-    const unsubscribe = getOrgPositions(user.uid, (updatedPositions) => {
+    const unsubscribe = getOrgPositions(account.uid, (updatedPositions) => {
       setPositions(updatedPositions);
     });
 
     return () => unsubscribe();
-  }, [user?.uid]);
+  }, [account?.uid]);
 
   const handleDelete = async (pid: string) => {
     if (!confirm("Are you sure you want to delete this position?")) return;
@@ -46,7 +46,7 @@ const ManagePositions = () => {
                   <div className="flex items-center gap-x-4">
                     <p className=''>Applicants to Review: {position.positionApplicants}</p>
                     <button
-                      onClick={() => router.push(`/dashboard/organization-dashboard/review?pid=${position.pid}`)}
+                      onClick={() => router.push(`/organization-dashboard/review?pid=${position.pid}`)}
                       className="text-primary-500 hover:text-primary-700"
                     >
                       Review
@@ -68,7 +68,7 @@ const ManagePositions = () => {
       </div>
       
       <button 
-        onClick={() => router.push("/dashboard/organization-dashboard/create-position")}
+        onClick={() => router.push("/organization-dashboard/create-position")}
         className="default-button"
       >
         Create Position

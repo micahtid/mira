@@ -1,6 +1,7 @@
 import { addDoc, query, DocumentData, onSnapshot, collection, updateDoc, serverTimestamp, where, getDocs, arrayUnion, doc } from "firebase/firestore";
 import { initializeFirebase, getUserAuth, getFireStore } from "./databaseFunctions";
 
+// Retrieves a user by their ID
 export const getUser = async (uid: string) => {
   const app = initializeFirebase();
   const firestore = getFireStore(true);
@@ -17,6 +18,7 @@ export const getUser = async (uid: string) => {
   return user;
 };
 
+// Creates a new user in the database
 export const addUser = async (userData: {[key:string]: any}) => {
   const auth = getUserAuth(true);
   const firestore = getFireStore(true);

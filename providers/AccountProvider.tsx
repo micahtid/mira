@@ -6,12 +6,12 @@ import { Auth, User } from "firebase/auth";
 import { initializeFirebase, getUserAuth } from "@/utils/databaseFunctions";
 import { getUser } from "@/utils/userFunctions";
 
-type UserContextType = {
-  user: null | undefined | DocumentData;
-  userData: null | undefined | DocumentData;
+type AccountContextType = {
+  account: null | undefined | DocumentData;
+  accountData: null | undefined | DocumentData;
 };
 
-export const UserContext = createContext<UserContextType | undefined>(
+export const AccountContext = createContext<AccountContextType | undefined>(
   undefined
 );
 
@@ -19,21 +19,21 @@ export interface Props {
   [propNames: string]: any;
 }
 
-export const UserContextProvider = (props: Props) => {
+export const AccountContextProvider = (props: Props) => {
   const app = initializeFirebase();
   const auth = getUserAuth(true);
 
-  const [user, setUser] = useState<User | undefined | null>(undefined);
-  const [userData, setUserData] = useState<DocumentData | undefined | null>(undefined);
+  const [account, setAccount] = useState<User | undefined | null>(undefined);
+  const [accountData, setAccountData] = useState<DocumentData | undefined | null>(undefined);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
-      setUser(firebaseUser);
+      setAccount(firebaseUser);
       if (firebaseUser) {
         const userDoc = await getUser(firebaseUser.uid);
-        setUserData(userDoc);
+        setAccountData(userDoc);
       } else {
-        setUserData(null);
+        setAccountData(null);
       }
     });
 
@@ -42,15 +42,15 @@ export const UserContextProvider = (props: Props) => {
   }, [auth]);
 
   const value = {
-    user,
-    userData
+    account,
+    accountData
   };
 
-  return <UserContext.Provider value={value} {...props} />;
+  return <AccountContext.Provider value={value} {...props} />;
 };
 
-export const useUser = () => {
-  const context = useContext(UserContext);
+export const useAccount = () => {
+  const context = useContext(AccountContext);
   if (context === undefined) {
     throw new Error("useUser must be used within a MyUserContextProvider");
   }

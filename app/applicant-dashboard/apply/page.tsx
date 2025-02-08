@@ -3,9 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import { DocumentData } from 'firebase/firestore';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { getPosition, addApplication, incrementPositionCount } from '@/utils/applicationFunctions';
+import { getPosition, incrementPositionCount } from '@/utils/positionFunctions';
+import { addApplication } from '@/utils/applicationFunctions';
 import { useForm } from 'react-hook-form';
-import { useUser } from '@/providers/UsersProvider';
+import { useAccount } from '@/providers/AccountProvider';
 import { Applicant } from '@/data/types';
 
 const Apply = () => {
@@ -14,7 +15,7 @@ const Apply = () => {
   const pid = searchParams.get('pid');
   const [position, setPosition] = useState<DocumentData | null>(null);
   const [acknowledgeRequirements, setAcknowledgeRequirements] = useState(false);
-  const { userData } = useUser();
+  const { accountData } = useAccount();
 
   const { register, handleSubmit } = useForm();
 
@@ -34,7 +35,7 @@ const Apply = () => {
       return;
     }
 
-    if (!userData) {
+    if (!accountData) {
       alert('Please sign in to submit an application.');
       return;
     }
@@ -60,28 +61,28 @@ const Apply = () => {
       const applicationData: ApplicationData = {
         pid,
         applicantResponses: position?.positionQuestions?.map((_: string, index: number) => data.questions[index]) || [],
-        fullName: userData.fullName || '',
-        education: userData.education || '',
-        currentEmployment: userData.currentEmployment || ''
+        fullName: accountData.fullName || '',
+        education: accountData.education || '',
+        currentEmployment: accountData.currentEmployment || ''
       };
 
-      if (position?.requireResume && userData.resume) {
-        applicationData.resume = userData.resume;
+      if (position?.requireResume && accountData.resume) {
+        applicationData.resume = accountData.resume;
       }
 
-      if (userData.resumeLink) {
-        applicationData.resumeLink = userData.resumeLink;
+      if (accountData.resumeLink) {
+        applicationData.resumeLink = accountData.resumeLink;
       }
 
-      if (userData.portfolioLink) {
-        applicationData.portfolioLink = userData.portfolioLink;
+      if (accountData.portfolioLink) {
+        applicationData.portfolioLink = accountData.portfolioLink;
       }
 
       await addApplication(applicationData);
       await incrementPositionCount(pid);
 
       alert('Application submitted successfully!');
-      router.push('/dashboard');
+      router.push('/applicant-dashboard');
 
     } catch (error) {
       console.error('Error submitting application:', error);
@@ -133,7 +134,7 @@ const Apply = () => {
                 <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded">
                   <p className="text-blue-600">
                     Your resume will be sent in (This is the same resume in your account settings).
-                    {(userData?.resumeLink || userData?.portfolioLink) && (
+                    {(accountData?.resumeLink || accountData?.portfolioLink) && (
                       <> Your resume link and portfolio link will also be included in your application.</>
                     )}
                   </p>

@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { DocumentData } from 'firebase/firestore';
-import { getPosition, updateApplicantStatus, toggleApplicantBookmark } from '@/utils/applicationFunctions';
+import { getPosition } from '@/utils/positionFunctions';
+import { updateApplicantStatus, toggleApplicantBookmark } from '@/utils/applicationFunctions';
 import { getApplicants } from '@/utils/positionFunctions';
 import { Applicant } from '@/data/types';
 

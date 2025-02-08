@@ -1,29 +1,8 @@
 import { DocumentData, query, collection, onSnapshot, where, addDoc, serverTimestamp, doc, updateDoc, increment, getDocs } from "firebase/firestore";
 import { initializeFirebase, getUserAuth, getFireStore } from "./databaseFunctions";
-import { Position, Applicant } from "../data/types";
+import { Applicant } from "../data/types";
 
-export const getPosition = (
-  pid: string,
-  onUpdate: (position: Position | null) => void
-) => {
-  const app = initializeFirebase();
-  const firestore = getFireStore(true);
-
-  const q = query(
-    collection(firestore, `/positions`),
-    where("pid", "==", pid)
-  );
-
-  return onSnapshot(q, (querySnapshot) => {
-    const positionDoc = querySnapshot.docs[0];
-    if (positionDoc) {
-      onUpdate(positionDoc.data() as Position);
-    } else {
-      onUpdate(null);
-    }
-  });
-};
-
+// Adds a new application to the database
 export const addApplication = async (applicationData: Partial<Applicant>) => {
   const app = initializeFirebase();
   const auth = getUserAuth(true);
@@ -37,10 +16,8 @@ export const addApplication = async (applicationData: Partial<Applicant>) => {
     const { uid } = auth.currentUser;
     await addDoc(collection(firestore, "applications"), {
       uid,
-      //////
       status: "pending",
       bookMark: false,
-      //////
       ...applicationData,
       createdAt: serverTimestamp()
     });
@@ -51,33 +28,7 @@ export const addApplication = async (applicationData: Partial<Applicant>) => {
   }
 };
 
-export const incrementPositionCount = async (pid: string) => {
-  const app = initializeFirebase();
-  const firestore = getFireStore(true);
-
-  try {
-    const q = query(
-      collection(firestore, "positions"),
-      where("pid", "==", pid)
-    );
-
-    const querySnapshot = await getDocs(q);
-    if (querySnapshot.empty) {
-      throw new Error("Position not found");
-    }
-
-    const positionDoc = querySnapshot.docs[0];
-    await updateDoc(positionDoc.ref, {
-      positionApplicants: increment(1)
-    });
-    
-    return true;
-  } catch (error) {
-    console.error("Error incrementing position count:", error);
-    throw error;
-  }
-};
-
+// Updates the status of an applicant to accepted or rejected
 export const updateApplicantStatus = async (uid: string, status: "accepted" | "rejected") => {
   try {
     const firestore = getFireStore(true);
@@ -103,6 +54,7 @@ export const updateApplicantStatus = async (uid: string, status: "accepted" | "r
   }
 };
 
+// Updates the commitment status of an applicant
 export const setApplicantCommitment = async (uid: string, isCommitted: boolean) => {
   try {
     const firestore = getFireStore(true);
@@ -128,6 +80,7 @@ export const setApplicantCommitment = async (uid: string, isCommitted: boolean) 
   }
 };
 
+// Toggles the bookmark status of an applicant
 export const toggleApplicantBookmark = async (uid: string) => {
   try {
     const app = initializeFirebase();
@@ -155,6 +108,7 @@ export const toggleApplicantBookmark = async (uid: string) => {
   }
 };
 
+// Retrieves all applications for a specific user 
 export const getUserApplications = (
   uid: string,
   onUpdate: (applications: Applicant[]) => void

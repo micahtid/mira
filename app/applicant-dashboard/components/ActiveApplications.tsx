@@ -63,7 +63,7 @@ const ActiveApplications = () => {
             <div key={index} className="p-4 border rounded-lg shadow hover:shadow-md transition-shadow">
               <div className="flex justify-between items-center">
                 <a 
-                  href={`/dashboard/applicant-dashboard/apply?pid=${application.pid}`}
+                  href={`/applicant-dashboard/apply?pid=${application.pid}`}
                   className="text-blue-600 hover:text-blue-800 font-medium"
                 >
                   Position ID: {application.pid}

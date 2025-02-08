@@ -1,7 +1,31 @@
-import { addDoc, query, DocumentData, onSnapshot, collection, serverTimestamp, where, doc, deleteDoc, orderBy } from "firebase/firestore";
+import { addDoc, query, DocumentData, onSnapshot, collection, serverTimestamp, where, doc, deleteDoc, orderBy, updateDoc, increment, getDocs } from "firebase/firestore";
 import { initializeFirebase, getUserAuth, getFireStore } from "./databaseFunctions";
 import { Position, Applicant } from "../data/types";
 
+//  Retrieves a specific position by its ID
+export const getPosition = (
+  pid: string,
+  onUpdate: (position: Position | null) => void
+) => {
+  const app = initializeFirebase();
+  const firestore = getFireStore(true);
+
+  const q = query(
+    collection(firestore, `/positions`),
+    where("pid", "==", pid)
+  );
+
+  return onSnapshot(q, (querySnapshot) => {
+    const positionDoc = querySnapshot.docs[0];
+    if (positionDoc) {
+      onUpdate(positionDoc.data() as Position);
+    } else {
+      onUpdate(null);
+    }
+  });
+};
+
+// Retrieves all positions for a specific organization
 export const getOrgPositions = (
   oid: string,
   onUpdate: (positions: Position[]) => void
@@ -22,6 +46,7 @@ export const getOrgPositions = (
   });
 };
 
+// Retrieves all positions in the system
 export const getAllPositions = (onUpdate: (positions: Position[]) => void) => {
   const app = initializeFirebase();
   const firestore = getFireStore(true);
@@ -39,6 +64,7 @@ export const getAllPositions = (onUpdate: (positions: Position[]) => void) => {
   });
 };
 
+// Creates a new position
 export const addPosition = async (positionData: Partial<Position>) => {
   const app = initializeFirebase();
   const auth = getUserAuth(true);
@@ -62,6 +88,7 @@ export const addPosition = async (positionData: Partial<Position>) => {
   }
 };
 
+// Deletes a position
 export const deletePosition = async (pid: string) => {
   const app = initializeFirebase();
   const auth = getUserAuth(true);
@@ -81,6 +108,35 @@ export const deletePosition = async (pid: string) => {
   }
 };
 
+// Increments the applicant count for a position!
+export const incrementPositionCount = async (pid: string) => {
+  const app = initializeFirebase();
+  const firestore = getFireStore(true);
+
+  try {
+    const q = query(
+      collection(firestore, "positions"),
+      where("pid", "==", pid)
+    );
+
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) {
+      throw new Error("Position not found");
+    }
+
+    const positionDoc = querySnapshot.docs[0];
+    await updateDoc(positionDoc.ref, {
+      positionApplicants: increment(1)
+    });
+    
+    return true;
+  } catch (error) {
+    console.error("Error incrementing position count:", error);
+    throw error;
+  }
+};
+
+// Retrieves all applicants for a specific position
 export const getApplicants = (
   pid: string,
   onUpdate: (applications: Applicant[]) => void
