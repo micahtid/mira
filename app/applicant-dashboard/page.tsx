@@ -1,8 +1,8 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import DashboardNavBar from "@/components/DashboardNavBar";
-import PositionListing from "@/components/PositionListing";
+import DashboardNavBar from "@/components/dashboard/DashboardNavBar";
+import PositionListing from "@/components/dashboard/PositionListing";
 
 import AccountSettings from "./components/AccountSettings";
 import ActiveApplications from "./components/ActiveApplications";

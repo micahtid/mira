@@ -1,10 +1,10 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import DashboardNavBar from "@/components/DashboardNavBar";
+import DashboardNavBar from "@/components/dashboard/DashboardNavBar";
 
 import ManagePositions from "./components/ManagePositions";
-import PositionListing from "@/components/PositionListing";
+import PositionListing from "@/components/dashboard/PositionListing";
 import AccountSettings from "./components/AccountSettings";
 
 import { signOut } from "@/utils/firebaseFunctions";

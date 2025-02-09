@@ -7,7 +7,6 @@ import { incrementApplicantCount } from '@/utils/applicationFunctions';
 import { addApplication, getPosition } from '@/utils/applicationFunctions';
 import { useForm } from 'react-hook-form';
 import { useAccount } from '@/providers/AccountProvider';
-import { Applicant } from '@/data/types';
 
 const Apply = () => {
   const searchParams = useSearchParams();

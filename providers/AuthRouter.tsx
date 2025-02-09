@@ -13,8 +13,6 @@ const AuthRouter = (props: any) => {
   const router = useRouter();
   const pathName = usePathname();
 
-  console.log(account, accountData)
-
   useEffect(() => {
     // Initial Auth Check
     if (account === undefined || accountData === undefined) {
