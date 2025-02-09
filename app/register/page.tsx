@@ -3,7 +3,7 @@
 import React from 'react';
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { addUser } from "@/utils/userFunctions";
+import { addAccount } from "@/utils/accountFunctions";
 import { motion, AnimatePresence } from "framer-motion";
 import { RiArrowRightLine, RiBuildingLine, RiUserLine, RiUpload2Line, RiBriefcaseLine, RiGraduationCapLine, RiCalendarLine, RiLink } from "react-icons/ri";
 
@@ -120,7 +120,7 @@ const Registration = () => {
                 Object.entries(formData).filter(([key]) => relevantFields.includes(key))
             );
 
-            await addUser({
+            await addAccount({
                 ...filteredData,
                 type: registrationType
             });

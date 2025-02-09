@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAccount } from '@/providers/AccountProvider';
-import { addPosition } from '@/utils/positionFunctions';
+import { addPosition } from '@/utils/organizationFunctions';
 import { Position } from '@/data/types';
 import { v4 as uuidv4 } from 'uuid';
 

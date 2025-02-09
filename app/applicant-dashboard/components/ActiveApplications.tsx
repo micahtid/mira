@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { getUserAuth } from '@/utils/databaseFunctions';
-import { getUserApplications, setApplicantCommitment } from '@/utils/applicationFunctions';
+import { getUserAuth } from '@/utils/firebaseFunctions';
+import { getApplicationsByUser, setApplicantCommitment } from '@/utils/applicationFunctions';
 import { Applicant } from '@/data/types';
 
 const ActiveApplications = () => {
@@ -14,7 +14,7 @@ const ActiveApplications = () => {
 
     const setupSubscription = async () => {
       if (auth.currentUser) {
-        unsubscribe = getUserApplications(auth.currentUser.uid, (fetchedApplications) => {
+        unsubscribe = getApplicationsByUser(auth.currentUser.uid, (fetchedApplications) => {
           setApplications(fetchedApplications);
         });
       }

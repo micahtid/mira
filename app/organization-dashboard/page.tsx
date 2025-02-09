@@ -7,7 +7,7 @@ import ManagePositions from "./components/ManagePositions";
 import PositionListing from "@/components/PositionListing";
 import AccountSettings from "./components/AccountSettings";
 
-import { signOut } from "@/utils/databaseFunctions";
+import { signOut } from "@/utils/firebaseFunctions";
 
 const OrganizationDashboard = () => {
   const searchParams = useSearchParams();

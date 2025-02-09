@@ -3,9 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { DocumentData } from 'firebase/firestore';
-import { getPosition } from '@/utils/positionFunctions';
-import { updateApplicantStatus, toggleApplicantBookmark } from '@/utils/applicationFunctions';
-import { getApplicants } from '@/utils/positionFunctions';
+import { getApplicantsByPosition, setApplicationStatus, toggleBookmarkStatus } from '@/utils/organizationFunctions';
+import { getPosition } from '@/utils/applicationFunctions';
 import { Applicant } from '@/data/types';
 
 const ReviewPosition = () => {
@@ -24,7 +23,7 @@ const ReviewPosition = () => {
       });
 
       //////// Get Applicants //////////
-      const unsubscribeApplicants = getApplicants(pid, (fetchedApplicants) => {
+      const unsubscribeApplicants = getApplicantsByPosition(pid, (fetchedApplicants) => {
         setApplicants(fetchedApplicants);
 
         if (selectedApplicant) {                                            // Update selected applicant!
@@ -161,7 +160,7 @@ const ReviewPosition = () => {
                 <button 
                   onClick={async () => {
                     if (selectedApplicant && window.confirm('Are you sure you want to accept this applicant? This action cannot be undone.')) {
-                      await updateApplicantStatus(selectedApplicant.uid, "accepted");
+                      await setApplicationStatus(selectedApplicant.uid, "accepted");
                     }
                   }}
                   disabled={selectedApplicant?.status !== 'pending'}
@@ -172,7 +171,7 @@ const ReviewPosition = () => {
                 <button 
                   onClick={async () => {
                     if (selectedApplicant && window.confirm('Are you sure you want to reject this applicant? This action cannot be undone.')) {
-                      await updateApplicantStatus(selectedApplicant.uid, "rejected");
+                      await setApplicationStatus(selectedApplicant.uid, "rejected");
                     }
                   }}
                   disabled={selectedApplicant?.status !== 'pending'}
@@ -183,7 +182,7 @@ const ReviewPosition = () => {
                 <button 
                   onClick={async () => {
                     if (selectedApplicant) {
-                      await toggleApplicantBookmark(selectedApplicant.uid);
+                      await toggleBookmarkStatus(selectedApplicant.uid);
                     }
                   }}
                   disabled={selectedApplicant?.status !== 'pending'}

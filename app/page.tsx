@@ -1,6 +1,6 @@
 "use client";
 
-import { signOut } from "@/utils/databaseFunctions";
+import { signOut } from "@/utils/firebaseFunctions";
 
 import Accordian from "@/components/Accordian"
 

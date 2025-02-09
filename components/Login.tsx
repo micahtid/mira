@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn } from "@/utils/databaseFunctions";
+import { signIn } from "@/utils/firebaseFunctions";
 import { motion } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
 import { FaDiscord, FaGithub } from "react-icons/fa";

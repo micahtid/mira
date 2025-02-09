@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { DocumentData } from 'firebase/firestore';
 import { useAccount } from '@/providers/AccountProvider';
-import { getOrgPositions, deletePosition } from '@/utils/positionFunctions';
+import { getPositionsByOrg, deletePosition } from '@/utils/organizationFunctions';
 import { useRouter } from 'next/navigation';
 
 const ManagePositions = () => {
@@ -14,7 +14,7 @@ const ManagePositions = () => {
   useEffect(() => {
     if (!account?.uid) return;
 
-    const unsubscribe = getOrgPositions(account.uid, (updatedPositions) => {
+    const unsubscribe = getPositionsByOrg(account.uid, (updatedPositions) => {
       setPositions(updatedPositions);
     });
 

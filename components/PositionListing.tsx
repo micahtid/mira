@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { DocumentData } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
 
-import { getAllPositions } from '@/utils/positionFunctions';
+import { getAllPositions } from '@/utils/applicationFunctions';
 
 interface PositionListingProps {
   allowApply?: boolean;

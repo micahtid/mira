@@ -3,8 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { DocumentData } from 'firebase/firestore';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { getPosition, incrementPositionCount } from '@/utils/positionFunctions';
-import { addApplication } from '@/utils/applicationFunctions';
+import { incrementApplicantCount } from '@/utils/applicationFunctions';
+import { addApplication, getPosition } from '@/utils/applicationFunctions';
 import { useForm } from 'react-hook-form';
 import { useAccount } from '@/providers/AccountProvider';
 import { Applicant } from '@/data/types';
@@ -79,7 +79,7 @@ const Apply = () => {
       }
 
       await addApplication(applicationData);
-      await incrementPositionCount(pid);
+      await incrementApplicantCount(pid);
 
       alert('Application submitted successfully!');
       router.push('/applicant-dashboard');

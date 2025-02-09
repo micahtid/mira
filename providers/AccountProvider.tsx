@@ -3,8 +3,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { DocumentData } from "firebase/firestore";
 import { Auth, User } from "firebase/auth";
-import { initializeFirebase, getUserAuth } from "@/utils/databaseFunctions";
-import { getUser } from "@/utils/userFunctions";
+import { initializeFirebase, getUserAuth } from "@/utils/firebaseFunctions";
+import { getAccount } from "@/utils/accountFunctions";
 
 type AccountContextType = {
   account: null | undefined | DocumentData;
@@ -28,11 +28,15 @@ export const AccountContextProvider = (props: Props) => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
-      setAccount(firebaseUser);
       if (firebaseUser) {
-        const userDoc = await getUser(firebaseUser.uid);
+        // Keep both states as undefined while we fetch the data
+        const userDoc = await getAccount(firebaseUser.uid);
+        // Update both states at once to prevent flashing
+        setAccount(firebaseUser);
         setAccountData(userDoc);
       } else {
+        // Update both states at once for logout
+        setAccount(null);
         setAccountData(null);
       }
     });

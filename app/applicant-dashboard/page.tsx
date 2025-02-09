@@ -7,7 +7,7 @@ import PositionListing from "@/components/PositionListing";
 import AccountSettings from "./components/AccountSettings";
 import ActiveApplications from "./components/ActiveApplications";
 
-import { signOut } from "@/utils/databaseFunctions";
+import { signOut } from "@/utils/firebaseFunctions";
 
 const ApplicantDashboard = () => {
   const searchParams = useSearchParams();
