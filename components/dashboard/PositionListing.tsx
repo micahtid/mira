@@ -36,7 +36,9 @@ const PositionCard: React.FC<PositionCardProps> = ({ position, allowApply, onApp
           </div>
           <div className="flex items-center gap-1.5">
             <IoLocationOutline className="w-4 h-4" />
-            <span className="default-text text-base">{position.positionLocation}</span>
+            <span className="default-text text-base">
+              {position.positionLocation === null ? 'Remote' : position.positionLocation}
+            </span>
           </div>
         </div>
 
@@ -44,7 +46,7 @@ const PositionCard: React.FC<PositionCardProps> = ({ position, allowApply, onApp
           <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary-50 text-primary-700 rounded-md">
             <HiOutlineUsers className="w-4 h-4" />
             <span className="default-text text-sm font-medium">
-              Looking for {position.availableSlots} applicants
+              {position.availableSlots} Available Spot(s)
             </span>
           </div>
           
