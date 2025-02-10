@@ -9,14 +9,14 @@ interface EntryFieldProps {
 }
 
 /**
- * A reusable form input field component that supports both text inputs and textareas.
+ * A reusable form input field component that supports text inputs and textareas.
  * Features smooth animations and optional icons.
  */
 const EntryField: React.FC<EntryFieldProps> = ({ field, register }) => {
     const inputClasses = `
         w-full rounded-lg px-3 py-2 outline-none transition-all duration-200 text-sm
         bg-gray-50 border border-primary-100
-        hover:border-primary-200 focus:border-primary-300 focus:ring-1 focus:ring-primary-200
+        hover:border-primary-300 focus:border-primary-500 focus:ring-1 focus:ring-primary-500
     `;
 
     return (
@@ -49,20 +49,17 @@ const EntryField: React.FC<EntryFieldProps> = ({ field, register }) => {
                             maxLength: field.maxLength
                         })}
                         placeholder={field.placeholder}
-                        className={`${inputClasses} min-h-[100px] py-2 resize-y`}
-                        maxLength={field.maxLength}
+                        className={`${inputClasses} min-h-[100px]`}
                     />
                 ) : (
                     <input
                         type={field.type || "text"}
                         {...register(field.name, {
                             required: field.required,
-                            maxLength: field.maxLength,
-                            ...(field.type === "number" ? { min: 12, max: 100 } : {})
+                            maxLength: field.maxLength
                         })}
                         placeholder={field.placeholder}
-                        className={`${inputClasses} h-10`}
-                        maxLength={field.maxLength}
+                        className={inputClasses}
                     />
                 )}
             </div>

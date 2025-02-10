@@ -2,312 +2,198 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { motion } from 'framer-motion';
+import { SingleValue } from 'react-select';
 import { useAccount } from '@/providers/AccountProvider';
 import { addPosition } from '@/utils/organizationFunctions';
-import { Position } from '@/data/types';
+import { Position, SelectOption } from '@/data/types';
+import { positionFields, positionTypeOptions, locationTypeOptions } from '@/data';
+import EntryField from '@/components/dashboard/EntryField';
+import SelectField from '@/components/dashboard/SelectField';
 import { v4 as uuidv4 } from 'uuid';
 
-const POSITION_TYPES = [
-  'volunteer',
-  'internship',
-  'branch founder',
-  'project lead',
-  'coordinator',
-  'advisor',
-  'mentor',
-  'ambassador'
-] as const;
-
-const LOCATION_TYPES = [
-  'remote',
-  'on-site',
-  'hybrid'
-] as const;
-
-type PositionType = typeof POSITION_TYPES[number];
-type LocationType = typeof LOCATION_TYPES[number];
-
-const formClasses = {
-  container: "max-w-2xl mx-auto p-4 space-y-6",
-  form: "space-y-4",
-  fieldGroup: "space-y-2",
-  label: "block font-medium",
-  requiredLabel: "text-red-500 ml-1",
-  input: "w-full p-2 border rounded-lg focus:outline-none",
-  textarea: "w-full p-2 border rounded-lg min-h-[100px] focus:outline-none",
-  select: "w-full p-2 border rounded-lg focus:outline-none capitalize",
-  charCount: "text-sm text-gray-500",
-  questionContainer: "space-y-4",
-  questionInput: "flex gap-2",
-  questionList: "space-y-2",
-  questionItem: "flex items-center gap-2 p-2 border rounded-lg",
-  deleteButton: "text-red-500 hover:text-red-700 focus:outline-none",
-  checkbox: "form-checkbox h-5 w-5 focus:outline-none",
-  checkboxLabel: "flex items-center gap-2",
-  warning: "text-yellow-600 text-sm font-medium bg-yellow-50 p-3 rounded-lg border border-yellow-200"
-};
-
-interface FormData {
-  title: string;
-  description: string;
-  requirements: string;
-  questions: string[];
-  availableSlots: number;
-  requireResume: boolean;
-  type: PositionType;
-  location: string;
-  locationType: LocationType;
+type FormData = {
+    title: string;
+    description: string;
+    requirements: string;
+    availableSlots: number;
+    location?: string;
+    requireResume: boolean;
 }
 
 const CreatePosition = () => {
-  const router = useRouter();
-  const { account, accountData } = useAccount();
-  const [formData, setFormData] = useState<FormData>({
-    title: '',
-    description: '',
-    requirements: '',
-    questions: [],
-    availableSlots: 1,
-    requireResume: false,
-    type: POSITION_TYPES[0],
-    location: '',
-    locationType: LOCATION_TYPES[0]
-  });
-  const [newQuestion, setNewQuestion] = useState('');
+    const router = useRouter();
+    const { account, accountData } = useAccount();
+    const { register, handleSubmit: handleFormSubmit } = useForm<FormData>();
+    
+    // States for form data
+    const [positionType, setPositionType] = useState<SelectOption | null>(null);
+    const [locationType, setLocationType] = useState<SelectOption>(locationTypeOptions[0]);
+    const [questions, setQuestions] = useState<string[]>([]);
+    const [newQuestion, setNewQuestion] = useState('');
+    
+    const handleAddQuestion = () => {
+        if (newQuestion.trim()) {
+            setQuestions(prev => [...prev, newQuestion.trim()]);
+            setNewQuestion('');
+        }
+    };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
+    const handleDeleteQuestion = (index: number) => {
+        setQuestions(prev => prev.filter((_, i) => i !== index));
+    };
 
-  const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Math.min(5, Math.max(1, parseInt(e.target.value) || 1));
-    setFormData(prev => ({ ...prev, availableSlots: value }));
-  };
+    const handleSubmit = async (formData: FormData) => {
+        if (!account || !accountData) {
+            alert('Please sign in to create a position.');
+            return;
+        }
 
-  const handleAddQuestion = () => {
-    if (newQuestion.trim()) {
-      setFormData(prev => ({
-        ...prev,
-        questions: [...prev.questions, newQuestion.trim()]
-      }));
-      setNewQuestion('');
-    }
-  };
+        if (!positionType) {
+            alert('Please select a position type.');
+            return;
+        }
 
-  const handleDeleteQuestion = (index: number) => {
-    setFormData(prev => ({
-      ...prev,
-      questions: prev.questions.filter((_, i) => i !== index)
-    }));
-  };
+        try {
+            // For remote positions, explicitly set location to null
+            // For on-site positions, ensure location is provided
+            const location = locationType.value === 'remote' ? null : formData.location || '';
+            
+            if (locationType.value === 'on-site' && !location) {
+                alert('Please provide a location for on-site positions.');
+                return;
+            }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+            const position: Omit<Position, 'positionApplicants'> = {
+                pid: uuidv4(),
+                oid: account.uid,
+                organizationName: accountData.organizationName || '',
+                positionTitle: formData.title,
+                positionType: positionType.value,
+                positionLocation: location,
+                locationType: locationType.value,
+                positionDescription: formData.description,
+                positionRequirements: formData.requirements,
+                positionQuestions: questions,
+                requireResume: formData.requireResume,
+                availableSlots: formData.availableSlots
+            };
 
-    if (!account || !accountData) {
-      alert('Please sign in to create a position.');
-      return;
-    }
+            await addPosition(position);
+            alert('Position created successfully!');
+            router.push('/organization-dashboard');
+        } catch (error) {
+            console.error('Error creating position:', error);
+            alert('Failed to create position. Please try again.');
+        }
+    };
 
-    try {
-      const position: Omit<Position, 'positionApplicants'> = {
-        pid: uuidv4(),
-        oid: account.uid,
-        organizationName: accountData.organizationName || '',
-        positionTitle: formData.title,
-        positionType: formData.type,
-        positionLocation: formData.location || undefined,
-        locationType: formData.locationType,
-        positionDescription: formData.description,
-        positionRequirements: formData.requirements,
-        positionQuestions: formData.questions,
-        requireResume: formData.requireResume,
-        availableSlots: formData.availableSlots
-      };
-
-      await addPosition(position);
-      alert('Position created successfully!');
-      router.push('/organization-dashboard');
-    } catch (error) {
-      console.error('Error creating position:', error);
-      alert('Failed to create position. Please try again.');
-    }
-  };
-
-  return (
-    <div className={formClasses.container}>
-      <h1 className="text-2xl font-bold mb-6">Create New Position</h1>
-      
-      <form onSubmit={handleSubmit} className={formClasses.form}>
-        <div className={formClasses.fieldGroup}>
-          <label className={formClasses.label}>
-            Position Title
-            <span className={formClasses.requiredLabel}>*</span>
-          </label>
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleInputChange}
-            className={formClasses.input}
-            required
-          />
-        </div>
-
-        <div className={formClasses.fieldGroup}>
-          <label className={formClasses.label}>
-            Position Type
-            <span className={formClasses.requiredLabel}>*</span>
-          </label>
-          <select
-            name="type"
-            value={formData.type}
-            onChange={handleInputChange}
-            className={formClasses.select}
-            required
-          >
-            {POSITION_TYPES.map(type => (
-              <option key={type} value={type}>{type}</option>
-            ))}
-          </select>
-        </div>
-
-        <div className={formClasses.fieldGroup}>
-          <label className={formClasses.label}>
-            Location Type
-            <span className={formClasses.requiredLabel}>*</span>
-          </label>
-          <select
-            name="locationType"
-            value={formData.locationType}
-            onChange={handleInputChange}
-            className={formClasses.select}
-            required
-          >
-            {LOCATION_TYPES.map(type => (
-              <option key={type} value={type}>{type}</option>
-            ))}
-          </select>
-        </div>
-
-        <div className={formClasses.fieldGroup}>
-          <label className={formClasses.label}>
-            Location (Optional)
-          </label>
-          <input
-            type="text"
-            name="location"
-            value={formData.location}
-            onChange={handleInputChange}
-            className={formClasses.input}
-            placeholder="e.g., Remote, New York, etc."
-          />
-        </div>
-
-        <div className={formClasses.fieldGroup}>
-          <label className={formClasses.label}>
-            Description
-            <span className={formClasses.requiredLabel}>*</span>
-          </label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleInputChange}
-            className={formClasses.textarea}
-            required
-          />
-        </div>
-
-        <div className={formClasses.fieldGroup}>
-          <label className={formClasses.label}>
-            Requirements
-            <span className={formClasses.requiredLabel}>*</span>
-          </label>
-          <textarea
-            name="requirements"
-            value={formData.requirements}
-            onChange={handleInputChange}
-            className={formClasses.textarea}
-            required
-          />
-        </div>
-
-        <div className={formClasses.fieldGroup}>
-          <label className={formClasses.label}>
-            Available Slots
-            <span className={formClasses.requiredLabel}>*</span>
-          </label>
-          <input
-            type="number"
-            name="availableSlots"
-            value={formData.availableSlots}
-            onChange={handleNumberChange}
-            min="1"
-            max="5"
-            className={formClasses.input}
-            required
-          />
-          <p className={formClasses.warning}>Maximum 5 slots per position</p>
-        </div>
-
-        <div className={formClasses.fieldGroup}>
-          <label className={formClasses.checkboxLabel}>
-            <input
-              type="checkbox"
-              className={formClasses.checkbox}
-              checked={formData.requireResume}
-              onChange={(e) => setFormData(prev => ({ ...prev, requireResume: e.target.checked }))}
-            />
-            <span>Require Resume (applicants can also provide resume and portfolio links)</span>
-          </label>
-        </div>
-
-        <div className={formClasses.questionContainer}>
-          <label className={formClasses.label}>Application Questions</label>
-          
-          <div className={formClasses.questionInput}>
-            <input
-              type="text"
-              value={newQuestion}
-              onChange={(e) => setNewQuestion(e.target.value)}
-              className={formClasses.input}
-              placeholder="Enter a question"
-            />
-            <button
-              type="button"
-              onClick={handleAddQuestion}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            >
-              Add
-            </button>
-          </div>
-
-          <div className={formClasses.questionList}>
-            {formData.questions.map((question, index) => (
-              <div key={index} className={formClasses.questionItem}>
-                <span className="flex-1">{question}</span>
-                <button
-                  type="button"
-                  onClick={() => handleDeleteQuestion(index)}
-                  className={formClasses.deleteButton}
-                >
-                  Remove
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors"
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="max-w-2xl mx-auto py-8 px-4"
         >
-          Create Position
-        </button>
-      </form>
-    </div>
-  );
+            <h1 className="text-2xl font-bold text-primary-900 mb-6">Create New Position</h1>
+            
+            <form onSubmit={handleFormSubmit(handleSubmit)} className="space-y-6">
+                {/* Position Type Select */}
+                <SelectField
+                    label="Position Type"
+                    value={positionType}
+                    onChange={newValue => setPositionType(newValue)}
+                    options={positionTypeOptions}
+                    required
+                    isSearchable
+                    isClearable
+                    placeholder="Select or type a position type..."
+                />
+
+                {/* Form Fields */}
+                {positionFields.map((field) => (
+                    (field.name !== 'location' || locationType.value === 'on-site') && (
+                        <EntryField
+                            key={field.name}
+                            field={field}
+                            register={register}
+                        />
+                    )
+                ))}
+
+                {/* Location Type Select */}
+                <SelectField
+                    label="Location Type"
+                    value={locationType}
+                    onChange={newValue => newValue && setLocationType(newValue)}
+                    options={locationTypeOptions}
+                    required
+                />
+
+                {/* Resume requirement checkbox */}
+                <div className="space-y-1.5">
+                    <label className="text-sm font-medium flex items-center gap-2 text-primary-900">
+                        Require Resume
+                    </label>
+                    <div className="flex items-center gap-2">
+                        <input
+                            type="checkbox"
+                            {...register('requireResume')}
+                            className="form-checkbox h-4 w-4 text-primary-500 rounded focus:ring-primary-500 border-gray-300"
+                        />
+                        <span className="text-sm text-gray-600">
+                            Require Applicants' Resumes (& Portfolios)
+                        </span>
+                    </div>
+                </div>
+
+                {/* Application Questions section */}
+                <div className="space-y-1.5">
+                    <label className="text-sm font-medium flex items-center gap-2 text-primary-900">
+                        Application Questions
+                    </label>
+                    <div className="space-y-2">
+                        <div className="flex gap-2">
+                            <input
+                                type="text"
+                                value={newQuestion}
+                                onChange={(e) => setNewQuestion(e.target.value)}
+                                placeholder="Add a question for applicants"
+                                className="flex-1 rounded-lg px-3 py-2 text-sm bg-gray-50 border border-primary-100 hover:border-primary-300 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none"
+                            />
+                            <button
+                                type="button"
+                                onClick={handleAddQuestion}
+                                className="px-4 py-2 bg-primary-500 text-white rounded-lg text-sm hover:bg-primary-600 transition-colors"
+                            >
+                                Add
+                            </button>
+                        </div>
+                        {questions.map((question, index) => (
+                            <div key={index} className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg">
+                                <span className="flex-1 text-sm">{question}</span>
+                                <button
+                                    type="button"
+                                    onClick={() => handleDeleteQuestion(index)}
+                                    className="text-red-500 hover:text-red-700"
+                                >
+                                    Remove
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <button
+                    type="submit"
+                    className="w-full default-button"
+                >
+                    Create Position
+                </button>
+            </form>
+        </motion.div>
+    );
 };
 
 export default CreatePosition;

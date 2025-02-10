@@ -1,5 +1,10 @@
 export type RegistrationType = "organization" | "individual";
 
+export type SelectOption = {
+    value: string;
+    label: string;
+};
+
 export type FormField = {
     name: string;
     label: string;
@@ -15,14 +20,14 @@ export type FormField = {
 ////////////////////////////////////////
 ////////////////////////////////////////
 
-export interface Position {
+export type Position = {
     pid: string;
     oid: string;
     organizationName: string;
     ////////////////////////
     positionTitle: string;
     positionType: string;
-    positionLocation?: string;
+    positionLocation: string | null;        // null for "Remote"
     locationType: string;
     positionDescription: string;
     positionRequirements: string;

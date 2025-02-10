@@ -11,7 +11,7 @@ export const navBarLinks = [
 ////////////////////////////////////////
 
 import { RegistrationType, FormField } from './types';
-import { RiBuildingLine, RiUserLine, RiUpload2Line, RiBriefcaseLine, RiGraduationCapLine, RiCalendarLine, RiLink } from "react-icons/ri";
+import { FaUser, FaBuilding, FaEnvelope, FaLink, FaCalendar, FaGraduationCap, FaUpload } from "react-icons/fa";
 
 export const registrationFields: Record<RegistrationType, FormField[]> = {
     organization: [
@@ -19,64 +19,65 @@ export const registrationFields: Record<RegistrationType, FormField[]> = {
             name: "organizationName", 
             label: "Organization Name", 
             maxLength: 50, 
-            icon: <RiBuildingLine className="text-lg" />,
+            icon: <FaBuilding />,
             placeholder: "Enter organization name",
             required: true
         },
         { 
-            name: "organizationMission", 
-            label: "Organization Mission", 
-            maxLength: 100,
-            placeholder: "Brief mission statement",
+            name: "email",
+            label: "Email",
+            type: "email",
+            icon: <FaEnvelope />,
+            placeholder: "Enter email address",
             required: true
         },
         { 
-            name: "organizationDescription", 
-            label: "Organization Description", 
-            maxLength: 500, 
-            multiline: true,
-            placeholder: "Detailed description of your organization",
-            required: true
-        },
+            name: "website",
+            label: "Website (Optional)",
+            type: "url",
+            icon: <FaLink />,
+            placeholder: "Enter organization website",
+            required: false
+        }
     ],
     individual: [
         { 
             name: "fullName", 
             label: "Full Name", 
             maxLength: 50, 
-            icon: <RiUserLine className="text-lg" />,
+            icon: <FaUser />,
             placeholder: "Enter your full name",
             required: true
         },
         { 
-            name: "age", 
-            label: "Age", 
-            type: "number",
-            icon: <RiCalendarLine className="text-lg" />,
-            placeholder: "Enter your age",
+            name: "email",
+            label: "Email",
+            type: "email",
+            icon: <FaEnvelope />,
+            placeholder: "Enter email address",
             required: true
         },
         { 
-            name: "currentEmployment", 
-            label: "Current Employment", 
-            maxLength: 100, 
-            icon: <RiBriefcaseLine className="text-lg" />,
-            placeholder: "Current job title",
+            name: "education",
+            label: "Education",
+            maxLength: 100,
+            icon: <FaGraduationCap />,
+            placeholder: "Enter your education",
             required: true
         },
         { 
-            name: "education", 
-            label: "Highest Level of Education", 
-            maxLength: 100, 
-            icon: <RiGraduationCapLine className="text-lg" />,
-            placeholder: "e.g., Bachelor's in Computer Science",
+            name: "graduationDate",
+            label: "Graduation Date",
+            type: "date",
+            icon: <FaCalendar />,
+            placeholder: "Select your graduation date",
             required: true
         },
         {
             name: "resumeLink",
             label: "Resume Link (Optional)",
             type: "url",
-            icon: <RiLink className="text-lg" />,
+            icon: <FaLink />,
             placeholder: "Link to your resume (e.g., Google Drive)",
             required: false
         },
@@ -84,18 +85,79 @@ export const registrationFields: Record<RegistrationType, FormField[]> = {
             name: "portfolioLink",
             label: "Portfolio Link (Optional)",
             type: "url",
-            icon: <RiLink className="text-lg" />,
+            icon: <FaLink />,
             placeholder: "Link to your portfolio",
             required: false
         },
-        { 
-            name: "resume", 
-            label: "Resume Text", 
-            maxLength: 2000,
-            multiline: true,
-            icon: <RiUpload2Line className="text-lg" />,
-            placeholder: "Enter your resume text (max 2000 characters)",
-            required: true
+        {
+            name: "resumeFile",
+            label: "Resume Upload (Optional)",
+            type: "file",
+            icon: <FaUpload />,
+            placeholder: "Upload your resume",
+            required: false
         },
     ],
 };
+
+
+////////////////////////////////////////
+////////////////////////////////////////
+////////////////////////////////////////
+
+export const positionTypeOptions = [
+    { value: 'volunteer', label: 'Volunteer' },
+    { value: 'internship', label: 'Internship' },
+    { value: 'branch founder', label: 'Branch Founder' },
+    { value: 'project lead', label: 'Project Lead' },
+    { value: 'coordinator', label: 'Coordinator' },
+    { value: 'advisor', label: 'Advisor' },
+    { value: 'mentor', label: 'Mentor' },
+    { value: 'ambassador', label: 'Ambassador' }
+] as const;
+
+export const locationTypeOptions = [
+    { value: 'remote', label: 'Remote' },
+    { value: 'on-site', label: 'On-site' }
+] as const;
+
+// EXCLUDE Select Questions
+export const positionFields: FormField[] = [
+    {
+        name: "title",
+        label: "Position Title",
+        required: true,
+        maxLength: 100,
+        placeholder: "Enter position title"
+    },
+    {
+        name: "description",
+        label: "Position Description",
+        maxLength: 2000,
+        multiline: true,
+        required: true,
+        placeholder: "Enter detailed description of the position"
+    },
+    {
+        name: "requirements",
+        label: "Requirements",
+        maxLength: 1000,
+        multiline: true,
+        required: true,
+        placeholder: "Enter position requirements"
+    },
+    {
+        name: "availableSlots",
+        label: "Available Slots",
+        type: "number",
+        required: true,
+        placeholder: "Number of available positions"
+    },
+    {
+        name: "location",
+        label: "Location",
+        maxLength: 100,
+        required: true,
+        placeholder: "Enter location (city, country)"
+    }
+];
