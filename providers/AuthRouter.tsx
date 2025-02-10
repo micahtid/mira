@@ -5,6 +5,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { initializeFirebase } from "@/utils/firebaseFunctions";
 import { useAccount } from "./AccountProvider";
 
+import Loader from "@/components/Loader";
+
 // Undefined -> Loading
 // Null -> Not Logged In!
 
@@ -60,7 +62,7 @@ const AuthRouter = (props: any) => {
 
   // Loader During Authentication
   if (account === undefined || accountData === undefined) {
-    return (<div>Loading...</div>)
+    return (<Loader />)
   }
 
   return <>{props.children}</>;

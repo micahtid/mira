@@ -7,8 +7,6 @@ import PositionListing from "@/components/dashboard/PositionListing";
 import AccountSettings from "./components/AccountSettings";
 import ActiveApplications from "./components/ActiveApplications";
 
-import { signOut } from "@/utils/firebaseFunctions";
-
 const ApplicantDashboard = () => {
   const searchParams = useSearchParams();
   const currentPage = searchParams.get("page") || "positions";
@@ -31,10 +29,6 @@ const ApplicantDashboard = () => {
         { label: "Active Applications", link: "active-applications" },
         { label: "Settings", link: "account-settings" }
       ]} />
-      
-      <h3 className="default-heading">Dashboard</h3>
-      <button onClick={() => signOut()} className="default-button">Log Out</button>
-
       <div className="">
         {renderContent()}
       </div>

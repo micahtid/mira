@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from "framer-motion";
 import { UseFormRegister } from "react-hook-form";
-import { FormField } from '../data/fields';
+import { FormField } from '@/data/types';
 
-interface FormInputFieldProps {
+interface EntryFieldProps {
     field: FormField;
     register: UseFormRegister<any>;
 }
@@ -12,7 +12,7 @@ interface FormInputFieldProps {
  * A reusable form input field component that supports both text inputs and textareas.
  * Features smooth animations and optional icons.
  */
-const RegisterField: React.FC<FormInputFieldProps> = ({ field, register }) => {
+const EntryField: React.FC<EntryFieldProps> = ({ field, register }) => {
     const inputClasses = `
         w-full rounded-lg px-3 py-2 outline-none transition-all duration-200 text-sm
         bg-gray-50 border border-primary-100
@@ -70,4 +70,4 @@ const RegisterField: React.FC<FormInputFieldProps> = ({ field, register }) => {
     );
 };
 
-export default RegisterField;
+export default EntryField;

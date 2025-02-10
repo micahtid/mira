@@ -1,3 +1,20 @@
+export type RegistrationType = "organization" | "individual";
+
+export type FormField = {
+    name: string;
+    label: string;
+    maxLength?: number;
+    type?: string;
+    multiline?: boolean;
+    icon?: React.ReactNode;
+    placeholder?: string;
+    required?: boolean;
+};
+
+////////////////////////////////////////
+////////////////////////////////////////
+////////////////////////////////////////
+
 export interface Position {
     pid: string;
     oid: string;
@@ -6,6 +23,7 @@ export interface Position {
     positionTitle: string;
     positionType: string;
     positionLocation?: string;
+    locationType: string;
     positionDescription: string;
     positionRequirements: string;
     positionQuestions?: string[];

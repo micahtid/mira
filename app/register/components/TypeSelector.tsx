@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from "framer-motion";
 import { RiBuildingLine, RiUserLine } from "react-icons/ri";
-import { RegistrationType } from '../data/fields';
+import { RegistrationType } from '@/data/types';
 
 interface RegistrationTypeToggleProps {
     registrationType: RegistrationType;

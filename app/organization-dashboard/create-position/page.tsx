@@ -18,7 +18,14 @@ const POSITION_TYPES = [
   'ambassador'
 ] as const;
 
+const LOCATION_TYPES = [
+  'remote',
+  'on-site',
+  'hybrid'
+] as const;
+
 type PositionType = typeof POSITION_TYPES[number];
+type LocationType = typeof LOCATION_TYPES[number];
 
 const formClasses = {
   container: "max-w-2xl mx-auto p-4 space-y-6",
@@ -49,6 +56,7 @@ interface FormData {
   requireResume: boolean;
   type: PositionType;
   location: string;
+  locationType: LocationType;
 }
 
 const CreatePosition = () => {
@@ -62,7 +70,8 @@ const CreatePosition = () => {
     availableSlots: 1,
     requireResume: false,
     type: POSITION_TYPES[0],
-    location: ''
+    location: '',
+    locationType: LOCATION_TYPES[0]
   });
   const [newQuestion, setNewQuestion] = useState('');
 
@@ -109,6 +118,7 @@ const CreatePosition = () => {
         positionTitle: formData.title,
         positionType: formData.type,
         positionLocation: formData.location || undefined,
+        locationType: formData.locationType,
         positionDescription: formData.description,
         positionRequirements: formData.requirements,
         positionQuestions: formData.questions,
@@ -157,10 +167,26 @@ const CreatePosition = () => {
             className={formClasses.select}
             required
           >
-            {POSITION_TYPES.map((type) => (
-              <option key={type} value={type} className="capitalize">
-                {type}
-              </option>
+            {POSITION_TYPES.map(type => (
+              <option key={type} value={type}>{type}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className={formClasses.fieldGroup}>
+          <label className={formClasses.label}>
+            Location Type
+            <span className={formClasses.requiredLabel}>*</span>
+          </label>
+          <select
+            name="locationType"
+            value={formData.locationType}
+            onChange={handleInputChange}
+            className={formClasses.select}
+            required
+          >
+            {LOCATION_TYPES.map(type => (
+              <option key={type} value={type}>{type}</option>
             ))}
           </select>
         </div>

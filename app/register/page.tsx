@@ -5,9 +5,12 @@ import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { addAccount } from "@/utils/accountFunctions";
 import { signOut } from "@/utils/firebaseFunctions";
-import RegisterField from "./components/RegisterField";
+
+import EntryField from "@/components/dashboard/EntryField";
 import TypeSelector from "./components/TypeSelector";
-import { fields, RegistrationType } from "./data/fields";
+
+import { registrationFields } from "@/data";
+import { RegistrationType } from "@/data/types";
 
 const Registration = () => {
     const [registrationType, setRegistrationType] = useState<RegistrationType>("individual");
@@ -15,7 +18,7 @@ const Registration = () => {
 
     const onSubmit = async (formData: any) => {
         try {
-            const relevantFields = fields[registrationType].map(field => field.name);
+            const relevantFields = registrationFields[registrationType].map(field => field.name);
             const filteredData = Object.fromEntries(
                 Object.entries(formData).filter(([key]) => relevantFields.includes(key))
             );
@@ -72,8 +75,8 @@ const Registration = () => {
                         />
 
                         <div className="space-y-4">
-                            {fields[registrationType].map((field) => (
-                                <RegisterField
+                            {registrationFields[registrationType].map((field) => (
+                                <EntryField
                                     key={field.name}
                                     field={field}
                                     register={register}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { signOut } from "@/utils/firebaseFunctions";
 
 interface NavItem {
   label: string;
@@ -24,16 +25,32 @@ const DashboardNavBar = ({ items }: DashboardNavBarProps) => {
   };
 
   return (
-    <nav className="flex gap-4 bg-gray-100 rounded-lg">
-      {items.map((item) => (
-        <button
-          key={item.link}
-          onClick={() => handleNavigation(item.link)}
-          className={`px-4 py-2 rounded-md ${currentPage === item.link ? "bg-blue-600" : ""}`}
-        >
-          {item.label}
-        </button>
-      ))}
+    <nav className="flex items-center gap-3 p-2 bg-primary-50/80 backdrop-blur-sm rounded-xl border border-primary-100 shadow-sm">
+      <h1 className="text-xl font-semibold font-poppins text-primary-900 px-5 py-2.5">
+        Dashboard
+      </h1>
+      <div className="h-7 w-px bg-primary-100" />
+      <div className="flex gap-1.5 flex-1">
+        {items.map((item) => (
+          <button
+            key={item.link}
+            onClick={() => handleNavigation(item.link)}
+            className={`px-5 py-2.5 rounded-lg font-medium transition-colors duration-200 ${
+              currentPage === item.link
+                ? "bg-white text-primary-600"
+                : "text-primary-700 hover:bg-white/60 hover:text-primary-800"
+            }`}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
+      <button
+        onClick={signOut}
+        className="px-5 py-2.5 rounded-lg font-medium transition-colors duration-200 text-primary-700 hover:bg-white/60 hover:text-primary-800"
+      >
+        Sign Out
+      </button>
     </nav>
   );
 };
