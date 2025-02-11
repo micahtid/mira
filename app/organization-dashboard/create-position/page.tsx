@@ -3,8 +3,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { motion } from 'framer-motion';
-import { SingleValue } from 'react-select';
 import { useAccount } from '@/providers/AccountProvider';
 import { addPosition } from '@/utils/organizationFunctions';
 import { Position, SelectOption } from '@/data/types';
@@ -90,12 +88,7 @@ const CreatePosition = () => {
     };
 
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="max-w-2xl mx-auto py-8 px-4"
-        >
+        <div className="default-container py-8">
             <h1 className="text-2xl font-bold text-primary-900 mb-6">Create New Position</h1>
             
             <form onSubmit={handleFormSubmit(handleSubmit)} className="space-y-6">
@@ -192,7 +185,7 @@ const CreatePosition = () => {
                     Create Position
                 </button>
             </form>
-        </motion.div>
+        </div>
     );
 };
 

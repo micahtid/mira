@@ -5,6 +5,7 @@ import {
   getDocs,
   query,
   serverTimestamp,
+  updateDoc,
   where
 } from "firebase/firestore";
 
@@ -66,6 +67,50 @@ export const addAccount = async (userData: {[key:string]: any}) => {
     return true;
   } catch (error) {
     console.error("Error adding account:", error);
+    throw error;
+  }
+};
+
+// Updates an existing account in the respective database!
+export const updateAccount = async (userData: {[key:string]: any}) => {
+  const auth = getUserAuth(true);
+  const firestore = getFireStore(true);
+
+  if (!auth.currentUser) {
+    throw new Error("No authenticated user found");
+  }
+
+  try {
+    const { uid } = auth.currentUser;
+    const { type } = userData;
+
+    if (type !== "organization" && type !== "individual") {
+      throw new Error("Invalid account type. Must be either 'organization' or 'individual'");
+    }
+
+    const collectionName = type === "organization" ? "organizations" : "applicants";
+    
+    // Query for the document
+    const q = query(collection(firestore, collectionName), where("uid", "==", uid));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      throw new Error("Account not found");
+    }
+
+    // Get the document reference
+    const docRef = querySnapshot.docs[0].ref;
+
+    // Update the document with new data, excluding type and uid
+    const { type: _, uid: __, ...updateData } = userData;
+    await updateDoc(docRef, {
+      ...updateData,
+      updatedAt: serverTimestamp()
+    });
+
+    return true;
+  } catch (error) {
+    console.error("Error updating account:", error);
     throw error;
   }
 };
