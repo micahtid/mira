@@ -7,6 +7,13 @@ import { incrementApplicantCount } from '@/utils/applicationFunctions';
 import { addApplication, getPosition } from '@/utils/applicationFunctions';
 import { useForm } from 'react-hook-form';
 import { useAccount } from '@/providers/AccountProvider';
+import { motion } from 'framer-motion';
+import EntryField from '@/components/dashboard/EntryField';
+import { FormField } from '@/data/types';
+
+interface FormData {
+  questions: string[];
+}
 
 const Apply = () => {
   const searchParams = useSearchParams();
@@ -16,7 +23,7 @@ const Apply = () => {
   const [acknowledgeRequirements, setAcknowledgeRequirements] = useState(false);
   const { accountData } = useAccount();
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm<FormData>();
 
   useEffect(() => {
     if (pid) {
@@ -28,7 +35,7 @@ const Apply = () => {
     }
   }, [pid]);
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: FormData) => {
     if (!acknowledgeRequirements) {
       alert('Please confirm that you have read the description and meet the requirements.');
       return;
@@ -44,7 +51,6 @@ const Apply = () => {
       return;
     }
 
-    // TODO : CLEAN UP UNECESSARY TYPE!
     try {
       interface ApplicationData {
         pid: string;
@@ -90,48 +96,53 @@ const Apply = () => {
   };
 
   return (
-    <div className="default-container space-y-6">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="max-w-2xl mx-auto py-8 px-4"
+    >
       {position ? (
         <>
           {/* Header Section */}
-          <div className="mb-6">
-            <h1 className="text-2xl font-bold mb-2">Apply for {position.positionTitle}</h1>
-            <button className="text-blue-500 hover:underline" onClick={() => {}}>
+          <div className="mb-8">
+            <h1 className="text-2xl font-bold text-primary-900 mb-2">Apply for {position.positionTitle}</h1>
+            <button className="text-blue-500 hover:text-blue-600 font-medium" onClick={() => {}}>
               @{position.organizationName}
             </button>
           </div>
 
           {/* Application Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
             {/* Position Details */}
-            <div className="space-y-6">
-              <div className="bg-white p-4 rounded border">
-                <h2 className="text-lg font-semibold mb-2">Description</h2>
-                <p className="text-gray-600">{position.positionDescription}</p>
+            <div className="space-y-6 bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+              <div>
+                <h2 className="text-lg font-semibold text-gray-900 mb-3">Description</h2>
+                <p className="text-gray-600 leading-relaxed">{position.positionDescription}</p>
               </div>
 
               {position.positionRequirements && (
-                <div className="bg-white p-4 rounded border">
-                  <h2 className="text-lg font-semibold mb-2">Requirements</h2>
-                  <p className="text-gray-600">{position.positionRequirements}</p>
+                <div>
+                  <h2 className="text-lg font-semibold text-gray-900 mb-3">Requirements</h2>
+                  <p className="text-gray-600 leading-relaxed">{position.positionRequirements}</p>
                 </div>
               )}
 
               {position.positionLocation && (
-                <div className="bg-white p-4 rounded border">
-                  <h2 className="text-lg font-semibold mb-2">Location</h2>
+                <div>
+                  <h2 className="text-lg font-semibold text-gray-900 mb-3">Location</h2>
                   <p className="text-gray-600">{position.positionLocation}</p>
                 </div>
               )}
             </div>
 
             {/* Application Questions */}
-            <div className="bg-white p-4 rounded border">
-              <h2 className="text-lg font-semibold mb-4">Application Form</h2>
+            <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+              <h2 className="text-lg font-semibold text-primary-900 mb-6">Application Form</h2>
 
               {position.requireResume && (
-                <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded">
-                  <p className="text-blue-600">
+                <div className="mb-6 p-4 bg-primary-50 border border-primary-100 rounded-lg">
+                  <p className="text-primary-700 text-sm">
                     Your resume will be sent in (This is the same resume in your account settings).
                     {(accountData?.resumeLink || accountData?.portfolioLink) && (
                       <> Your resume link and portfolio link will also be included in your application.</>
@@ -141,31 +152,39 @@ const Apply = () => {
               )}
 
               {position.positionQuestions && position.positionQuestions.map((question: string, index: number) => (
-                <div key={index} className="mb-4 last:mb-0">
-                  <label className="block mb-2 font-medium">{question}</label>
-                  <textarea
-                    {...register(`questions.${index}`)}
-                    className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+                <div key={index} className="mb-6 last:mb-0">
+                  <EntryField
+                    field={{
+                      name: `questions.${index}`,
+                      label: question,
+                      type: 'text',
+                      multiline: true,
+                      required: true,
+                      placeholder: 'Enter your answer'
+                    }}
+                    register={register}
                   />
                 </div>
               ))}
               
-              <div className="mb-4">
-                <label className="flex items-center space-x-2">
+              <div className="mt-8">
+                <label className="flex items-center space-x-3 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={acknowledgeRequirements}
                     onChange={(e) => setAcknowledgeRequirements(e.target.checked)}
-                    className="form-checkbox h-4 w-4 text-blue-500"
+                    className="form-checkbox h-5 w-5 text-blue-500 rounded border-gray-300 focus:ring-blue-500"
                   />
-                  <span className="text-gray-700">I confirm that I have read the description and meet the requirements.</span>
+                  <span className="text-gray-700">
+                    I confirm that I have read the description and meet the requirements.
+                  </span>
                 </label>
               </div>
 
-              <div className="mt-6">
+              <div className="mt-8">
                 <button
                   type="submit"
-                  className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                  className="w-full default-button"
                 >
                   Submit Application
                 </button>
@@ -174,9 +193,11 @@ const Apply = () => {
           </form>
         </>
       ) : (
-        <p className="text-center text-gray-500">Loading position details...</p>
+        <div className="text-center py-12">
+          <p className="text-gray-500">Loading position details...</p>
+        </div>
       )}
-    </div>
+    </motion.div>
   );
 };
 

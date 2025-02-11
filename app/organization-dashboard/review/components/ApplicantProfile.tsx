@@ -20,10 +20,6 @@ const ApplicantProfile: React.FC<ApplicantProfileProps> = ({ applicant, position
                         <h3 className="font-semibold text-gray-700">Education</h3>
                         <p className="default-text">{applicant.education}</p>
                     </div>
-                    <div>
-                        <h3 className="font-semibold text-gray-700">Current Employment</h3>
-                        <p className="default-text">{applicant.currentEmployment}</p>
-                    </div>
                     {applicant.resume && (
                         <div>
                             <h3 className="font-semibold text-gray-700">Resume</h3>
