@@ -1,41 +1,22 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { getUserAuth } from '@/utils/firebaseFunctions';
-import { getApplicationsByUser, setApplicantCommitment } from '@/utils/applicationFunctions';
+import React from 'react';
+import { setApplicantCommitment } from '@/utils/applicationFunctions';
 import { Applicant } from '@/data/types';
 
-const ActiveApplications = () => {
-  const [applications, setApplications] = useState<Applicant[]>([]);
-  const auth = getUserAuth(true);
+interface ActiveApplicationsProps {
+  applications: Applicant[];
+}
 
-  useEffect(() => {
-    let unsubscribe: () => void;
-
-    const setupSubscription = async () => {
-      if (auth.currentUser) {
-        unsubscribe = getApplicationsByUser(auth.currentUser.uid, (fetchedApplications) => {
-          setApplications(fetchedApplications);
-        });
-      }
-    };
-
-    setupSubscription();
-    return () => {
-      if (unsubscribe) {
-        unsubscribe();
-      }
-    };
-  }, [auth.currentUser]);
-
+const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications }) => {
   const getStatusColor = (status: string) => {
     switch(status) {
       case 'accepted':
-        return 'text-green-600';
+        return 'text-green-600 bg-green-500';
       case 'rejected':
-        return 'text-red-600';
+        return 'text-red-600 bg-red-500';
       default:
-        return 'text-yellow-600';
+        return 'text-yellow-600 bg-yellow-500';
     }
   };
 
@@ -53,57 +34,46 @@ const ActiveApplications = () => {
     }
   };
 
-  return (
-    <div className="space-y-6">
-      <h2 className="default-heading">Your Applications</h2>
-      
-      <div className="space-y-4">
-        {applications.length > 0 ? (
-          applications.map((application, index) => (
-            <div key={index} className="p-4 border rounded-lg shadow hover:shadow-md transition-shadow">
-              <div className="flex justify-between items-center">
-                <a 
-                  href={`/applicant-dashboard/apply?pid=${application.pid}`}
-                  className="text-blue-600 hover:text-blue-800 font-medium"
-                >
-                  Position ID: {application.pid}
-                </a>
-                <div className="flex items-center gap-4">
-                  <span className={`font-medium capitalize ${getStatusColor(application.status)}`}>
-                    {application.status}
-                  </span>
-                  {application.status === 'accepted' && (
-                    <div className="flex gap-2">
-                      {application.commitment ? (
-                        <span className="text-green-600 font-medium">
-                          {application.commitment === 'committed' ? 'Committed' : 'Withdrawn'}
-                        </span>
-                      ) : (
-                        <>
-                          <button
-                            onClick={() => handleCommitment(application.uid, true)}
-                            className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm"
-                          >
-                            Accept
-                          </button>
-                          <button
-                            onClick={() => handleCommitment(application.uid, false)}
-                            className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 text-sm"
-                          >
-                            Withdraw
-                          </button>
-                        </>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p className="text-gray-600">No active applications found.</p>
-        )}
+  if (!applications.length) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-gray-500">No active applications found.</p>
       </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      {applications.map((application) => (
+        <div key={application.pid} className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+          <div className="flex justify-between items-start mb-4">
+            <div>
+              <h3 className="text-lg font-semibold">{application.fullName}</h3>
+              <p className="text-gray-500 text-sm">Applied to: {application.pid}</p>
+            </div>
+            <span className={`px-3 py-1 rounded-lg text-sm font-medium ${getStatusColor(application.status)} bg-opacity-10`}>
+              {application.status}
+            </span>
+          </div>
+
+          {application.status === 'accepted' && !application.commitment && (
+            <div className="mt-6 flex gap-4">
+              <button
+                onClick={() => handleCommitment(application.uid, true)}
+                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors"
+              >
+                Commit
+              </button>
+              <button
+                onClick={() => handleCommitment(application.uid, false)}
+                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+              >
+                Withdraw
+              </button>
+            </div>
+          )}
+        </div>
+      ))}
     </div>
   );
 };
