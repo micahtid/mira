@@ -19,7 +19,7 @@ const ReviewPosition = () => {
   const [position, setPosition] = useState<DocumentData | null>(null);
   const [applicants, setApplicants] = useState<Applicant[]>([]);
   const [selectedApplicant, setSelectedApplicant] = useState<Applicant | null>(null);
-  const [activeTab, setActiveTab] = useState<'overview' | 'review'>('review');
+  const [activeTab, setActiveTab] = useState<'overview' | 'review'>('overview');
 
   useEffect(() => {
     if (pid) {

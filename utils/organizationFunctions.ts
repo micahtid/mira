@@ -49,8 +49,15 @@ export const deletePosition = async (pid: string) => {
   }
 
   try {
-    const positionRef = doc(firestore, "positions", pid);
-    await deleteDoc(positionRef);
+    const q = query(collection(firestore, "positions"), where("pid", "==", pid));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      throw new Error("Position not found");
+    }
+
+    const docRef = querySnapshot.docs[0].ref;
+    await deleteDoc(docRef);
     return true;
   } catch (error) {
     console.error("Error deleting position:", error);
@@ -150,6 +157,33 @@ export const toggleBookmarkStatus = async (uid: string) => {
     }
   } catch (error) {
     console.error("Error toggling applicant bookmark:", error);
+    throw error;
+  }
+};
+
+// Update position visibility!
+export const updateVisibility = async (pid: string, visible: boolean) => {
+  const app = initializeFirebase();
+  const auth = getUserAuth(true);
+  const firestore = getFireStore(true);
+  
+  if (!auth.currentUser) {
+    throw new Error("No authenticated user found");
+  }
+
+  try {
+    const q = query(collection(firestore, "positions"), where("pid", "==", pid));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      throw new Error("Position not found");
+    }
+
+    const docRef = querySnapshot.docs[0].ref;
+    await updateDoc(docRef, { visible });
+    return true;
+  } catch (error) {
+    console.error("Error updating position visibility:", error);
     throw error;
   }
 };

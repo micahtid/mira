@@ -63,10 +63,11 @@ const CreatePosition = () => {
                 return;
             }
 
-            const position: Omit<Position, 'positionApplicants'> = {
+            const position: Position = {
                 pid: uuidv4(),
                 oid: account.uid,
                 organizationName: accountData.organizationName || '',
+                ////////////////////////
                 positionTitle: formData.title,
                 positionType: positionType.value,
                 positionLocation: location,
@@ -74,8 +75,13 @@ const CreatePosition = () => {
                 positionDescription: formData.description,
                 positionRequirements: formData.requirements,
                 positionQuestions: questions,
+                ////////////////////////
                 requireResume: formData.requireResume,
-                availableSlots: formData.availableSlots
+                ////////////////////////
+                visible: true,
+                ////////////////////////
+                availableSlots: formData.availableSlots,
+                positionApplicants: 0
             };
 
             await addPosition(position);

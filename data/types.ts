@@ -35,6 +35,8 @@ export type Position = {
     ////////////////////////
     requireResume: boolean;
     ////////////////////////
+    visible: boolean;
+    ////////////////////////
     availableSlots: number;
     positionApplicants: number;
 }
