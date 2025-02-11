@@ -12,31 +12,49 @@ export const navBarLinks = [
 
 import { RegistrationType, FormField } from './types';
 import { FaUser, FaBuilding, FaEnvelope, FaLink, FaCalendar, FaGraduationCap, FaUpload } from "react-icons/fa";
+import { FaInstagram, FaGlobe } from "react-icons/fa";
+import { MdSchool } from "react-icons/md";
+import { IoMdDocument } from "react-icons/io";
 
 export const registrationFields: Record<RegistrationType, FormField[]> = {
     organization: [
         { 
             name: "organizationName", 
             label: "Organization Name", 
-            maxLength: 50, 
-            icon: <FaBuilding />,
+            type: "text",
             placeholder: "Enter organization name",
-            required: true
+            required: true,
+            maxLength: 50
         },
         { 
-            name: "email",
-            label: "Email",
-            type: "email",
-            icon: <FaEnvelope />,
-            placeholder: "Enter email address",
-            required: true
+            name: "organizationMission",
+            label: "Organization Mission",
+            type: "text",
+            placeholder: "Enter organization mission",
+            required: true,
+            maxLength: 100
         },
         { 
-            name: "website",
-            label: "Website (Optional)",
-            type: "url",
-            icon: <FaLink />,
+            name: "organizationDescription",
+            label: "Organization Description",
+            type: "text",
+            multiline: true,
+            placeholder: "Describe organization",
+            required: true,
+            maxLength: 500
+        },
+        { 
+            name: "organizationWebsite",
+            label: "Organization Website",
+            type: "text",
             placeholder: "Enter organization website",
+            required: false
+        },
+        { 
+            name: "organizationInstagram",
+            label: "Organization Instagram",
+            type: "text",
+            placeholder: "Enter organization Instagram",
             required: false
         }
     ],
@@ -44,62 +62,51 @@ export const registrationFields: Record<RegistrationType, FormField[]> = {
         { 
             name: "fullName", 
             label: "Full Name", 
-            maxLength: 50, 
-            icon: <FaUser />,
+            type: "text",
             placeholder: "Enter your full name",
-            required: true
+            required: true,
+            maxLength: 50
         },
         { 
-            name: "email",
-            label: "Email",
-            type: "email",
-            icon: <FaEnvelope />,
-            placeholder: "Enter email address",
+            name: "age",
+            label: "Age",
+            type: "number",
+            placeholder: "Enter your age",
             required: true
         },
         { 
             name: "education",
-            label: "Education",
-            maxLength: 100,
-            icon: <FaGraduationCap />,
-            placeholder: "Enter your education",
-            required: true
+            label: "Highest Level of Education",
+            type: "text",
+            placeholder: "Enter your highest education level",
+            required: true,
+            maxLength: 100
         },
         { 
-            name: "graduationDate",
-            label: "Graduation Date",
-            type: "date",
-            icon: <FaCalendar />,
-            placeholder: "Select your graduation date",
-            required: true
+            name: "resume",
+            label: "Resume",
+            type: "text",
+            multiline: true,
+            placeholder: "Write your resume here",
+            required: true,
+            maxLength: 1000
         },
-        {
+        { 
             name: "resumeLink",
-            label: "Resume Link (Optional)",
-            type: "url",
-            icon: <FaLink />,
-            placeholder: "Link to your resume (e.g., Google Drive)",
+            label: "Resume Link",
+            type: "text",
+            placeholder: "Link to your resume",
             required: false
         },
-        {
+        { 
             name: "portfolioLink",
-            label: "Portfolio Link (Optional)",
-            type: "url",
-            icon: <FaLink />,
+            label: "Portfolio Link",
+            type: "text",
             placeholder: "Link to your portfolio",
             required: false
-        },
-        {
-            name: "resumeFile",
-            label: "Resume Upload (Optional)",
-            type: "file",
-            icon: <FaUpload />,
-            placeholder: "Upload your resume",
-            required: false
-        },
+        }
     ],
 };
-
 
 ////////////////////////////////////////
 ////////////////////////////////////////

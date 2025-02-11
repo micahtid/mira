@@ -21,16 +21,18 @@ interface PositionCardProps {
   position: Position;
   allowApply?: boolean;
   onApply: (pid: string) => void;
+  router: any;
 }
 
-const PositionCard: React.FC<PositionCardProps> = ({ position, allowApply, onApply }) => {
+const PositionCard: React.FC<PositionCardProps> = ({ position, allowApply, onApply, router }) => {
   return (
     <div className="w-full bg-white rounded-lg border border-gray-100 p-4 shadow-sm hover:border-primary-200 transition-colors duration-200">
       <div className="space-y-3">
         <h3 className="default-text font-semibold text-gray-900">{position.positionTitle}</h3>
         
         <div className="flex items-center gap-4 text-gray-600">
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5 cursor-pointer hover:text-primary-600 transition-colors" 
+               onClick={() => router.push(`/organization?id=${position.oid}`)}>
             <HiOutlineBuildingOffice2 className="w-4 h-4" />
             <span className="default-text text-base">{position.organizationName}</span>
           </div>
@@ -129,6 +131,7 @@ const PositionListing = ({ allowApply }: PositionListingProps) => {
             position={position}
             allowApply={allowApply}
             onApply={handleApply}
+            router={router}
           />
         ))}
       </div>

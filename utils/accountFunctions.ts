@@ -59,7 +59,9 @@ export const addAccount = async (userData: {[key:string]: any}) => {
     await addDoc(collection(firestore, collectionName), {
       uid,
       ...userData,
-      createdAt: serverTimestamp()
+      profile: auth.currentUser.photoURL,
+      email: auth.currentUser.email,
+      createdAt: serverTimestamp(),
     });
     return true;
   } catch (error) {
