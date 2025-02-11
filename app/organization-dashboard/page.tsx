@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import DashboardNavBar from "@/components/dashboard/DashboardNavBar";
 
 import ManagePositions from "./components/ManagePositions";
-import PositionListing from "@/components/dashboard/PositionListing";
+import PositionListing from "@/components/dashboard/position-listing/PositionListing";
 import AccountSettings from "./components/AccountSettings";
 
 const OrganizationDashboard = () => {

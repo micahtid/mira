@@ -4,7 +4,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useAccount } from '@/providers/AccountProvider';
 import { updateAccount } from '@/utils/accountFunctions';
-import EntryField from '@/components/dashboard/EntryField';
+import EntryField from '@/components/common/EntryField';
 import { FormField } from '@/data/types';
 
 interface FormData {
@@ -96,7 +96,7 @@ const AccountSettings = () => {
         </div>
         <div>
           <h1 className="default-subheading">Update Your Application Profile</h1>
-          <p className="text-gray-500">Keep your information up to date to increase your chances of getting hired</p>
+          <p className="default-label text-gray-500">Keep your information up to date</p>
         </div>
       </div>
 

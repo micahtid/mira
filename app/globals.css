@@ -10,19 +10,19 @@
   }
 
   .default-heading {
-    @apply font-poppins font-semibold text-6xl max-lg:text-4xl
+    @apply font-poppins font-semibold text-5xl max-lg:text-3xl
   }
 
   .default-subheading {
-    @apply font-poppins font-semibold text-4xl max-lg:text-3xl
+    @apply font-poppins font-semibold text-3xl max-lg:text-2xl
   }
 
   .default-text {
-    @apply font-poppins text-xl max-lg:text-lg
+    @apply font-poppins text-lg max-lg:text-base
   }
 
   .default-label {
-    @apply font-poppins text-lg max-lg:text-base
+    @apply font-poppins text-base max-lg:text-sm
   }
 
   .default-button {

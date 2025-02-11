@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { HiOutlineSearch, HiOutlineFilter } from "react-icons/hi";
 import { positionTypeOptions, locationTypeOptions } from '@/data';
-import SelectField from './SelectField';
+import SelectField from '../../common/SelectField';
 import { SelectOption } from '@/data/types';
 
 interface PositionFiltersProps {
@@ -55,7 +55,12 @@ const PositionFilters: React.FC<PositionFiltersProps> = ({ onFiltersChange }) =>
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           placeholder="Search positions..."
-          className="w-full pl-10 pr-4 py-2 rounded-lg border border-primary-100 hover:border-primary-300 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none text-sm bg-gray-50"
+          className="w-full pl-10 pr-4 py-[10px]
+          rounded-[12px]
+          border border-primary-100 
+          hover:border-primary-300 
+          focus:border-primary-500 focus:ring-1 focus:ring-primary-500 
+          outline-none bg-gray-50 text-sm"
         />
       </div>
 
@@ -85,7 +90,9 @@ const PositionFilters: React.FC<PositionFiltersProps> = ({ onFiltersChange }) =>
 
         <button
           onClick={handleSearch}
-          className="self-end flex items-center gap-2 px-8 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors text-sm"
+          className="
+          default-button text-sm
+          self-end px-8 py-[12px]"
         >
           Find
         </button>

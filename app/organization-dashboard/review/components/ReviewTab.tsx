@@ -20,7 +20,7 @@ const ReviewTab: React.FC<ReviewTabProps> = ({ activeTab, onTabChange }) => {
                     <button
                         key={tab.id}
                         onClick={() => onTabChange(tab.id)}
-                        className={`px-4 py-3 transition-all relative
+                        className={`px-4 py-3 default-label transition-all relative
                             ${activeTab === tab.id 
                                 ? 'text-primary-600 font-medium' 
                                 : 'text-gray-500 hover:text-gray-700'

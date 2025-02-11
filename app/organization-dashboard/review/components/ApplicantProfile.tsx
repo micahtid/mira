@@ -10,11 +10,27 @@ interface ApplicantProfileProps {
     position: DocumentData | null;
 }
 
+const getStatusColor = (status: string) => {
+  switch (status) {
+    case 'accepted':
+      return 'bg-emerald-50 text-emerald-600'; 
+    case 'rejected':
+      return 'bg-rose-50 text-rose-600';       
+    default:
+      return 'bg-amber-50 text-amber-600';     
+  }
+};
+
 const ApplicantProfile: React.FC<ApplicantProfileProps> = ({ applicant, position }) => {
     return (
         <div className="space-y-6">
             <div>
-                <h2 className="default-subheading">{applicant.fullName}</h2>
+                <div className="flex items-center gap-2">
+                    <h1 className="default-subheading">{applicant.fullName}</h1>
+                    <span className={`px-3 py-1 rounded-full text-sm font-medium capitalize ${getStatusColor(applicant.status)}`}>
+                        {applicant.status}
+                    </span>
+                </div>
                 <div className="mt-4 space-y-4">
                     <div>
                         <h3 className="font-semibold text-gray-700">Education</h3>
@@ -83,7 +99,11 @@ const ApplicantProfile: React.FC<ApplicantProfileProps> = ({ applicant, position
                         }
                     }}
                     disabled={applicant.status !== 'pending'}
-                    className={`default-button bg-green-600 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed`}
+                    className={`default-button ${
+                        applicant.status === 'accepted' 
+                            ? getStatusColor('accepted')
+                            : 'bg-emerald-600 hover:bg-emerald-700'
+                    } disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
                     Accept
                 </button>
@@ -94,7 +114,11 @@ const ApplicantProfile: React.FC<ApplicantProfileProps> = ({ applicant, position
                         }
                     }}
                     disabled={applicant.status !== 'pending'}
-                    className={`default-button bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed`}
+                    className={`default-button ${
+                        applicant.status === 'rejected'
+                            ? getStatusColor('rejected')
+                            : 'bg-rose-600 hover:bg-rose-700'
+                    } disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
                     Reject
                 </button>

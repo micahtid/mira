@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { initializeFirebase } from "@/utils/firebaseFunctions";
 import { useAccount } from "./AccountProvider";
 
-import Loader from "@/components/Loader";
+import Loader from "@/components/common/Loader";
 
 // Undefined -> Loading
 // Null -> Not Logged In!

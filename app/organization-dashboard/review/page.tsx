@@ -49,7 +49,7 @@ const ReviewPosition = () => {
   }, [pid, selectedApplicant?.uid]);
 
   return (
-    <div className="default-container space-y-6">
+    <div className="default-container space-y-6 my-12">
       <div className="space-y-1">
         <h1 className="default-subheading text-gray-900">
           {position?.positionTitle || 'Loading position...'}

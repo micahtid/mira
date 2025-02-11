@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { getUserAuth } from "@/utils/firebaseFunctions";
 import { getApplicationsByUser } from "@/utils/applicationFunctions";
 import DashboardNavBar from "@/components/dashboard/DashboardNavBar";
-import PositionListing from "@/components/dashboard/PositionListing";
+import PositionListing from "@/components/dashboard/position-listing/PositionListing";
 import { Applicant } from "@/data/types";
 
 import AccountSettings from "./components/AccountSettings";
@@ -41,7 +41,7 @@ const ApplicantDashboard = () => {
       case "positions":
         return <PositionListing 
           allowApply={true} 
-          activeApplications={applications}
+          activeApplications={applications.map(app => app.pid)}
         />;
       case "active-applications":
         return <ActiveApplications applications={applications} />;

@@ -7,7 +7,7 @@ import { incrementApplicantCount } from '@/utils/applicationFunctions';
 import { addApplication, getPosition } from '@/utils/applicationFunctions';
 import { useForm } from 'react-hook-form';
 import { useAccount } from '@/providers/AccountProvider';
-import EntryField from '@/components/dashboard/EntryField';
+import EntryField from '@/components/common/EntryField';
 import { FormField } from '@/data/types';
 
 interface FormData {

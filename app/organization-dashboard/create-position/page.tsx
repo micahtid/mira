@@ -7,8 +7,8 @@ import { useAccount } from '@/providers/AccountProvider';
 import { addPosition } from '@/utils/organizationFunctions';
 import { Position, SelectOption } from '@/data/types';
 import { positionFields, positionTypeOptions, locationTypeOptions } from '@/data';
-import EntryField from '@/components/dashboard/EntryField';
-import SelectField from '@/components/dashboard/SelectField';
+import EntryField from '@/components/common/EntryField';
+import SelectField from '@/components/common/SelectField';
 import { v4 as uuidv4 } from 'uuid';
 
 type FormData = {
@@ -95,7 +95,7 @@ const CreatePosition = () => {
 
     return (
         <div className="default-container py-8">
-            <h1 className="text-2xl font-bold text-primary-900 mb-6">Create New Position</h1>
+            <h1 className="default-subheading mb-6">Create New Position</h1>
             
             <form onSubmit={handleFormSubmit(handleSubmit)} className="space-y-6">
                 {/* Position Type Select */}
@@ -159,7 +159,11 @@ const CreatePosition = () => {
                                 value={newQuestion}
                                 onChange={(e) => setNewQuestion(e.target.value)}
                                 placeholder="Add a question for applicants"
-                                className="flex-1 rounded-lg px-3 py-2 text-sm bg-gray-50 border border-primary-100 hover:border-primary-300 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none"
+                                className="
+                                flex-1 rounded-[12px] px-3 py-[10px]
+                                text-sm 
+                                bg-gray-50 border border-primary-100 hover:border-primary-300 
+                                focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none"
                             />
                             <button
                                 type="button"
@@ -186,7 +190,7 @@ const CreatePosition = () => {
 
                 <button
                     type="submit"
-                    className="w-full default-button"
+                    className="w-full default-button rounded-[12px]"
                 >
                     Create Position
                 </button>

@@ -4,7 +4,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useAccount } from '@/providers/AccountProvider';
 import { updateAccount } from '@/utils/accountFunctions';
-import EntryField from '@/components/dashboard/EntryField';
+import EntryField from '@/components/common/EntryField';
 import { FormField } from '@/data/types';
 
 interface FormData {
@@ -86,7 +86,7 @@ const AccountSettings = () => {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 mt-4">
       <div className="flex items-center gap-6">
         <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-100 border-4 border-white shadow-md">
           <img
@@ -96,7 +96,7 @@ const AccountSettings = () => {
         </div>
         <div>
           <h1 className="default-subheading">Update Organization Profile</h1>
-          <p className="text-gray-500">Keep your organization's information up to date</p>
+          <p className="default-label text-gray-500">Keep your organization's information up to date</p>
         </div>
       </div>
 

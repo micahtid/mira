@@ -3,6 +3,7 @@
 import React from 'react';
 import { setApplicantCommitment } from '@/utils/applicationFunctions';
 import { Applicant } from '@/data/types';
+import { toTitleCase } from '@/utils/misc';
 
 interface ActiveApplicationsProps {
   applications: Applicant[];
@@ -12,11 +13,11 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
   const getStatusColor = (status: string) => {
     switch(status) {
       case 'accepted':
-        return 'text-green-600 bg-green-500';
+        return 'bg-emerald-50 text-emerald-600';
       case 'rejected':
-        return 'text-red-600 bg-red-500';
+        return 'bg-red-50 text-red-600';
       default:
-        return 'text-yellow-600 bg-yellow-500';
+        return 'bg-amber-50 text-amber-600';
     }
   };
 
@@ -43,16 +44,20 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 mt-4">
+      <div>
+        <h1 className="default-subheading">Active Applications</h1>
+        <p className="default-label text-gray-500">Review and manage your applications</p>
+      </div>
       {applications.map((application) => (
-        <div key={application.pid} className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+        <div key={application.pid} className="bg-white p-6 rounded-lg border border-gray-100 hover:border-primary-200 transition-all duration-200">
           <div className="flex justify-between items-start mb-4">
             <div>
-              <h3 className="text-lg font-semibold">{application.fullName}</h3>
-              <p className="text-gray-500 text-sm">Applied to: {application.pid}</p>
+              <h3 className="default-text font-semibold text-gray-900">{application.fullName}</h3>
+              <p className="text-sm text-gray-500">Applied to: {application.pid}</p>
             </div>
-            <span className={`px-3 py-1 rounded-lg text-sm font-medium ${getStatusColor(application.status)} bg-opacity-10`}>
-              {application.status}
+            <span className={`px-3 py-1 rounded-lg text-sm font-medium ${getStatusColor(application.status)}`}>
+              {toTitleCase(application.status)}
             </span>
           </div>
 
@@ -60,13 +65,13 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
             <div className="mt-6 flex gap-4">
               <button
                 onClick={() => handleCommitment(application.uid, true)}
-                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors"
+                className="px-4 py-2 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors"
               >
                 Commit
               </button>
               <button
                 onClick={() => handleCommitment(application.uid, false)}
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+                className="px-4 py-2 bg-gray-100 text-gray-600 font-medium rounded-lg hover:bg-gray-200 transition-colors"
               >
                 Withdraw
               </button>

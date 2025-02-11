@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { addAccount } from "@/utils/accountFunctions";
 import { signOut } from "@/utils/firebaseFunctions";
 
-import EntryField from "@/components/dashboard/EntryField";
+import EntryField from "@/components/common/EntryField";
 import TypeSelector from "./components/TypeSelector";
 
 import { registrationFields } from "@/data";

@@ -7,7 +7,7 @@ import { getAccount } from '@/utils/accountFunctions';
 import { format } from 'date-fns';
 import { FaGlobe, FaInstagram } from 'react-icons/fa';
 
-import Loader from '@/components/Loader';
+import Loader from '@/components/common/Loader';
 
 export default function OrganizationPage() {
   const searchParams = useSearchParams();
@@ -47,86 +47,90 @@ export default function OrganizationPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+    <div className="default-container py-4 my-16">
+      <div className="space-y-8">
         {/* Header with Profile Image */}
-        <div className="relative h-48 bg-gradient-to-r from-blue-500 to-purple-500">
-          <div className="absolute -bottom-16 left-8">
-            <div className="w-32 h-32 rounded-full border-4 border-white overflow-hidden bg-gray-100">
-              {organization.profile ? (
-                <img
-                  src={organization.profile}
-                  alt={organization.organizationName}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gray-200">
-                  <span className="text-3xl text-gray-400">
-                    {organization.organizationName.charAt(0)}
-                  </span>
-                </div>
-              )}
-            </div>
+        <div className="flex items-start gap-6">
+          <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-50 border border-gray-100 flex-shrink-0">
+            {organization.profile ? (
+              <img
+                src={organization.profile}
+                alt={organization.organizationName}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center">
+                <span className="text-xl text-gray-400">
+                  {organization.organizationName.charAt(0).toUpperCase()}
+                </span>
+              </div>
+            )}
+          </div>
+          
+          <div>
+            <h1 className="default-heading mb-1">{organization.organizationName}</h1>
+            <p className="default-label text-gray-500">Organization Profile</p>
           </div>
         </div>
 
         {/* Content */}
-        <div className="pt-20 px-8 pb-8">
-          <h1 className="text-3xl font-bold text-gray-900">{organization.organizationName}</h1>
-          
+        <div className="space-y-8">
           {/* Social Links */}
-          <div className="mt-4 flex gap-4">
-            <div className="flex items-center gap-2 text-gray-600">
-              <FaGlobe className="text-lg" />
-              {organization.organizationWebsite ? (
-                <a 
-                  href={organization.organizationWebsite}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-blue-500 transition-colors"
-                >
-                  Website
-                </a>
-              ) : (
-                <span className="text-gray-400">Website unavailable</span>
-              )}
-            </div>
-            <div className="flex items-center gap-2 text-gray-600">
-              <FaInstagram className="text-lg" />
-              {organization.organizationInstagram ? (
-                <a 
-                  href={`https://instagram.com/${organization.organizationInstagram}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-pink-500 transition-colors"
-                >
-                  @{organization.organizationInstagram}
-                </a>
-              ) : (
-                <span className="text-gray-400">Instagram unavailable</span>
-              )}
+          <div>
+            <h2 className="default-subheading">Connect With Us</h2>
+            <div className="flex gap-6 mt-2">
+              <div className="flex items-center gap-2">
+                <FaGlobe className="text-gray-400" />
+                {organization.organizationWebsite ? (
+                  <a 
+                    href={organization.organizationWebsite}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="default-text text-gray-400"
+                  >
+                    Website
+                  </a>
+                ) : (
+                  <span className="default-text text-gray-400">Website Unavailable</span>
+                )}
+              </div>
+              <div className="flex items-center gap-2">
+                <FaInstagram className="text-gray-400" />
+                {organization.organizationInstagram ? (
+                  <a 
+                    href={`https://instagram.com/${organization.organizationInstagram}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="default-text text-gray-400"
+                  >
+                    @{organization.organizationInstagram}
+                  </a>
+                ) : (
+                  <span className="default-text text-gray-400">Instagram Unavailable</span>
+                )}
+              </div>
             </div>
           </div>
 
           {/* Mission */}
-          <div className="mt-8">
-            <h2 className="text-xl font-semibold text-gray-900">Our Mission</h2>
-            <p className="mt-2 text-gray-600 leading-relaxed">
+          <div>
+            <h2 className="default-subheading">Our Mission</h2>
+            <p className="default-text text-gray-700 mt-2 whitespace-pre-wrap">
               {organization.organizationMission}
             </p>
           </div>
 
           {/* Description */}
-          <div className="mt-8">
-            <h2 className="text-xl font-semibold text-gray-900">About Us</h2>
-            <p className="mt-2 text-gray-600 leading-relaxed">
+          <div>
+            <h2 className="default-subheading">About Us</h2>
+            <p className="default-text text-gray-700 mt-2 whitespace-pre-wrap">
               {organization.organizationDescription}
             </p>
           </div>
 
           {/* Member Since */}
-          <div className="mt-8 pt-6 border-t border-gray-200">
-            <p className="text-sm text-gray-500">
+          <div className="pt-4 border-t border-gray-100">
+            <p className="default-label text-gray-500">
               Member since {format((organization.createdAt as Timestamp).toDate(), 'MMMM d, yyyy')}
             </p>
           </div>
