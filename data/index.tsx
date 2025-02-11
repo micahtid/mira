@@ -115,12 +115,11 @@ export const registrationFields: Record<RegistrationType, FormField[]> = {
 export const positionTypeOptions = [
     { value: 'volunteer', label: 'Volunteer' },
     { value: 'internship', label: 'Internship' },
-    { value: 'branch founder', label: 'Branch Founder' },
-    { value: 'project lead', label: 'Project Lead' },
-    { value: 'coordinator', label: 'Coordinator' },
-    { value: 'advisor', label: 'Advisor' },
-    { value: 'mentor', label: 'Mentor' },
-    { value: 'ambassador', label: 'Ambassador' }
+    { value: 'part-time', label: 'Part-Time' },
+    { value: 'full-time', label: 'Full-Time' },
+    { value: 'branch-founder', label: 'Branch Founder' },
+    { value: 'board-member', label: 'Board Member' },
+    { value: 'other', label: 'Other' },
 ] as const;
 
 export const locationTypeOptions = [

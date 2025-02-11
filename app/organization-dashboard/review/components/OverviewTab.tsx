@@ -3,6 +3,7 @@
 import React from 'react';
 import { DocumentData } from 'firebase/firestore';
 import { Applicant } from '@/data/types';
+import { toTitleCase } from '@/utils/misc';
 
 interface OverviewTabProps {
     applicants: Applicant[];
@@ -97,6 +98,69 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ applicants, position }) => {
                             })}
                         </tbody>
                     </table>
+                </div>
+            )}
+            {position && (
+                <div>
+                    <h2 className="text-lg font-semibold mb-4">Position Overview</h2>
+                    <div className="bg-white rounded-lg border border-gray-100 shadow-sm">
+                        {/* Header Section */}
+                        <div className="p-6 border-b border-gray-100">
+                            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                                {position.positionTitle}
+                            </h3>
+                            <div className="flex flex-wrap gap-3">
+                                <span className="px-3 py-1 bg-primary-50 text-primary-600 rounded-lg text-sm font-medium">
+                                    {toTitleCase(position.positionType)}
+                                </span>
+                                <span className="px-3 py-1 bg-gray-50 text-gray-600 rounded-lg text-sm font-medium">
+                                    {position.positionLocation || "Remote"}
+                                </span>
+                                {position.requireResume && (
+                                    <span className="px-3 py-1 bg-gray-50 text-gray-600 rounded-lg text-sm font-medium">
+                                        Resume Required
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Content Sections */}
+                        <div className="divide-y divide-gray-100">
+                            {/* Description */}
+                            <div className="p-6">
+                                <h4 className="text-sm font-medium text-gray-500 mb-3">Description</h4>
+                                <p className="text-gray-700 whitespace-pre-wrap">
+                                    {position.positionDescription}
+                                </p>
+                            </div>
+
+                            {/* Requirements */}
+                            <div className="p-6">
+                                <h4 className="text-sm font-medium text-gray-500 mb-3">Requirements</h4>
+                                <p className="text-gray-700 whitespace-pre-wrap">
+                                    {position.positionRequirements || "No specific requirements listed"}
+                                </p>
+                            </div>
+
+                            {/* Application Questions */}
+                            <div className="p-6">
+                                <h4 className="text-sm font-medium text-gray-500 mb-3">Application Questions</h4>
+                                {position.positionQuestions?.length > 0 ? (
+                                    <div className="space-y-4">
+                                        {position.positionQuestions.map((question: string, index: number) => (
+                                            <div key={index} className="bg-gray-50 p-4 rounded-lg">
+                                                <p className="text-sm text-gray-900">
+                                                    {index + 1}. {question}
+                                                </p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <p className="text-gray-500">No application questions</p>
+                                )}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>
