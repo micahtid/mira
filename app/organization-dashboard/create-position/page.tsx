@@ -1,15 +1,19 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import { useAccount } from '@/providers/AccountProvider';
+
 import { addPosition } from '@/utils/organizationFunctions';
 import { Position, SelectOption } from '@/data/types';
 import { positionFields, positionTypeOptions, locationTypeOptions } from '@/data';
+
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { useAccount } from '@/providers/AccountProvider';
+import { toast } from "react-hot-toast";
+import { v4 as uuidv4 } from 'uuid';
+
 import EntryField from '@/components/common/EntryField';
 import SelectField from '@/components/common/SelectField';
-import { v4 as uuidv4 } from 'uuid';
 
 type FormData = {
     title: string;
@@ -44,12 +48,12 @@ const CreatePosition = () => {
 
     const handleSubmit = async (formData: FormData) => {
         if (!account || !accountData) {
-            alert('Please sign in to create a position.');
+            toast.error('Please sign in to create a position.');
             return;
         }
 
         if (!positionType) {
-            alert('Please select a position type.');
+            toast.error('Please select a position type.');
             return;
         }
 
@@ -59,7 +63,7 @@ const CreatePosition = () => {
             const location = locationType.value === 'remote' ? null : formData.location || '';
             
             if (locationType.value === 'on-site' && !location) {
-                alert('Please provide a location for on-site positions.');
+                toast.error('Please provide a location for on-site positions.');
                 return;
             }
 
@@ -85,11 +89,11 @@ const CreatePosition = () => {
             };
 
             await addPosition(position);
-            alert('Position created successfully!');
+            toast.success('Position created successfully!');
             router.push('/organization-dashboard');
         } catch (error) {
             console.error('Error creating position:', error);
-            alert('Failed to create position. Please try again.');
+            toast.error('Failed to create position. Please try again.');
         }
     };
 

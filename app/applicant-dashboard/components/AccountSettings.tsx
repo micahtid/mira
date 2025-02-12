@@ -1,11 +1,13 @@
 'use client';
 
-import React from 'react';
+import { updateAccount } from '@/utils/accountFunctions';
+import { FormField } from '@/data/types';
+
 import { useForm } from 'react-hook-form';
 import { useAccount } from '@/providers/AccountProvider';
-import { updateAccount } from '@/utils/accountFunctions';
+import { toast } from 'react-hot-toast';
+
 import EntryField from '@/components/common/EntryField';
-import { FormField } from '@/data/types';
 
 interface FormData {
   fullName: string;
@@ -16,8 +18,8 @@ interface FormData {
 }
 
 const AccountSettings = () => {
-  const { accountData } = useAccount();
-  const { register, handleSubmit, formState: { isDirty } } = useForm<FormData>({
+  const { account, accountData } = useAccount();
+  const { register, handleSubmit, formState: { isDirty }, reset } = useForm<FormData>({
     defaultValues: {
       fullName: accountData?.fullName || '',
       education: accountData?.education || '',
@@ -30,13 +32,16 @@ const AccountSettings = () => {
   const onSubmit = async (data: FormData) => {
     try {
       await updateAccount({
+        uid: account?.uid,
         type: 'individual',
         ...data
       });
-      alert('Profile updated successfully!');
+      toast.success('Profile updated successfully!');
+      // Reset form with new values to update dirty state
+      reset(data, { keepDirty: false });
     } catch (error) {
       console.error('Error updating profile:', error);
-      alert('Failed to update profile. Please try again.');
+      toast.error('Failed to update profile. Please try again.');
     }
   };
 

@@ -1,18 +1,24 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+
 import { DocumentData, Timestamp } from 'firebase/firestore';
-import { useAccount } from '@/providers/AccountProvider';
 import { getPositionsByOrg, deletePosition, updateVisibility } from '@/utils/organizationFunctions';
-import { useRouter } from 'next/navigation';
-import * as Switch from '@radix-ui/react-switch';
 import { toTitleCase } from '@/utils/misc';
+
+import { useRouter } from 'next/navigation';
+import { useAccount } from '@/providers/AccountProvider';
+import { useConfirmationModal } from "@/hooks/useConfirmationModal";
+import { toast } from "react-hot-toast";
+
+import * as Switch from '@radix-ui/react-switch';
 
 const ManagePositions = () => {
   const { account } = useAccount();
   const [positions, setPositions] = useState<DocumentData[]>([]);
   const [deleting, setDeleting] = useState<string | null>(null);
   const router = useRouter();
+  const { onOpen } = useConfirmationModal();
 
   const formatDate = (timestamp: Timestamp) => {
     if (!timestamp) return '';
@@ -35,25 +41,28 @@ const ManagePositions = () => {
   }, [account?.uid]);
 
   const handleDelete = async (pid: string) => {
-    if (!confirm("Are you sure you want to delete this position? This action cannot be undone.")) return;
-    
-    try {
-      setDeleting(pid);
-      await deletePosition(pid);
-      setDeleting(null);
-    } catch (error) {
-      console.error("Error deleting position:", error);
-      alert("Failed to delete position. Please try again.");
-      setDeleting(null);
-    }
+    onOpen(
+      "Are you sure you want to delete this position? This action cannot be undone.",
+      async () => {
+        try {
+          setDeleting(pid);
+          await deletePosition(pid);
+          setDeleting(null);
+          router.refresh();
+        } catch (error) {
+          toast.error("Failed to delete position. Please try again.");
+          setDeleting(null);
+        }
+      }
+    );
   };
 
   const handleVisibilityChange = async (pid: string, newVisibility: boolean) => {
     try {
       await updateVisibility(pid, newVisibility);
+      router.refresh();
     } catch (error) {
-      console.error("Error updating position visibility:", error);
-      alert("Failed to update visibility. Please try again.");
+      toast.error("Failed to update visibility. Please try again.");
     }
   };
 
@@ -77,7 +86,7 @@ const ManagePositions = () => {
           positions.map((position) => (
             <div 
               key={position.pid} 
-              className="w-full bg-white rounded-lg border border-gray-100 p-6 shadow-sm hover:border-primary-200 transition-colors duration-200"
+              className="w-full default-card"
             >
               <div className="flex flex-col gap-4">
                 {/* Title and Type Row */}

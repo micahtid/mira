@@ -1,15 +1,18 @@
 'use client';
 
-import React from 'react';
 import { setApplicantCommitment } from '@/utils/applicationFunctions';
 import { Applicant } from '@/data/types';
+
 import { toTitleCase } from '@/utils/misc';
+import { useConfirmationModal } from "@/hooks/useConfirmationModal";
+import { toast } from "react-hot-toast";
 
 interface ActiveApplicationsProps {
   applications: Applicant[];
 }
 
 const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications }) => {
+  const { onOpen } = useConfirmationModal();
   const getStatusColor = (status: string) => {
     switch(status) {
       case 'accepted':
@@ -23,16 +26,16 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
 
   const handleCommitment = async (uid: string, isCommitting: boolean) => {
     const action = isCommitting ? 'accept' : 'withdraw from';
-    const confirmed = window.confirm(`Are you sure you want to ${action} this position? This action cannot be undone if you accept.`);
-    
-    if (confirmed) {
-      try {
-        await setApplicantCommitment(uid, isCommitting);
-      } catch (error) {
-        console.error('Error updating commitment:', error);
-        alert('Failed to update commitment status. Please try again.');
+    onOpen(
+      `Are you sure you want to ${action} this position? This action cannot be undone if you accept.`,
+      async () => {
+        try {
+          await setApplicantCommitment(uid, isCommitting);
+        } catch (error) {
+          toast.error('Failed to update commitment status. Please try again.');
+        }
       }
-    }
+    );
   };
 
   if (!applications.length) {
@@ -50,7 +53,7 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
         <p className="default-label text-gray-500">Review and manage your applications</p>
       </div>
       {applications.map((application) => (
-        <div key={application.pid} className="bg-white p-6 rounded-lg border border-gray-100 hover:border-primary-200 transition-all duration-200">
+        <div key={application.pid} className="default-card">
           <div className="flex justify-between items-start mb-4">
             <div>
               <h3 className="default-text font-semibold text-gray-900">{application.fullName}</h3>

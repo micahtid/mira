@@ -3,12 +3,15 @@
 import React, { useEffect, useState } from 'react';
 import { DocumentData } from 'firebase/firestore';
 import { useSearchParams, useRouter } from 'next/navigation';
+
 import { incrementApplicantCount } from '@/utils/applicationFunctions';
 import { addApplication, getPosition } from '@/utils/applicationFunctions';
+
 import { useForm } from 'react-hook-form';
 import { useAccount } from '@/providers/AccountProvider';
+import { toast } from 'react-hot-toast';
+
 import EntryField from '@/components/common/EntryField';
-import { FormField } from '@/data/types';
 
 interface FormData {
   questions: string[];
@@ -36,17 +39,17 @@ const Apply = () => {
 
   const onSubmit = async (data: FormData) => {
     if (!acknowledgeRequirements) {
-      alert('Please confirm that you have read the description and meet the requirements.');
+      toast.error('Please confirm that you have read the description and meet the requirements.');
       return;
     }
 
     if (!accountData) {
-      alert('Please sign in to submit an application.');
+      toast.error('Please sign in to submit an application.');
       return;
     }
 
     if (!pid) {
-      alert('Invalid position ID.');
+      toast.error('Invalid position ID.');
       return;
     }
 
@@ -85,12 +88,12 @@ const Apply = () => {
       await addApplication(applicationData);
       await incrementApplicantCount(pid);
 
-      alert('Application submitted successfully!');
+      toast.success('Application submitted successfully!');
       router.push('/applicant-dashboard');
 
     } catch (error) {
       console.error('Error submitting application:', error);
-      alert('Failed to submit application. Please try again.');
+      toast.error('Failed to submit application. Please try again.');
     }
   };
 

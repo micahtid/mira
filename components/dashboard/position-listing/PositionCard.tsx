@@ -51,9 +51,9 @@ const PositionCard: React.FC<PositionCardProps> = ({
   return (
     <div
       onClick={onClick}
-      className={`cursor-pointer p-6 bg-white rounded-lg border transition-all duration-200 ${
+      className={`cursor-pointer default-card ${
         isSelected 
-          ? 'border-primary-500 shadow-md' 
+          ? 'border-primary-500 hover:border-primary-500 shadow-md' 
           : 'border-gray-100 hover:border-primary-200'
       }`}
     >

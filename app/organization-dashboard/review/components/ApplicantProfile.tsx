@@ -1,9 +1,9 @@
 'use client';
 
-import React from 'react';
 import { DocumentData } from 'firebase/firestore';
 import { Applicant } from '@/data/types';
 import { setApplicationStatus, toggleBookmarkStatus } from '@/utils/organizationFunctions';
+import { useConfirmationModal } from "@/hooks/useConfirmationModal";
 
 interface ApplicantProfileProps {
     applicant: Applicant;
@@ -22,6 +22,8 @@ const getStatusColor = (status: string) => {
 };
 
 const ApplicantProfile: React.FC<ApplicantProfileProps> = ({ applicant, position }) => {
+    const { onOpen } = useConfirmationModal();
+
     return (
         <div className="space-y-6">
             <div>
@@ -93,10 +95,17 @@ const ApplicantProfile: React.FC<ApplicantProfileProps> = ({ applicant, position
             {/* Action Buttons */}
             <div className="flex gap-4 pt-4">
                 <button 
-                    onClick={async () => {
-                        if (window.confirm('Are you sure you want to accept this applicant? This action cannot be undone.')) {
-                            await setApplicationStatus(applicant.uid, "accepted");
-                        }
+                    onClick={() => {
+                        onOpen(
+                            'Are you sure you want to accept this applicant? This action cannot be undone.',
+                            async () => {
+                                try {
+                                    await setApplicationStatus(applicant.uid, "accepted");
+                                } catch (error) {
+                                    console.error('Failed to update status:', error);
+                                }
+                            }
+                        );
                     }}
                     disabled={applicant.status !== 'pending'}
                     className={`default-button ${
@@ -108,10 +117,17 @@ const ApplicantProfile: React.FC<ApplicantProfileProps> = ({ applicant, position
                     Accept
                 </button>
                 <button 
-                    onClick={async () => {
-                        if (window.confirm('Are you sure you want to reject this applicant? This action cannot be undone.')) {
-                            await setApplicationStatus(applicant.uid, "rejected");
-                        }
+                    onClick={() => {
+                        onOpen(
+                            'Are you sure you want to reject this applicant? This action cannot be undone.',
+                            async () => {
+                                try {
+                                    await setApplicationStatus(applicant.uid, "rejected");
+                                } catch (error) {
+                                    console.error('Failed to update status:', error);
+                                }
+                            }
+                        );
                     }}
                     disabled={applicant.status !== 'pending'}
                     className={`default-button ${
