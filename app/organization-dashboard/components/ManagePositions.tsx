@@ -50,7 +50,7 @@ const ManagePositions = () => {
           setDeleting(null);
           router.refresh();
 
-        } catch {s
+        } catch {
           toast.error("Failed to delete position. Please try again.");
           setDeleting(null);
         }
