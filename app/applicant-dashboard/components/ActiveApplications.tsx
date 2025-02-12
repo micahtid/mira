@@ -7,6 +7,8 @@ import { toTitleCase } from '@/utils/misc';
 import { useConfirmationModal } from "@/hooks/useConfirmationModal";
 import { toast } from "react-hot-toast";
 
+import Link from 'next/link';
+
 interface ActiveApplicationsProps {
   applications: Applicant[];
 }
@@ -71,7 +73,11 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
           <div className="flex justify-between items-start">
             <div>
               <h3 className="default-text font-semibold text-gray-900">{application.fullName}</h3>
-              <p className="text-sm text-gray-500">Applied to: {application.pid}</p>
+              <p className="text-sm text-gray-500">
+                Applied to: <Link href={`/applicant-dashboard/application-preview?pid=${application.pid}`} className="text-primary-600 hover:text-primary-700">
+                  {application.pid}
+                </Link>
+              </p>
             </div>
             <div className="flex items-center">
               <span className={`px-3 py-1 rounded-lg text-sm font-medium ${getStatusColor(application.status)}`}>

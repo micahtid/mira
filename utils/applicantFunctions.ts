@@ -2,6 +2,7 @@ import {
   addDoc,
   collection,
   doc,
+  getDoc,
   getDocs,
   increment,
   onSnapshot,
@@ -22,7 +23,7 @@ export const getAllPositions = (onUpdate: (positions: Position[]) => void) => {
 
   const q = query(
     collection(firestore, `/positions`),
-    orderBy("createdAt")
+    orderBy("createdAt", "desc")
   );
 
   return onSnapshot(q, (querySnapshot) => {
@@ -53,6 +54,30 @@ export const getPosition = (
     } else {
       onUpdate(null);
     }
+  });
+};
+
+// Get a single application!
+export const getApplication = (
+  uid: string, 
+  pid: string,
+  onUpdate: (application: Applicant | null) => void
+) => {
+  const firestore = getFireStore(true);
+  const applicationsRef = collection(firestore, "applications");
+  
+  const q = query(
+    applicationsRef,
+    where("uid", "==", uid),
+    where("pid", "==", pid)
+  );
+
+  return onSnapshot(q, (querySnapshot) => {
+    if (querySnapshot.empty) {
+      onUpdate(null);
+      return;
+    }
+    onUpdate(querySnapshot.docs[0].data() as Applicant);
   });
 };
 

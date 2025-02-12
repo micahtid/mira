@@ -37,4 +37,9 @@
     border border-gray-100 hover:border-primary-200 
     transition-all duration-200
   }
+
+  .default-tag {
+    @apply px-3 py-1 rounded-lg 
+    default-label bg-primary-400/10 text-primary-400
+  }
 }
