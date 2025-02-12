@@ -4,7 +4,7 @@ import { FormField } from '@/data/types';
 
 interface EntryFieldProps {
     field: FormField;
-    //@typescript-eslint/no-explicit-any
+    // @typescript-eslint/no-explicit-any
     register: UseFormRegister<any>;
 }
 

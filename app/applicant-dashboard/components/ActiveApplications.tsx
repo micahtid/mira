@@ -48,7 +48,7 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
         try {
           await setApplicantCommitment(uid, isCommitting);
 
-        } catch (error) {
+        } catch (_) {
           toast.error('Failed to update commitment status. Please try again.');
         }
       }
