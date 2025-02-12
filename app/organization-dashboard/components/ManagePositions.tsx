@@ -50,8 +50,7 @@ const ManagePositions = () => {
           setDeleting(null);
           router.refresh();
 
-        } catch (_) {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch {s
           toast.error("Failed to delete position. Please try again.");
           setDeleting(null);
         }
@@ -64,8 +63,7 @@ const ManagePositions = () => {
       await updateVisibility(pid, newVisibility);
       router.refresh();
 
-    } catch (_) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch {
       toast.error("Failed to update visibility. Please try again.");
     }
   };
