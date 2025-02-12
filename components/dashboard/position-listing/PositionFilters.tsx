@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { HiOutlineSearch, HiOutlineFilter } from "react-icons/hi";
+import { HiOutlineSearch } from "react-icons/hi";
 import { positionTypeOptions, locationTypeOptions } from '@/data';
 import SelectField from '../../common/SelectField';
 import { SelectOption } from '@/data/types';

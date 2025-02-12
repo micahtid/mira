@@ -14,7 +14,7 @@ import { RegistrationType } from "@/data/types";
 
 const Registration = () => {
     const [registrationType, setRegistrationType] = useState<RegistrationType>("individual");
-    const { register, handleSubmit, reset, formState: { errors } } = useForm();
+    const { register, handleSubmit, reset } = useForm();
 
     const onSubmit = async (formData: any) => {
         try {

@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { DocumentData } from 'firebase/firestore';
-import { useRouter } from 'next/navigation';
 import { getAllPositions } from '@/utils/applicantFunctions';
 
 import PositionFilters from './PositionFilters';
@@ -24,7 +23,6 @@ export default function PositionListing({
   allowApply = false, 
   activeApplications = [] 
 }: PositionListingProps) {
-  const router = useRouter();
   const [positions, setPositions] = useState<DocumentData[]>([]);
   const [filteredPositions, setFilteredPositions] = useState<DocumentData[]>([]);
   const [selectedPosition, setSelectedPosition] = useState<DocumentData | null>(null);

@@ -39,6 +39,7 @@ const AccountSettings = () => {
       toast.success('Profile updated successfully!');
       // Reset form with new values to update dirty state
       reset(data, { keepDirty: false });
+      
     } catch (error) {
       console.error('Error updating profile:', error);
       toast.error('Failed to update profile. Please try again.');

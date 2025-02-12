@@ -22,6 +22,7 @@ export default function OrganizationPage() {
       try {
         const org = await getAccount(id);
         setOrganization(org);
+
       } catch (error) {
         console.error('Error fetching organization:', error);
       } finally {

@@ -146,7 +146,7 @@ const CreatePosition = () => {
                             className="form-checkbox h-4 w-4 text-primary-500 rounded focus:ring-primary-500 border-gray-300"
                         />
                         <span className="text-sm text-gray-600">
-                            Require Applicants' Resumes (& Portfolios)
+                            Require Applicants&apos; Resumes (& Portfolios)
                         </span>
                     </div>
                 </div>

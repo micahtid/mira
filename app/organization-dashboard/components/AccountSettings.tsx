@@ -39,6 +39,7 @@ const AccountSettings = () => {
       toast.success('Organization profile updated successfully!');
       // Reset form with new values to update dirty state
       reset(data, { keepDirty: false });
+
     } catch (error) {
       console.error('Error updating organization profile:', error);
       toast.error('Failed to update profile. Please try again.');
@@ -101,7 +102,7 @@ const AccountSettings = () => {
         </div>
         <div>
           <h1 className="default-subheading">Update Organization Profile</h1>
-          <p className="default-label text-gray-500">Keep your organization's information up to date</p>
+          <p className="default-label text-gray-500">Keep your organization&apos;s information up to date</p>
         </div>
       </div>
 
