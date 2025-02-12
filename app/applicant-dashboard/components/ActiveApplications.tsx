@@ -49,6 +49,7 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
           await setApplicantCommitment(uid, isCommitting);
 
         } catch (_) {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           toast.error('Failed to update commitment status. Please try again.');
         }
       }

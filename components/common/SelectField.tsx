@@ -24,7 +24,7 @@ const SelectField = ({
     isClearable,
 }: SelectFieldProps) => {
     const customStyles = {
-        // @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         control: (base: any, state: any) => ({
             ...base,
             minHeight: '42px',
@@ -36,7 +36,7 @@ const SelectField = ({
                 borderColor: '#a78bfa', 
             },
         }),
-        // @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         placeholder: (base: any) => ({
             ...base,
             fontSize: '13.5px', // Placeholder Text Size

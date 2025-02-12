@@ -51,6 +51,7 @@ const ManagePositions = () => {
           router.refresh();
 
         } catch (_) {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           toast.error("Failed to delete position. Please try again.");
           setDeleting(null);
         }
@@ -64,6 +65,7 @@ const ManagePositions = () => {
       router.refresh();
 
     } catch (_) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       toast.error("Failed to update visibility. Please try again.");
     }
   };
