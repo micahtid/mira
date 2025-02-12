@@ -45,9 +45,10 @@ export interface Applicant {
     pid: string;
     uid: string;
     fullName: string;
+    email: string;
     ////////////////////////
     status: string;                         // "pending" | "accepted" | "rejected"
-    commitment?: string                     // "committed" | "uncommitted"
+    committed?: boolean              
     bookMark: boolean;
     ////////////////////////
     education: string;

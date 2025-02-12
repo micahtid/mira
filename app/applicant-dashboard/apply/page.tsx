@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { DocumentData } from 'firebase/firestore';
 import { useSearchParams, useRouter } from 'next/navigation';
 
-import { incrementApplicantCount } from '@/utils/applicationFunctions';
-import { addApplication, getPosition } from '@/utils/applicationFunctions';
+import { incrementApplicantCount } from '@/utils/applicantFunctions';
+import { addApplication, getPosition } from '@/utils/applicantFunctions';
 
 import { useForm } from 'react-hook-form';
 import { useAccount } from '@/providers/AccountProvider';

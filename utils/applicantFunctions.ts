@@ -72,6 +72,7 @@ export const addApplication = async (applicationData: Partial<Applicant>) => {
       uid,
       status: "pending",
       bookMark: false,
+      email: auth.currentUser.email,
       ...applicationData,
       createdAt: serverTimestamp()
     });
@@ -120,7 +121,8 @@ export const getApplicationsByUser = (
 
   const q = query(
     collection(firestore, "applications"),
-    where("uid", "==", uid)
+    where("uid", "==", uid),
+    orderBy("createdAt", "desc")
   );
 
   return onSnapshot(q, (querySnapshot) => {
@@ -146,7 +148,7 @@ export const setApplicantCommitment = async (uid: string, isCommitted: boolean) 
     
     if (applicantDoc) {
       await updateDoc(doc(firestore, "applications", applicantDoc.id), {
-        commitment: isCommitted ? "committed" : "uncommitted"
+        committed: isCommitted
       });
       return true;
     } else {

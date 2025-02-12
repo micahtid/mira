@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { getUserAuth } from "@/utils/firebaseFunctions";
-import { getApplicationsByUser } from "@/utils/applicationFunctions";
+import { getApplicationsByUser } from "@/utils/applicantFunctions";
 import DashboardNavBar from "@/components/dashboard/DashboardNavBar";
 import PositionListing from "@/components/dashboard/position-listing/PositionListing";
 import { Applicant } from "@/data/types";

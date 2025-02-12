@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { DocumentData } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
-import { getAllPositions } from '@/utils/applicationFunctions';
+import { getAllPositions } from '@/utils/applicantFunctions';
 
 import PositionFilters from './PositionFilters';
 import PositionCard from './PositionCard';

@@ -1,5 +1,6 @@
 Messiness!
 -- organization-dashboard/create-position/page.tsx
+-- Firebase Firestore repetition! Repeated user information in 'applications'!
 
 Arbitrary Values!
 -- PositionFilters.tsx, y-padding of a buton!

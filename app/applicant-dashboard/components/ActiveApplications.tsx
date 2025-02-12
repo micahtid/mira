@@ -1,6 +1,6 @@
 'use client';
 
-import { setApplicantCommitment } from '@/utils/applicationFunctions';
+import { setApplicantCommitment } from '@/utils/applicantFunctions';
 import { Applicant } from '@/data/types';
 
 import { toTitleCase } from '@/utils/misc';
@@ -22,6 +22,20 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
       default:
         return 'bg-amber-50 text-amber-600';
     }
+  };
+
+  const getCommitmentTag = (committed: boolean | null | undefined) => {
+    if (committed === null || committed === undefined) return null;
+    
+    return committed ? (
+      <span className="ml-2 px-3 py-1 rounded-lg text-sm font-medium bg-emerald-50 text-emerald-600">
+        Committed
+      </span>
+    ) : (
+      <span className="ml-2 px-3 py-1 rounded-lg text-sm font-medium bg-amber-50 text-amber-600">
+        Withdrawn
+      </span>
+    );
   };
 
   const handleCommitment = async (uid: string, isCommitting: boolean) => {
@@ -54,17 +68,20 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
       </div>
       {applications.map((application) => (
         <div key={application.pid} className="default-card">
-          <div className="flex justify-between items-start mb-4">
+          <div className="flex justify-between items-start">
             <div>
               <h3 className="default-text font-semibold text-gray-900">{application.fullName}</h3>
               <p className="text-sm text-gray-500">Applied to: {application.pid}</p>
             </div>
-            <span className={`px-3 py-1 rounded-lg text-sm font-medium ${getStatusColor(application.status)}`}>
-              {toTitleCase(application.status)}
-            </span>
+            <div className="flex items-center">
+              <span className={`px-3 py-1 rounded-lg text-sm font-medium ${getStatusColor(application.status)}`}>
+                {toTitleCase(application.status)}
+              </span>
+              {getCommitmentTag(application.committed)}
+            </div>
           </div>
 
-          {application.status === 'accepted' && !application.commitment && (
+          {application.status === 'accepted' && application.committed === undefined && (
             <div className="mt-6 flex gap-4">
               <button
                 onClick={() => handleCommitment(application.uid, true)}
@@ -79,6 +96,11 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
                 Withdraw
               </button>
             </div>
+          )}
+          {application.status === 'accepted' && application.committed === true && (
+            <p className="mt-6 default-label text-gray-600">
+              Please monitor your email for further communication from the organization regarding next steps.
+            </p>
           )}
         </div>
       ))}

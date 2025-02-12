@@ -21,16 +21,17 @@ const ApplicantsList: React.FC<ApplicantsListProps> = ({
         return 'bg-white';
     };
 
-    const getStatusText = (applicant: Applicant) => {
-        if (applicant.status === 'accepted' && applicant.commitment) {
-            return {
-                text: applicant.commitment === 'committed' ? 'Accepted' : 'Withdrawn',
-                className: applicant.commitment === 'committed' 
-                    ? 'bg-green-100 text-green-700' 
-                    : 'bg-red-100 text-red-700'
-            };
-        }
-        return null;
+    const getCommitmentStatus = (applicant: Applicant) => {
+        if (applicant.committed === undefined) return null;
+        return applicant.committed ? (
+            <span className="px-2 py-1 text-sm rounded-md text-emerald-600 bg-emerald-50">
+                Committed
+            </span>
+        ) : (
+            <span className="px-2 py-1 text-sm rounded-md text-amber-600 bg-amber-50">
+                Withdrawn
+            </span>
+        );
     };
 
     return (
@@ -43,7 +44,6 @@ const ApplicantsList: React.FC<ApplicantsListProps> = ({
                         return statusOrder[a.status as keyof typeof statusOrder] - statusOrder[b.status as keyof typeof statusOrder];
                     })
                     .map((applicant, index) => {
-                        const status = getStatusText(applicant);
                         return (
                             <button
                                 key={index}
@@ -59,10 +59,8 @@ const ApplicantsList: React.FC<ApplicantsListProps> = ({
                                     <p className="default-text text-gray-900">
                                         {applicant.fullName}
                                     </p>
-                                    {status && (
-                                        <span className={`text-sm font-medium px-2 py-1 rounded ${status.className}`}>
-                                            {status.text}
-                                        </span>
+                                    {getCommitmentStatus(applicant) && (
+                                        getCommitmentStatus(applicant)
                                     )}
                                 </div>
                             </button>

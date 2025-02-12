@@ -14,19 +14,16 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ applicants, position }) => {
     const acceptedApplicants = applicants.filter(applicant => applicant.status === 'accepted');
 
     const getCommitmentStatus = (applicant: Applicant) => {
-        if (!applicant.commitment) return 'pending';
-        return applicant.commitment;
-    };
-
-    const getStatusColor = (status: string) => {
-        switch (status) {
-            case 'committed':
-                return 'bg-green-50 text-green-700';
-            case 'uncommitted':
-                return 'bg-red-50 text-red-700';
-            default:
-                return 'bg-gray-50 text-gray-600';
-        }
+        if (applicant.committed === undefined) return null;
+        return applicant.committed ? (
+            <span className="px-2 py-1 rounded-md default-label text-emerald-600 bg-emerald-50">
+                Committed
+            </span>
+        ) : (
+            <span className="px-2 py-1 rounded-md default-label text-amber-600 bg-amber-50">
+                Withdrawn
+            </span>
+        );
     };
 
     return (
@@ -50,16 +47,13 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ applicants, position }) => {
                         <thead>
                             <tr className="border-b border-gray-200">
                                 <th className="py-4 px-4 text-left default-text text-gray-600 font-medium">Name</th>
-                                <th className="py-4 px-4 text-left default-text text-gray-600 font-medium">Education</th>
                                 <th className="py-4 px-4 text-left default-text text-gray-600 font-medium">Email</th>
-                                <th className="py-4 px-4 text-left default-text text-gray-600 font-medium">Notification</th>
+                                <th className="py-4 px-4 text-left default-text text-gray-600 font-medium">Status Notification</th>
                                 <th className="py-4 px-4 text-left default-text text-gray-600 font-medium">Commitment</th>
-                                <th className="py-4 px-4 text-left default-text text-gray-600 font-medium">Confirmation</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
                             {acceptedApplicants.map((applicant) => {
-                                const status = getCommitmentStatus(applicant);
                                 return (
                                     <tr 
                                         key={applicant.uid}
@@ -69,29 +63,15 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ applicants, position }) => {
                                             <p className="default-text text-gray-900">{applicant.fullName}</p>
                                         </td>
                                         <td className="py-4 px-4">
-                                            <p className="default-text text-gray-600">{applicant.education}</p>
+                                            <p className="default-text text-gray-600">{applicant.email}</p>
                                         </td>
                                         <td className="py-4 px-4">
-                                            <p className="default-text text-gray-600">xyz@gmail.com</p>
-                                        </td>
-                                        <td className="py-4 px-4">
-                                            <span className="inline-flex items-center px-2 py-1 rounded-md bg-green-50 text-green-700">
+                                            <span className="inline-flex items-center px-2 py-1 rounded-md default-label bg-green-50 text-green-700">
                                                 Sent
                                             </span>
                                         </td>
                                         <td className="py-4 px-4">
-                                            <span className={`inline-flex items-center px-2 py-1 rounded-md ${getStatusColor(status)}`}>
-                                                {status}
-                                            </span>
-                                        </td>
-                                        <td className="py-4 px-4">
-                                            <span className={`inline-flex items-center px-2 py-1 rounded-md ${
-                                                status === 'pending' 
-                                                    ? 'bg-gray-50 text-gray-600'
-                                                    : 'bg-green-50 text-green-700'
-                                            }`}>
-                                                {status === 'pending' ? 'Waiting' : 'Confirmed'}
-                                            </span>
+                                            {getCommitmentStatus(applicant)}
                                         </td>
                                     </tr>
                                 );

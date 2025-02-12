@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { DocumentData } from 'firebase/firestore';
 import { getApplicantsByPosition } from '@/utils/organizationFunctions';
-import { getPosition } from '@/utils/applicationFunctions';
+import { getPosition } from '@/utils/applicantFunctions';
 import { Applicant } from '@/data/types';
 
 import ReviewTab from './components/ReviewTab';
