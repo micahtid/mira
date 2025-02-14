@@ -30,7 +30,7 @@ const ConfirmationModal = () => {
                 </div>
 
                 {/* Message */}
-                <p className="text-gray-500 text-center">
+                <p className="default-label text-gray-500 text-center">
                     {message}
                 </p>
 

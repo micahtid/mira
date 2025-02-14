@@ -21,7 +21,7 @@ const EntryField: React.FC<EntryFieldProps> = ({ field, register }) => {
 
     return (
         <div className="space-y-1.5 mb-4">
-            <label className="text-sm font-medium flex items-center gap-2 text-primary-900">
+            <label className="text-xs font-poppins font-medium flex items-center gap-2 text-primary-900">
                 {field.icon && (
                     <span className="text-primary-400">
                         {field.icon}

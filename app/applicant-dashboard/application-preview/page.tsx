@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAccount } from '@/providers/AccountProvider';
 import { getApplication, getPosition } from '@/utils/applicantFunctions';
-import { Applicant, Position } from '@/data/types';
+import { Application, Position } from '@/data/types';
 import { toTitleCase } from '@/utils/misc';
 import Loader from '@/components/common/Loader';
 
@@ -14,7 +14,7 @@ export default function ApplicationPreview() {
   const { account } = useAccount();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [application, setApplication] = useState<Applicant | null>(null);
+  const [application, setApplication] = useState<Application | null>(null);
   const [position, setPosition] = useState<Position | null>(null);
 
   useEffect(() => {

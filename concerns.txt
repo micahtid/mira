@@ -1,6 +1,11 @@
-Messiness!
--- organization-dashboard/create-position/page.tsx
--- Firebase Firestore repetition! Repeated user information in 'applications'!
+Firestore
+-- Redundant user info in applications
 
-Arbitrary Values!
--- PositionFilters.tsx, y-padding of a buton!
+Arbitrary Values
+-- PositionFilters.tsx: (button) y-padding 
+-- EntryField.tsx, SelectField.tsx, Modal.tsx, ConfirmationModal.tsx: font-poppins 
+
+Non-Functional
+-- emailFunctions.ts.
+    -- setApplicationStatus/organizationFunctions.ts (ApplicantProfile.tsx) 
+    -- setApplicantCommitment/applicantFunctions.ts (ActiveApplications.tsx)

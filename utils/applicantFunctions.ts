@@ -14,7 +14,7 @@ import {
 } from "firebase/firestore";
 
 import { getFireStore, getUserAuth, initializeFirebase } from "./firebaseFunctions";
-import { Applicant, Position } from "../data/types";
+import { Application, Position } from "../data/types";
 
 // Retrieve all position in the database
 export const getAllPositions = (onUpdate: (positions: Position[]) => void) => {
@@ -61,7 +61,7 @@ export const getPosition = (
 export const getApplication = (
   uid: string, 
   pid: string,
-  onUpdate: (application: Applicant | null) => void
+  onUpdate: (application: Application | null) => void
 ) => {
   const firestore = getFireStore(true);
   const applicationsRef = collection(firestore, "applications");
@@ -77,12 +77,12 @@ export const getApplication = (
       onUpdate(null);
       return;
     }
-    onUpdate(querySnapshot.docs[0].data() as Applicant);
+    onUpdate(querySnapshot.docs[0].data() as Application);
   });
 };
 
 // Allow applicant to apply for a position!
-export const addApplication = async (applicationData: Partial<Applicant>) => {
+export const addApplication = async (applicationData: Partial<Application>) => {
   const app = initializeFirebase();
   const auth = getUserAuth(true);
   const firestore = getFireStore(true);
@@ -139,7 +139,7 @@ export const incrementApplicantCount = async (pid: string) => {
 // Retrieves all of the applicant's applications
 export const getApplicationsByUser = (
   uid: string,
-  onUpdate: (applications: Applicant[]) => void
+  onUpdate: (applications: Application[]) => void
 ) => {
   const app = initializeFirebase();
   const firestore = getFireStore(true);
@@ -152,7 +152,7 @@ export const getApplicationsByUser = (
 
   return onSnapshot(q, (querySnapshot) => {
     const applications = querySnapshot.docs.map(doc => 
-      doc.data() as Applicant
+      doc.data() as Application
     );
     onUpdate(applications);
   });
@@ -171,14 +171,50 @@ export const setApplicantCommitment = async (uid: string, isCommitted: boolean) 
     const querySnapshot = await getDocs(q);
     const applicantDoc = querySnapshot.docs[0];
     
-    if (applicantDoc) {
-      await updateDoc(doc(firestore, "applications", applicantDoc.id), {
-        committed: isCommitted
-      });
-      return true;
-    } else {
+    if (!applicantDoc) {
       throw new Error("Applicant not found");
     }
+
+    const application = applicantDoc.data() as Application;
+    
+    ///////////////////////
+    await updateDoc(doc(firestore, "applications", applicantDoc.id), {
+      committed: isCommitted
+    });
+
+    ///////////////////////
+    const positionQuery = query(
+      collection(firestore, "positions"),
+      where("pid", "==", application.pid)
+    );
+    const positionSnapshot = await getDocs(positionQuery);
+    
+    if (positionSnapshot.empty) {
+      throw new Error("Position not found");
+    }
+    
+    const position = positionSnapshot.docs[0].data() as Position;
+
+    ///////////////////////
+    const { sendEmail } = await import('./emailFunctions');
+    
+    const emailBody = isCommitted
+      ? `${application.fullName} has accepted their offer for the ${position.positionTitle}. They will be joining your team!`
+      : `${application.fullName} has withdrawn their acceptance for the ${position.positionTitle}.`;
+
+    if (!position.organizationEmail) {
+      console.error("Organization email not found for position:", position);
+      return true;
+    }
+
+    await sendEmail({
+      to: position.organizationEmail,
+      subject: `Application Update: ${position.positionTitle}`,
+      body: emailBody,
+      recipientName: position.organizationName
+    });
+
+    return true;
   } catch (error) {
     console.error("Error updating applicant commitment:", error);
     throw error;

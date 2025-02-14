@@ -46,7 +46,7 @@ const SelectField = ({
 
     return (
         <div className="space-y-1.5">
-            <label className="text-sm font-medium flex items-center gap-2 text-primary-900">
+            <label className="text-xs font-poppins font-medium flex items-center gap-2 text-primary-900">
                 {label}
                 {required && <span className="text-red-500 text-xs">*</span>}
             </label>

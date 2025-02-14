@@ -6,7 +6,7 @@ import { getUserAuth } from "@/utils/firebaseFunctions";
 import { getApplicationsByUser } from "@/utils/applicantFunctions";
 import DashboardNavBar from "@/components/dashboard/DashboardNavBar";
 import PositionListing from "@/components/dashboard/position-listing/PositionListing";
-import { Applicant } from "@/data/types";
+import { Application } from "@/data/types";
 
 import AccountSettings from "./components/AccountSettings";
 import ActiveApplications from "./components/ActiveApplications";
@@ -14,7 +14,7 @@ import ActiveApplications from "./components/ActiveApplications";
 const ApplicantDashboard = () => {
   const searchParams = useSearchParams();
   const currentPage = searchParams.get("page") || "positions";
-  const [applications, setApplications] = useState<Applicant[]>([]);
+  const [applications, setApplications] = useState<Application[]>([]);
   const auth = getUserAuth(true);
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 'use client';
 
 import { setApplicantCommitment } from '@/utils/applicantFunctions';
-import { Applicant } from '@/data/types';
+import { Application } from '@/data/types';
 
 import { toTitleCase } from '@/utils/misc';
 import { useConfirmationModal } from "@/hooks/useConfirmationModal";
@@ -10,7 +10,7 @@ import { toast } from "react-hot-toast";
 import Link from 'next/link';
 
 interface ActiveApplicationsProps {
-  applications: Applicant[];
+  applications: Application[];
 }
 
 const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications }) => {

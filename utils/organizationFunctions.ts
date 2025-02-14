@@ -12,7 +12,7 @@ import {
 } from "firebase/firestore";
 
 import { getFireStore, getUserAuth, initializeFirebase } from "./firebaseFunctions";
-import { Applicant, Position } from "../data/types";
+import { Application, Position } from "../data/types";
 
 // Allow organization to create a position!
 export const addPosition = async (positionData: Partial<Position>) => {
@@ -29,6 +29,7 @@ export const addPosition = async (positionData: Partial<Position>) => {
     await addDoc(collection(firestore, "positions"), {
       oid: uid,
       ...positionData,
+      email: auth.currentUser.email,
       createdAt: serverTimestamp()
     });
     return true;
@@ -89,7 +90,7 @@ export const getPositionsByOrg = (
 // Retrieves all of the applicants for a position!
 export const getApplicantsByPosition = (
   pid: string,
-  onUpdate: (applications: Applicant[]) => void
+  onUpdate: (applications: Application[]) => void
 ) => {
   const app = initializeFirebase();
   const firestore = getFireStore(true);
@@ -101,14 +102,33 @@ export const getApplicantsByPosition = (
 
   return onSnapshot(q, (querySnapshot) => {
     const applications = querySnapshot.docs.map(doc => 
-      doc.data() as Applicant
+      doc.data() as Application
     );
     onUpdate(applications);
   });
 };
 
-// Update status of an applicant for a position!
-export const setApplicationStatus = async (uid: string, status: "accepted" | "rejected") => {
+interface ApplicationStatusUpdate {
+  ////////////
+  uid: string;
+  status: "accepted" | "rejected";
+  ////////////
+  email: string;
+  fullName: string;
+  positionTitle: string;
+  organizationName: string;
+}
+
+export const setApplicationStatus = async ({
+  ////////////
+  uid,
+  status,
+  ////////////
+  email,
+  fullName,
+  positionTitle,
+  organizationName
+}: ApplicationStatusUpdate): Promise<boolean> => {
   try {
     const firestore = getFireStore(true);
     const q = query(
@@ -123,6 +143,21 @@ export const setApplicationStatus = async (uid: string, status: "accepted" | "re
       await updateDoc(doc(firestore, "applications", applicantDoc.id), {
         status
       });
+
+      // Send EMAIL notification!
+      const { sendEmail } = await import('./emailFunctions');
+      
+      const emailBody = status === "accepted" 
+        ? `Congratulations! We are pleased to inform you that your application for the ${positionTitle} position at ${organizationName} has been accepted. We will be in touch shortly with next steps.`
+        : `Thank you for your interest in the ${positionTitle} position at ${organizationName}. After careful consideration, we regret to inform you that we have decided to move forward with other candidates. We appreciate your time and effort in applying.`;
+
+      await sendEmail({
+        to: email,
+        subject: `Application Status Update for ${positionTitle} at ${organizationName}`,
+        body: emailBody,
+        recipientName: fullName
+      });
+
       return true;
     } else {
       throw new Error("Applicant not found");

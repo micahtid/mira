@@ -24,6 +24,7 @@ export type Position = {
     pid: string;
     oid: string;
     organizationName: string;
+    organizationEmail: string;
     ////////////////////////
     positionTitle: string;
     positionType: string;
@@ -41,7 +42,7 @@ export type Position = {
     positionApplicants: number;
 }
 
-export interface Applicant {
+export interface Application {
     pid: string;
     uid: string;
     fullName: string;

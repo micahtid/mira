@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { DocumentData } from 'firebase/firestore';
 import { getApplicantsByPosition } from '@/utils/organizationFunctions';
 import { getPosition } from '@/utils/applicantFunctions';
-import { Applicant } from '@/data/types';
+import { Application } from '@/data/types';
 
 import ReviewTab from './components/ReviewTab';
 import OverviewTab from './components/OverviewTab';
@@ -17,8 +17,8 @@ const ReviewPosition = () => {
   const pid = searchParams.get('pid');
   
   const [position, setPosition] = useState<DocumentData | null>(null);
-  const [applicants, setApplicants] = useState<Applicant[]>([]);
-  const [selectedApplicant, setSelectedApplicant] = useState<Applicant | null>(null);
+  const [applicants, setApplicants] = useState<Application[]>([]);
+  const [selectedApplicant, setSelectedApplicant] = useState<Application | null>(null);
   const [activeTab, setActiveTab] = useState<'overview' | 'review'>('overview');
 
   useEffect(() => {

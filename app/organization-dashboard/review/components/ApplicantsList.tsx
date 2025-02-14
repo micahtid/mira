@@ -1,12 +1,12 @@
 'use client';
 
 import React from 'react';
-import { Applicant } from '@/data/types';
+import { Application } from '@/data/types';
 
 interface ApplicantsListProps {
-    applicants: Applicant[];
-    selectedApplicant: Applicant | null;
-    onSelectApplicant: (applicant: Applicant) => void;
+    applicants: Application[];
+    selectedApplicant: Application | null;
+    onSelectApplicant: (applicant: Application) => void;
 }
 
 const ApplicantsList: React.FC<ApplicantsListProps> = ({ 
@@ -14,14 +14,14 @@ const ApplicantsList: React.FC<ApplicantsListProps> = ({
     selectedApplicant, 
     onSelectApplicant 
 }) => {
-    const getStatusColor = (applicant: Applicant) => {
+    const getStatusColor = (applicant: Application) => {
         if (applicant.status === 'accepted') return 'bg-green-200';
         if (applicant.status === 'rejected') return 'bg-red-200';
         if (applicant.bookMark) return 'bg-yellow-50';
         return 'bg-white';
     };
 
-    const getCommitmentStatus = (applicant: Applicant) => {
+    const getCommitmentStatus = (applicant: Application) => {
         if (applicant.committed === undefined) return null;
         return applicant.committed ? (
             <span className="px-2 py-1 text-sm rounded-md text-emerald-600 bg-emerald-50">

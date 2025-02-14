@@ -2,18 +2,18 @@
 
 import React from 'react';
 import { DocumentData } from 'firebase/firestore';
-import { Applicant } from '@/data/types';
+import { Application } from '@/data/types';
 import { toTitleCase } from '@/utils/misc';
 
 interface OverviewTabProps {
-    applicants: Applicant[];
+    applicants: Application[];
     position: DocumentData | null;
 }
 
 const OverviewTab: React.FC<OverviewTabProps> = ({ applicants, position }) => {
     const acceptedApplicants = applicants.filter(applicant => applicant.status === 'accepted');
 
-    const getCommitmentStatus = (applicant: Applicant) => {
+    const getCommitmentStatus = (applicant: Application) => {
         if (applicant.committed === undefined) return null;
         return applicant.committed ? (
             <span className="px-2 py-1 rounded-md default-label text-emerald-600 bg-emerald-50">

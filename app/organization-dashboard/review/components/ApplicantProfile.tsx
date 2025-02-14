@@ -1,12 +1,12 @@
 'use client';
 
 import { DocumentData } from 'firebase/firestore';
-import { Applicant } from '@/data/types';
+import { Application } from '@/data/types';
 import { setApplicationStatus, toggleBookmarkStatus } from '@/utils/organizationFunctions';
 import { useConfirmationModal } from "@/hooks/useConfirmationModal";
 
 interface ApplicantProfileProps {
-    applicant: Applicant;
+    applicant: Application;
     position: DocumentData | null;
 }
 
@@ -100,7 +100,14 @@ const ApplicantProfile: React.FC<ApplicantProfileProps> = ({ applicant, position
                             'Are you sure you want to accept this applicant? This action cannot be undone.',
                             async () => {
                                 try {
-                                    await setApplicationStatus(applicant.uid, "accepted");
+                                    await setApplicationStatus({
+                                        uid: applicant.uid,
+                                        status: "accepted",
+                                        email: applicant.email,
+                                        fullName: applicant.fullName,
+                                        positionTitle: position?.title,
+                                        organizationName: position?.organizationName
+                                    });
                                 } catch (error) {
                                     console.error('Failed to update status:', error);
                                 }
@@ -122,7 +129,14 @@ const ApplicantProfile: React.FC<ApplicantProfileProps> = ({ applicant, position
                             'Are you sure you want to reject this applicant? This action cannot be undone.',
                             async () => {
                                 try {
-                                    await setApplicationStatus(applicant.uid, "rejected");
+                                    await setApplicationStatus({
+                                        uid: applicant.uid,
+                                        status: "rejected",
+                                        email: applicant.email,
+                                        fullName: applicant.fullName,
+                                        positionTitle: position?.title,
+                                        organizationName: position?.organizationName
+                                    });
                                 } catch (error) {
                                     console.error('Failed to update status:', error);
                                 }
