@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithRedirect, signInWithPopup } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, query, collection, orderBy, onSnapshot, getDocs, where, updateDoc, doc } from "firebase/firestore";
+import { Position } from "../data/types";
 
 export const initializeFirebase = () => {
     const firebaseConfig = {
@@ -43,3 +44,77 @@ export const signOut = () => {
   const auth = getUserAuth(false);
   auth.signOut();
 }
+
+///////////////////////////////////
+export const getAllPositions = (onUpdate: (positions: Position[]) => void) => {
+  const app = initializeFirebase();
+  const firestore = getFireStore(true);
+
+  const q = query(
+    collection(firestore, `/positions`),
+    orderBy("createdAt", "desc")
+  );
+
+  return onSnapshot(q, (querySnapshot) => {
+    const positions = querySnapshot.docs.map(doc => 
+      doc.data() as Position
+    );
+    onUpdate(positions);
+  });
+};
+
+///////////////////////////////////
+export const decrementAvailableSlots = async (pid: string): Promise<void> => {
+  try {
+    const firestore = getFireStore(true);
+    const q = query(
+      collection(firestore, "positions"),
+      where("pid", "==", pid)
+    );
+
+    const querySnapshot = await getDocs(q);
+    const positionDoc = querySnapshot.docs[0];
+    
+    if (!positionDoc) {
+      throw new Error("Position not found");
+    }
+
+    const position = positionDoc.data() as Position;
+    if (position.availableSlots <= 0) {
+      throw new Error("No available slots remaining");
+    }
+
+    await updateDoc(doc(firestore, "positions", positionDoc.id), {
+      availableSlots: position.availableSlots - 1
+    });
+  } catch (error) {
+    console.error("Error decrementing available slots:", error);
+    throw error;
+  }
+};
+
+export const incrementAvailableSlots = async (pid: string): Promise<void> => {
+  try {
+    const firestore = getFireStore(true);
+    const q = query(
+      collection(firestore, "positions"),
+      where("pid", "==", pid)
+    );
+
+    const querySnapshot = await getDocs(q);
+    const positionDoc = querySnapshot.docs[0];
+    
+    if (!positionDoc) {
+      throw new Error("Position not found");
+    }
+
+    const position = positionDoc.data() as Position;
+    await updateDoc(doc(firestore, "positions", positionDoc.id), {
+      availableSlots: position.availableSlots + 1
+    });
+  } catch (error) {
+    console.error("Error incrementing available slots:", error);
+    throw error;
+  }
+};
+

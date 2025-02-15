@@ -11,7 +11,7 @@ import {
   where
 } from "firebase/firestore";
 
-import { getFireStore, getUserAuth, initializeFirebase } from "./firebaseFunctions";
+import { getFireStore, getUserAuth, initializeFirebase, incrementAvailableSlots, decrementAvailableSlots } from "./firebaseFunctions";
 import { Application, Position } from "../data/types";
 
 // Allow organization to create a position!
@@ -141,8 +141,14 @@ export const setApplicationStatus = async ({
     
     if (applicantDoc) {
       await updateDoc(doc(firestore, "applications", applicantDoc.id), {
-        status
+        status,
+        updatedAt: serverTimestamp()
       });
+
+      if (status === "accepted") {
+        // Decrement available slots when applicant is accepted
+        await decrementAvailableSlots(applicantDoc.data().pid);
+      }
 
       // Send EMAIL notification!
       const { sendEmail } = await import('./emailFunctions');
@@ -164,6 +170,53 @@ export const setApplicationStatus = async ({
     }
   } catch (error) {
     console.error(`Error updating applicant status to ${status}:`, error);
+    throw error;
+  }
+};
+
+// Rescind an applicant's acceptance after 3 days of no response
+export const rescindApplicant = async ({
+  uid,
+  email,
+  fullName,
+  positionTitle,
+  organizationName,
+  pid
+}: Omit<ApplicationStatusUpdate, 'status'> & { pid: string }): Promise<boolean> => {
+  try {
+    const firestore = getFireStore(true);
+    const q = query(
+      collection(firestore, "applications"),
+      where("uid", "==", uid)
+    );
+
+    const querySnapshot = await getDocs(q);
+    const applicantDoc = querySnapshot.docs[0];
+    
+    if (!applicantDoc) {
+      throw new Error("Application not found");
+    }
+
+    // Update application status
+    await updateDoc(doc(firestore, "applications", applicantDoc.id), {
+      rescinded: true
+    });
+
+    // Increment available slots since the offer was rescinded
+    await incrementAvailableSlots(pid);
+
+    // Send email notification
+    const { sendEmail } = await import('./emailFunctions');
+    await sendEmail({
+      to: email,
+      subject: `Your Acceptance for ${positionTitle} Has Been Rescinded`,
+      body: `Dear ${fullName},\n\nWe regret to inform you that your acceptance for the ${positionTitle} position at ${organizationName} has been rescinded due to no response within the 3-day acceptance period.\n\nIf you believe this is a mistake or would like to discuss this further, please contact the organization directly.\n\nBest regards,\nMira Team`,
+      recipientName: fullName
+    });
+
+    return true;
+  } catch (error) {
+    console.error("Error rescinding application:", error);
     throw error;
   }
 };

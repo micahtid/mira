@@ -2,7 +2,6 @@ import {
   addDoc,
   collection,
   doc,
-  getDoc,
   getDocs,
   increment,
   onSnapshot,
@@ -13,26 +12,8 @@ import {
   where
 } from "firebase/firestore";
 
-import { getFireStore, getUserAuth, initializeFirebase } from "./firebaseFunctions";
+import { getFireStore, getUserAuth, initializeFirebase, getAllPositions, incrementAvailableSlots } from "./firebaseFunctions";
 import { Application, Position } from "../data/types";
-
-// Retrieve all position in the database
-export const getAllPositions = (onUpdate: (positions: Position[]) => void) => {
-  const app = initializeFirebase();
-  const firestore = getFireStore(true);
-
-  const q = query(
-    collection(firestore, `/positions`),
-    orderBy("createdAt", "desc")
-  );
-
-  return onSnapshot(q, (querySnapshot) => {
-    const positions = querySnapshot.docs.map(doc => 
-      doc.data() as Position
-    );
-    onUpdate(positions);
-  });
-};
 
 // Retrieve a position by ID
 export const getPosition = (
@@ -181,6 +162,11 @@ export const setApplicantCommitment = async (uid: string, isCommitted: boolean) 
     await updateDoc(doc(firestore, "applications", applicantDoc.id), {
       committed: isCommitted
     });
+
+    if (!isCommitted) {
+      // Increment available slots when applicant withdraws commitment
+      await incrementAvailableSlots(application.pid);
+    }
 
     ///////////////////////
     const positionQuery = query(

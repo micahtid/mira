@@ -1,3 +1,12 @@
+/**
+ * ApplicantProfile Component
+ * Displays detailed information about an applicant and provides actions for managing their application.
+ * - Shows applicant's personal information and application details
+ * - Displays application status with appropriate color coding
+ * - Provides accept/reject actions for pending applications
+ * - Handles available slots validation for accepting applicants
+ */
+
 'use client';
 
 import { DocumentData } from 'firebase/firestore';
@@ -5,19 +14,23 @@ import { Application } from '@/data/types';
 import { setApplicationStatus, toggleBookmarkStatus } from '@/utils/organizationFunctions';
 import { useConfirmationModal } from "@/hooks/useConfirmationModal";
 
+
 interface ApplicantProfileProps {
     applicant: Application;
     position: DocumentData | null;
 }
 
-const getStatusColor = (status: string) => {
+const getStatusColor = (status: string, rescinded: boolean) => {
+  if (rescinded) {
+    return 'bg-orange-50 text-orange-600';          // Rescinded Applications
+  }
   switch (status) {
     case 'accepted':
-      return 'bg-emerald-50 text-emerald-600'; 
+      return 'bg-emerald-50 text-emerald-600';      // Accepted Applications
     case 'rejected':
-      return 'bg-rose-50 text-rose-600';       
+      return 'bg-rose-50 text-rose-600';            // Rejected Applications     
     default:
-      return 'bg-amber-50 text-amber-600';     
+      return 'bg-amber-50 text-amber-600';          // Pending Applications    
   }
 };
 
@@ -26,13 +39,16 @@ const ApplicantProfile: React.FC<ApplicantProfileProps> = ({ applicant, position
 
     return (
         <div className="space-y-6">
+            {/* Applicant Name & Status */}
             <div>
                 <div className="flex items-center gap-2">
                     <h1 className="default-subheading">{applicant.fullName}</h1>
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium capitalize ${getStatusColor(applicant.status)}`}>
-                        {applicant.status}
+                    <span className={`px-3 py-1 rounded-full text-sm font-medium capitalize ${getStatusColor(applicant.status, applicant.rescinded || false)}`}>
+                        {applicant.rescinded ? 'Rescinded' : applicant.status}
                     </span>
                 </div>
+
+                {/* Applicant Details */}
                 <div className="mt-4 space-y-4">
                     <div>
                         <h3 className="font-semibold text-gray-700">Education</h3>
@@ -44,6 +60,7 @@ const ApplicantProfile: React.FC<ApplicantProfileProps> = ({ applicant, position
                             <p className="default-text whitespace-pre-wrap">{applicant.resume}</p>
                         </div>
                     )}
+                    {/* External Links */}
                     {(applicant.resumeLink || applicant.portfolioLink) && (
                         <div className="space-y-2">
                             {applicant.resumeLink && (
@@ -77,7 +94,7 @@ const ApplicantProfile: React.FC<ApplicantProfileProps> = ({ applicant, position
                 </div>
             </div>
 
-            {/* Questions and Responses */}
+            {/* Application Responses */}
             {position?.positionQuestions && (
                 <div className="space-y-4">
                     <h3 className="default-text font-semibold">Application Responses</h3>
@@ -114,14 +131,11 @@ const ApplicantProfile: React.FC<ApplicantProfileProps> = ({ applicant, position
                             }
                         );
                     }}
-                    disabled={applicant.status !== 'pending'}
-                    className={`default-button ${
-                        applicant.status === 'accepted' 
-                            ? getStatusColor('accepted')
-                            : 'bg-emerald-600 hover:bg-emerald-700'
-                    } disabled:opacity-50 disabled:cursor-not-allowed`}
+                    disabled={applicant.status !== 'pending' || (position?.availableSlots || 0) <= 0}
+                    className={`default-button bg-emerald-600 hover:bg-emerald-700 
+                        disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
-                    Accept
+                    {(position?.availableSlots || 0) <= 0 ? 'No Available Slots' : 'Accept'}
                 </button>
                 <button 
                     onClick={() => {
@@ -144,11 +158,8 @@ const ApplicantProfile: React.FC<ApplicantProfileProps> = ({ applicant, position
                         );
                     }}
                     disabled={applicant.status !== 'pending'}
-                    className={`default-button ${
-                        applicant.status === 'rejected'
-                            ? getStatusColor('rejected')
-                            : 'bg-rose-600 hover:bg-rose-700'
-                    } disabled:opacity-50 disabled:cursor-not-allowed`}
+                    className={`default-button bg-rose-600 hover:bg-rose-700 
+                        disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
                     Reject
                 </button>

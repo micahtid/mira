@@ -6,6 +6,7 @@ import { Application } from '@/data/types';
 import { toTitleCase } from '@/utils/misc';
 import { useConfirmationModal } from "@/hooks/useConfirmationModal";
 import { toast } from "react-hot-toast";
+import { format } from 'date-fns';
 
 import Link from 'next/link';
 
@@ -15,29 +16,18 @@ interface ActiveApplicationsProps {
 
 const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications }) => {
   const { onOpen } = useConfirmationModal();
-  const getStatusColor = (status: string) => {
-    switch(status) {
-      case 'accepted':
-        return 'bg-emerald-50 text-emerald-600';
-      case 'rejected':
-        return 'bg-red-50 text-red-600';
-      default:
-        return 'bg-amber-50 text-amber-600';
-    }
-  };
 
-  const getCommitmentTag = (committed: boolean | null | undefined) => {
-    if (committed === null || committed === undefined) return null;
-    
-    return committed ? (
-      <span className="ml-2 px-3 py-1 rounded-lg text-sm font-medium bg-emerald-50 text-emerald-600">
-        Committed
-      </span>
-    ) : (
-      <span className="ml-2 px-3 py-1 rounded-lg text-sm font-medium bg-amber-50 text-amber-600">
-        Withdrawn
-      </span>
-    );
+  const getStatusTag = (status: string) => {
+    switch (status) {
+      case "accepted":
+        return "bg-emerald-50 text-emerald-600";
+      case "pending":
+        return "bg-amber-50 text-amber-600";
+      case "rejected":
+        return "bg-red-50 text-red-600";
+      default:
+        return "bg-gray-50 text-gray-600";
+    }
   };
 
   const handleCommitment = async (uid: string, isCommitting: boolean) => {
@@ -70,45 +60,102 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
         <p className="default-label text-gray-500">Review and manage your applications</p>
       </div>
       {applications.map((application) => (
-        <div key={application.pid} className="default-card">
+        <div key={application.pid} className="default-card space-y-6">
           <div className="flex justify-between items-start">
-            <div>
+            <div className="space-y-2">
               <h3 className="default-text font-semibold text-gray-900">{application.fullName}</h3>
-              <p className="text-sm text-gray-500">
+              <p className="default-text text-gray-600">
                 Applied to: <Link href={`/applicant-dashboard/application-preview?pid=${application.pid}`} className="text-primary-600 hover:text-primary-700">
                   {application.pid}
                 </Link>
               </p>
             </div>
-            <div className="flex items-center">
-              <span className={`px-3 py-1 rounded-lg text-sm font-medium ${getStatusColor(application.status)}`}>
+            <div className="flex items-center gap-2">
+              <span className={`px-2 py-1 rounded-md default-label ${getStatusTag(application.status)}`}>
                 {toTitleCase(application.status)}
               </span>
-              {getCommitmentTag(application.committed)}
+              {application.status === "accepted" && (
+                <>
+                  {application.rescinded ? (
+                    <span className="px-2 py-1 rounded-md default-label text-red-600 bg-red-50">
+                      Rescinded
+                    </span>
+                  ) : application.committed !== undefined && (
+                    <span className={`px-2 py-1 rounded-md default-label ${
+                      application.committed 
+                        ? "text-emerald-600 bg-emerald-50"
+                        : "text-amber-600 bg-amber-50"
+                    }`}>
+                      {application.committed ? "Committed" : "Withdrawn"}
+                    </span>
+                  )}
+                </>
+              )}
             </div>
           </div>
 
-          {application.status === 'accepted' && application.committed === undefined && (
-            <div className="mt-6 flex gap-4">
-              <button
-                onClick={() => handleCommitment(application.uid, true)}
-                className="px-4 py-2 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors"
-              >
-                Commit
-              </button>
-              <button
-                onClick={() => handleCommitment(application.uid, false)}
-                className="px-4 py-2 bg-gray-100 text-gray-600 font-medium rounded-lg hover:bg-gray-200 transition-colors"
-              >
-                Withdraw
-              </button>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <h3 className="default-text text-gray-900 font-medium">
+                {application.status === "accepted" ? (
+                  <>
+                    Congratulations! You&apos;ve been accepted
+                  </>
+                ) : (
+                  "Your application is pending"
+                )}
+              </h3>
+              <p className="default-text text-gray-600">
+                {application.status === "accepted" ? (
+                  application.rescinded ? (
+                    "Your acceptance has been rescinded because you did not respond within 3 days."
+                  ) : application.committed === undefined ? (
+                    <>
+                      Please accept or withdraw from this position. Note that if you don't respond within 3 days, the organization may rescind their offer.
+                      {application.updatedAt && (
+                        <div className="mt-2 text-sm text-gray-500">
+                          Accepted on: {format(application.updatedAt.toDate(), 'MMMM d, yyyy')}
+                        </div>
+                      )}
+                    </>
+                  ) : application.committed ? (
+                    "You have committed to this position. We wish you the best!"
+                  ) : (
+                    "You have withdrawn from this position."
+                  )
+                ) : (
+                  "We'll notify you once the organization reviews your application."
+                )}
+              </p>
             </div>
-          )}
-          {application.status === 'accepted' && application.committed === true && (
-            <p className="mt-6 default-label text-gray-600">
-              Please monitor your email for further communication from the organization regarding next steps.
-            </p>
-          )}
+
+            {application.status === "accepted" && application.committed === undefined && (
+              <div className="flex gap-3 pt-2">
+                <button
+                  onClick={() => handleCommitment(application.uid, true)}
+                  disabled={application.rescinded}
+                  className={`default-button transition-colors ${
+                    application.rescinded 
+                      ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                      : "bg-primary-600 text-white hover:bg-primary-700"
+                  }`}
+                >
+                  Accept
+                </button>
+                <button
+                  onClick={() => handleCommitment(application.uid, false)}
+                  disabled={application.rescinded}
+                  className={`default-button transition-colors ${
+                    application.rescinded
+                      ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                      : "bg-white text-red-600 border border-red-200 hover:bg-red-50"
+                  }`}
+                >
+                  Withdraw
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       ))}
     </div>

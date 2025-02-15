@@ -38,24 +38,28 @@ export type Position = {
     ////////////////////////
     visible: boolean;
     ////////////////////////
-    availableSlots: number;
+    availableSlots: number;                 // Number of available spots!
     positionApplicants: number;
 }
 
-export interface Application {
-    pid: string;
-    uid: string;
-    fullName: string;
-    email: string;
-    ////////////////////////
-    status: string;                         // "pending" | "accepted" | "rejected"
-    committed?: boolean              
-    bookMark: boolean;
-    ////////////////////////
-    education: string;
-    currentEmployment: string;
-    resume?: string;
-    resumeLink?: string;
-    portfolioLink?: string;
-    applicantResponses?: string[];
-}
+import { Timestamp } from "firebase/firestore";
+
+export type Application = {
+  pid: string;
+  uid: string;
+  fullName: string;
+  email: string;
+  ////////////////////////
+  status: string;                           // "pending" | "accepted" | "rejected"
+  committed?: boolean;
+  rescinded?: boolean;
+  updatedAt?: Timestamp;
+  bookMark: boolean;
+  ////////////////////////
+  education: string;
+  currentEmployment: string;
+  resume?: string;
+  resumeLink?: string;
+  portfolioLink?: string;
+  applicantResponses?: string[];
+};

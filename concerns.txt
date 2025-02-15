@@ -4,6 +4,7 @@ Firestore
 Arbitrary Values
 -- PositionFilters.tsx: (button) y-padding 
 -- EntryField.tsx, SelectField.tsx, Modal.tsx, ConfirmationModal.tsx: font-poppins 
+    -- apply/page.tsx!
 
 Non-Functional
 -- emailFunctions.ts.

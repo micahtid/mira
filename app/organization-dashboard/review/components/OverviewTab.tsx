@@ -1,9 +1,23 @@
+/**
+ * OverviewTab Component
+ * Displays a table of accepted applicants with their commitment status and provides rescind functionality.
+ * - Shows all accepted applicants, including those who have been rescinded
+ * - Displays commitment status and last update time for each applicant
+ * - Provides rescind functionality for applicants who haven't responded within 3 days
+ * - Shows available positions count and rescind policy information
+ */
+
 'use client';
 
 import React from 'react';
 import { DocumentData } from 'firebase/firestore';
 import { Application } from '@/data/types';
 import { toTitleCase } from '@/utils/misc';
+import { format, differenceInDays } from 'date-fns';
+import { Timestamp } from 'firebase/firestore';
+import { rescindApplicant } from '@/utils/organizationFunctions';
+import { toast } from 'react-hot-toast';
+import { useConfirmationModal } from "@/hooks/useConfirmationModal";
 
 interface OverviewTabProps {
     applicants: Application[];
@@ -12,8 +26,17 @@ interface OverviewTabProps {
 
 const OverviewTab: React.FC<OverviewTabProps> = ({ applicants, position }) => {
     const acceptedApplicants = applicants.filter(applicant => applicant.status === 'accepted');
+    const { onOpen } = useConfirmationModal();
 
+    // Get appropriate commitment status tag for an applicant
     const getCommitmentStatus = (applicant: Application) => {
+        if (applicant.rescinded) {
+            return (
+                <span className="px-2 py-1 rounded-md default-label text-red-600 bg-red-50">
+                    Rescinded
+                </span>
+            );
+        }
         if (applicant.committed === undefined) return null;
         return applicant.committed ? (
             <span className="px-2 py-1 rounded-md default-label text-emerald-600 bg-emerald-50">
@@ -26,60 +49,111 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ applicants, position }) => {
         );
     };
 
+    // Check if an applicant's acceptance can be rescinded
+    const canRescind = (applicant: Application) => {
+        if (!applicant.updatedAt || applicant.committed !== undefined || applicant.rescinded) {
+            return false;
+        }
+        const daysSinceAcceptance = differenceInDays(new Date(), applicant.updatedAt.toDate());
+        return daysSinceAcceptance >= 3;
+    };
+
     return (
-        <div className="space-y-8">
-            <div className="flex justify-between items-center">
-                <div className="space-y-1">
-                    <h2 className="default-subheading text-gray-900">Accepted Applicants</h2>
+        <div className="space-y-6">
+            {/* Header */}
+            <div className="grid grid-cols-2 space-2 mb-12">
+                <div>
+                    <p className="default-text text-gray-900">
+                        {acceptedApplicants.length} Accepted Applicant{acceptedApplicants.length !== 1 ? 's' : ''}
+                    </p>
                     <p className="default-text text-gray-600">
-                        {acceptedApplicants.length} applicant{acceptedApplicants.length !== 1 ? 's' : ''}
+                        {position?.availableSlots || 0} Position{(position?.availableSlots || 0) !== 1 ? 's' : ''} Still Available
+                    </p>
+                </div>
+
+                {/* Rescind Policy */}
+                <div className="bg-primary-50 p-4 rounded-lg">
+                    <p className="default-label text-primary-700">
+                        Note: If an applicant hasn&apos;t accepted or withdrawn from their accepted position within 3 days,
+                        you can choose to rescind their offer and accept another candidate.
                     </p>
                 </div>
             </div>
 
-            {acceptedApplicants.length === 0 ? (
-                <div className="text-center py-12 bg-gray-50 rounded-lg">
-                    <p className="default-text text-gray-600">No accepted applicants yet</p>
-                </div>
-            ) : (
+            {/* Accepted Applicants Table */}
+            <div className="mt-8">
                 <div className="overflow-x-auto">
-                    <table className="w-full">
+                    <table className="min-w-full divide-y divide-gray-300">
                         <thead>
-                            <tr className="border-b border-gray-200">
-                                <th className="py-4 px-4 text-left default-text text-gray-600 font-medium">Name</th>
-                                <th className="py-4 px-4 text-left default-text text-gray-600 font-medium">Email</th>
-                                <th className="py-4 px-4 text-left default-text text-gray-600 font-medium">Status Notification</th>
-                                <th className="py-4 px-4 text-left default-text text-gray-600 font-medium">Commitment</th>
+                            <tr>
+                                <th scope="col" className="px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                    Name
+                                </th>
+                                <th scope="col" className="px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                    Email
+                                </th>
+                                <th scope="col" className="px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                    Status
+                                </th>
+                                <th scope="col" className="px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                    Last Updated
+                                </th>
+                                <th scope="col" className="px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                    Actions
+                                </th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-100">
-                            {acceptedApplicants.map((applicant) => {
-                                return (
-                                    <tr 
-                                        key={applicant.uid}
-                                        className="hover:bg-gray-50 transition-colors"
-                                    >
-                                        <td className="py-4 px-4">
-                                            <p className="default-text text-gray-900">{applicant.fullName}</p>
-                                        </td>
-                                        <td className="py-4 px-4">
-                                            <p className="default-text text-gray-600">{applicant.email}</p>
-                                        </td>
-                                        <td className="py-4 px-4">
-                                            <span className="inline-flex items-center px-2 py-1 rounded-md default-label bg-green-50 text-green-700">
-                                                Sent
-                                            </span>
-                                        </td>
-                                        <td className="py-4 px-4">
-                                            {getCommitmentStatus(applicant)}
-                                        </td>
-                                    </tr>
-                                );
-                            })}
+                        <tbody className="divide-y divide-gray-200">
+                            {acceptedApplicants.map((applicant, index) => (
+                                <tr key={index}>
+                                    <td className="px-2 py-4 whitespace-nowrap">
+                                        <p className="default-text text-gray-900">{applicant.fullName}</p>
+                                    </td>
+                                    <td className="px-2 py-4 whitespace-nowrap default-text">{applicant.email}</td>
+                                    <td className="px-2 py-4 whitespace-nowrap">{getCommitmentStatus(applicant)}</td>
+                                    <td className="px-2 py-4 whitespace-nowrap default-text">
+                                        {applicant.updatedAt ? format((applicant.updatedAt as Timestamp).toDate(), 'MMMM d, yyyy') : '-'}
+                                    </td>
+                                    <td className="px-2 py-4 whitespace-nowrap">
+                                        <button
+                                            onClick={() => {
+                                                onOpen(
+                                                    'Are you sure you want to rescind this applicant\'s acceptance? This action cannot be undone.',
+                                                    async () => {
+                                                        try {
+                                                            await rescindApplicant({
+                                                                uid: applicant.uid,
+                                                                email: applicant.email,
+                                                                fullName: applicant.fullName,
+                                                                positionTitle: position?.title,
+                                                                organizationName: position?.organizationName,
+                                                                pid: position?.pid
+                                                            });
+                                                            toast.success('Successfully rescinded applicant\'s acceptance');
+                                                        } catch (error) {
+                                                            console.error('Failed to rescind applicant:', error);
+                                                            toast.error('Failed to rescind applicant');
+                                                        }
+                                                    }
+                                                );
+                                            }}
+                                            disabled={!canRescind(applicant)}
+                                            className={`default-text transition-colors ${
+                                                canRescind(applicant)
+                                                    ? "text-red-600 hover:bg-red-100"
+                                                    : "text-gray-400 cursor-not-allowed"
+                                            }`}
+                                        >
+                                            Rescind
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
-            )}
+            </div>
+
             {position && (
                 <div>
                     <h2 className="default-subheading mt-20 mb-4">Position Overview</h2>

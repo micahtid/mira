@@ -71,6 +71,7 @@ const CreatePosition = () => {
                 pid: uuidv4(),
                 oid: account.uid,
                 organizationName: accountData.organizationName || '',
+                organizationEmail: accountData.email || '',
                 ////////////////////////
                 positionTitle: formData.title,
                 positionType: positionType.value,
@@ -84,7 +85,7 @@ const CreatePosition = () => {
                 ////////////////////////
                 visible: true,
                 ////////////////////////
-                availableSlots: formData.availableSlots,
+                availableSlots: Number(formData.availableSlots),
                 positionApplicants: 0
             };
 

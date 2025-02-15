@@ -1,3 +1,11 @@
+/**
+ * ApplicantsList Component
+ * Displays a list of applicants with their status and commitment information.
+ * - Uses color-coding to indicate different application statuses
+ * - Shows commitment status (committed/withdrawn) when applicable
+ * - Handles selection of applicants for detailed view
+ */
+
 'use client';
 
 import React from 'react';
@@ -15,10 +23,11 @@ const ApplicantsList: React.FC<ApplicantsListProps> = ({
     onSelectApplicant 
 }) => {
     const getStatusColor = (applicant: Application) => {
-        if (applicant.status === 'accepted') return 'bg-green-200';
-        if (applicant.status === 'rejected') return 'bg-red-200';
-        if (applicant.bookMark) return 'bg-yellow-50';
-        return 'bg-white';
+        if (applicant.rescinded) return 'bg-orange-100';                    // Rescinded Applications
+        if (applicant.status === 'accepted') return 'bg-green-200';         // Accepted Applications
+        if (applicant.status === 'rejected') return 'bg-red-200';           // Rejected Applications
+        if (applicant.bookMark) return 'bg-yellow-50';                      // Bookmarked Applications
+        return 'bg-white';                                                  // Default Applications
     };
 
     const getCommitmentStatus = (applicant: Application) => {
@@ -38,6 +47,7 @@ const ApplicantsList: React.FC<ApplicantsListProps> = ({
         <div className="w-full lg:w-1/3 bg-gray-50 rounded-lg p-4 space-y-4 border border-gray-200">
             <h2 className="default-text font-medium text-gray-900">Applicants</h2>
             <div className="space-y-2">
+                {/* Sort applicants by status: Accepted -> Pending -> Rejected! */}
                 {[...applicants]
                     .sort((a, b) => {
                         const statusOrder = { accepted: 0, pending: 1, rejected: 2 };
@@ -59,9 +69,7 @@ const ApplicantsList: React.FC<ApplicantsListProps> = ({
                                     <p className="default-text text-gray-900">
                                         {applicant.fullName}
                                     </p>
-                                    {getCommitmentStatus(applicant) && (
-                                        getCommitmentStatus(applicant)
-                                    )}
+                                    {getCommitmentStatus(applicant)}
                                 </div>
                             </button>
                         );
