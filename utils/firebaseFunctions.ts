@@ -64,7 +64,7 @@ export const getAllPositions = (onUpdate: (positions: Position[]) => void) => {
 };
 
 ///////////////////////////////////
-export const decrementAvailableSlots = async (pid: string): Promise<void> => {
+export const decrementOpenSlots = async (pid: string): Promise<void> => {
   try {
     const firestore = getFireStore(true);
     const q = query(
@@ -80,20 +80,20 @@ export const decrementAvailableSlots = async (pid: string): Promise<void> => {
     }
 
     const position = positionDoc.data() as Position;
-    if (position.availableSlots <= 0) {
-      throw new Error("No available slots remaining");
+    if (position.openSlots <= 0) {
+      throw new Error("No open slots remaining");
     }
 
     await updateDoc(doc(firestore, "positions", positionDoc.id), {
-      availableSlots: position.availableSlots - 1
+      openSlots: position.openSlots - 1
     });
   } catch (error) {
-    console.error("Error decrementing available slots:", error);
+    console.error("Error decrementing open slots:", error);
     throw error;
   }
 };
 
-export const incrementAvailableSlots = async (pid: string): Promise<void> => {
+export const incrementOpenSlots = async (pid: string): Promise<void> => {
   try {
     const firestore = getFireStore(true);
     const q = query(
@@ -110,11 +110,44 @@ export const incrementAvailableSlots = async (pid: string): Promise<void> => {
 
     const position = positionDoc.data() as Position;
     await updateDoc(doc(firestore, "positions", positionDoc.id), {
-      availableSlots: position.availableSlots + 1
+      openSlots: position.openSlots + 1
     });
   } catch (error) {
-    console.error("Error incrementing available slots:", error);
+    console.error("Error incrementing open slots:", error);
     throw error;
   }
 };
 
+export const incrementCommittedApplicants = async (pid: string): Promise<void> => {
+  try {
+    const firestore = getFireStore(true);
+    const q = query(
+      collection(firestore, "positions"),
+      where("pid", "==", pid)
+    );
+
+    const querySnapshot = await getDocs(q);
+    const positionDoc = querySnapshot.docs[0];
+    
+    if (!positionDoc) {
+      throw new Error("Position not found");
+    }
+    
+    const position = positionDoc.data() as Position;
+
+    // If committedApplicants equals totalSlots, lock the position
+    if ((position.committedApplicants || 0) + 1 === position.totalSlots) {
+      await updateDoc(doc(firestore, "positions", positionDoc.id), {
+        locked: true,
+        visible: false
+      });
+    }
+
+    await updateDoc(doc(firestore, "positions", positionDoc.id), {
+      committedApplicants: (position.committedApplicants || 0) + 1
+    });
+  } catch (error) {
+    console.error("Error incrementing committed applicants:", error);
+    throw error;
+  }
+};

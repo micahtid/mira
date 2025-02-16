@@ -58,11 +58,16 @@ const ManagePositions = () => {
     );
   };
 
-  const handleVisibilityChange = async (pid: string, newVisibility: boolean) => {
+  const handleVisibilityChange = async (pid: string, newVisibility: boolean, locked: boolean) => {
+    // If position is locked, visibility cannot be changed
+    if (locked) {
+      toast.error("This position is locked and visibility cannot be changed.");
+      return;
+    }
+
     try {
       await updateVisibility(pid, newVisibility);
       router.refresh();
-
     } catch {
       toast.error("Failed to update visibility. Please try again.");
     }
@@ -101,6 +106,11 @@ const ManagePositions = () => {
                       <span className="text-sm font-medium text-primary-600">
                         {toTitleCase(position.positionType)}
                       </span>
+                      {position.locked && (
+                        <span className="text-sm font-medium text-red-600">
+                          (Locked - All slots filled)
+                        </span>
+                      )}
                       <span className="text-gray-300">•</span>
                       <span className="text-sm text-gray-500">
                         Created {formatDate(position.createdAt)}
@@ -118,10 +128,10 @@ const ManagePositions = () => {
 
                   <div className="flex items-center gap-3">
                     <div className="px-3 py-1 bg-primary-50 text-primary-600 rounded-lg text-sm font-medium">
-                      {position.availableSlots} Slot{position.availableSlots !== 1 ? 's' : ''}
+                      {position.openSlots} Slot{position.openSlots !== 1 ? 's' : ''}
                     </div>
                     <div className="px-3 py-1 bg-primary-50 text-primary-600 rounded-lg text-sm font-medium">
-                      {position.positionApplicants} Applicant{position.positionApplicants !== 1 ? 's' : ''}
+                      {position.totalApplicants} Applicant{position.totalApplicants !== 1 ? 's' : ''}
                     </div>
                   </div>
                 </div>
@@ -131,7 +141,7 @@ const ManagePositions = () => {
                   <div className="flex items-center gap-2">
                     <Switch.Root
                       checked={position.visible}
-                      onCheckedChange={(checked) => handleVisibilityChange(position.pid, checked)}
+                      onCheckedChange={(checked) => handleVisibilityChange(position.pid, checked, position.locked)}
                       className="w-[42px] h-[25px] bg-gray-200 rounded-full relative data-[state=checked]:bg-primary-600"
                     >
                       <Switch.Thumb 

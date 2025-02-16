@@ -19,7 +19,7 @@ type FormData = {
     title: string;
     description: string;
     requirements: string;
-    availableSlots: number;
+    openSlots: number;
     location?: string;
     requireResume: boolean;
 }
@@ -72,7 +72,7 @@ const CreatePosition = () => {
                 oid: account.uid,
                 organizationName: accountData.organizationName || '',
                 organizationEmail: accountData.email || '',
-                ////////////////////////
+                //////////////////////// Position Details ////////////////////////
                 positionTitle: formData.title,
                 positionType: positionType.value,
                 positionLocation: location,
@@ -80,13 +80,16 @@ const CreatePosition = () => {
                 positionDescription: formData.description,
                 positionRequirements: formData.requirements,
                 positionQuestions: questions,
-                ////////////////////////
+                //////////////////////// Application Requirements ////////////////////////
                 requireResume: formData.requireResume,
-                ////////////////////////
+                //////////////////////// Visibility ////////////////////////
                 visible: true,
-                ////////////////////////
-                availableSlots: Number(formData.availableSlots),
-                positionApplicants: 0
+                locked: false,
+                //////////////////////// Slot Management ////////////////////////
+                totalSlots: Number(formData.openSlots),
+                openSlots: Number(formData.openSlots),
+                committedApplicants: 0,
+                totalApplicants: 0
             };
 
             await addPosition(position);

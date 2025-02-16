@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { DocumentData } from 'firebase/firestore';
 import { useSearchParams, useRouter } from 'next/navigation';
 
-import { incrementApplicantCount } from '@/utils/applicantFunctions';
+import { incrementTotalApplicants } from '@/utils/applicantFunctions';
 import { addApplication, getPosition } from '@/utils/applicantFunctions';
 
 import { useForm } from 'react-hook-form';
@@ -13,6 +13,8 @@ import { toast } from 'react-hot-toast';
 
 import EntryField from '@/components/common/EntryField';
 import Loader from '@/components/common/Loader';
+
+import { Application } from '@/data/types';
 
 interface FormData {
   questions: string[];
@@ -39,6 +41,7 @@ const Apply = () => {
   }, [pid]);
 
   const onSubmit = async (data: FormData) => {
+    // 1. Validate requirements
     if (!acknowledgeRequirements) {
       toast.error('Please confirm that you have read the description and meet the requirements.');
       return;
@@ -55,40 +58,34 @@ const Apply = () => {
     }
 
     try {
-      interface ApplicationData {
-        pid: string;
-        applicantResponses: string[];
-        fullName: string;
-        education: string;
-        currentEmployment: string;
-        resume?: string;
-        resumeLink?: string;
-        portfolioLink?: string;
-      }
-
-      const applicationData: ApplicationData = {
+      // 2. Prepare application data
+      const applicationData: Application = {
+        // Core application data
         pid,
-        applicantResponses: position?.positionQuestions?.map((_: string, index: number) => data.questions[index]) || [],
+        uid: accountData.uid,
+        email: accountData.email,
+        status: "pending",
+        bookMark: false,
+
+        // Applicant information
         fullName: accountData.fullName || '',
         education: accountData.education || '',
-        currentEmployment: accountData.currentEmployment || ''
+        currentEmployment: accountData.currentEmployment || '',
+        
+        // Position responses
+        applicantResponses: position?.positionQuestions?.map((_: string, index: number) => data.questions[index]) || [],
+        
+        // Optional links
+        ...(position?.requireResume && accountData.resume && { resume: accountData.resume }),
+        ...(accountData.resumeLink && { resumeLink: accountData.resumeLink }),
+        ...(accountData.portfolioLink && { portfolioLink: accountData.portfolioLink })
       };
 
-      if (position?.requireResume && accountData.resume) {
-        applicationData.resume = accountData.resume;
-      }
-
-      if (accountData.resumeLink) {
-        applicationData.resumeLink = accountData.resumeLink;
-      }
-
-      if (accountData.portfolioLink) {
-        applicationData.portfolioLink = accountData.portfolioLink;
-      }
-
+      // 3. Submit application and update position
       await addApplication(applicationData);
-      await incrementApplicantCount(pid);
+      await incrementTotalApplicants(pid);
 
+      // 4. Success and redirect
       toast.success('Application submitted successfully!');
       router.push('/applicant-dashboard');
 

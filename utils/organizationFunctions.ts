@@ -11,7 +11,7 @@ import {
   where
 } from "firebase/firestore";
 
-import { getFireStore, getUserAuth, initializeFirebase, incrementAvailableSlots, decrementAvailableSlots } from "./firebaseFunctions";
+import { getFireStore, getUserAuth, initializeFirebase, incrementOpenSlots, decrementOpenSlots } from "./firebaseFunctions";
 import { Application, Position } from "../data/types";
 
 // Allow organization to create a position!
@@ -25,11 +25,8 @@ export const addPosition = async (positionData: Partial<Position>) => {
   }
 
   try {
-    const { uid } = auth.currentUser;
     await addDoc(collection(firestore, "positions"), {
-      oid: uid,
       ...positionData,
-      email: auth.currentUser.email,
       createdAt: serverTimestamp()
     });
     return true;
@@ -147,7 +144,7 @@ export const setApplicationStatus = async ({
 
       if (status === "accepted") {
         // Decrement available slots when applicant is accepted
-        await decrementAvailableSlots(applicantDoc.data().pid);
+        await decrementOpenSlots(applicantDoc.data().pid);
       }
 
       // Send EMAIL notification!
@@ -203,7 +200,7 @@ export const rescindApplicant = async ({
     });
 
     // Increment available slots since the offer was rescinded
-    await incrementAvailableSlots(pid);
+    await incrementOpenSlots(pid);
 
     // Send email notification
     const { sendEmail } = await import('./emailFunctions');

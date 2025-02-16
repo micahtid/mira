@@ -131,11 +131,11 @@ const ApplicantProfile: React.FC<ApplicantProfileProps> = ({ applicant, position
                             }
                         );
                     }}
-                    disabled={applicant.status !== 'pending' || (position?.availableSlots || 0) <= 0}
+                    disabled={applicant.status !== 'pending' || (position?.openSlots || 0) <= 0}
                     className={`default-button bg-emerald-600 hover:bg-emerald-700 
                         disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
-                    {(position?.availableSlots || 0) <= 0 ? 'No Available Slots' : 'Accept'}
+                    {(position?.openSlots || 0) <= 0 ? 'No Available Slots' : 'Accept'}
                 </button>
                 <button 
                     onClick={() => {

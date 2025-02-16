@@ -113,9 +113,9 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
                     <>
                       Please accept or withdraw from this position. Note that if you don't respond within 3 days, the organization may rescind their offer.
                       {application.updatedAt && (
-                        <div className="mt-2 text-sm text-gray-500">
+                        <span className="mt-2 text-sm text-gray-500">
                           Accepted on: {format(application.updatedAt.toDate(), 'MMMM d, yyyy')}
-                        </div>
+                        </span>
                       )}
                     </>
                   ) : application.committed ? (

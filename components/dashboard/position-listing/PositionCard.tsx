@@ -84,10 +84,10 @@ const PositionCard: React.FC<PositionCardProps> = ({
         <div className="flex items-center justify-between">
           <div className="flex gap-3">
             <div className="px-3 py-1 bg-primary-50 text-primary-600 rounded-lg text-sm font-medium">
-              {position.availableSlots} Slot{position.availableSlots != 1 ? 's' : ''}
+              {position.openSlots} Slot{position.openSlots != 1 ? 's' : ''}
             </div>
             <div className="px-3 py-1 bg-primary-50 text-primary-600 rounded-lg text-sm font-medium">
-              {position.positionApplicants} Applicant{position.positionApplicants != 1 ? 's' : ''}
+              {position.totalApplicants} Applicant{position.totalApplicants != 1 ? 's' : ''}
             </div>
           </div>
 

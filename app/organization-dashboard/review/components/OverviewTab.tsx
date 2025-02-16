@@ -67,7 +67,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ applicants, position }) => {
                         {acceptedApplicants.length} Accepted Applicant{acceptedApplicants.length !== 1 ? 's' : ''}
                     </p>
                     <p className="default-text text-gray-600">
-                        {position?.availableSlots || 0} Position{(position?.availableSlots || 0) !== 1 ? 's' : ''} Still Available
+                        {position?.openSlots || 0} Position{(position?.openSlots || 0) !== 1 ? 's' : ''} Still Available
                     </p>
                 </div>
 

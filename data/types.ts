@@ -25,21 +25,24 @@ export type Position = {
     oid: string;
     organizationName: string;
     organizationEmail: string;
-    ////////////////////////
+    //////////////////////// Position Details ////////////////////////
     positionTitle: string;
     positionType: string;
-    positionLocation: string | null;        // null for "Remote"
+    positionLocation: string | null;        // `null` means "Remote"
     locationType: string;
     positionDescription: string;
     positionRequirements: string;
     positionQuestions?: string[];
-    ////////////////////////
+    //////////////////////// Application Requirements ////////////////////////
     requireResume: boolean;
-    ////////////////////////
+    //////////////////////// Visibility ////////////////////////
     visible: boolean;
-    ////////////////////////
-    availableSlots: number;                 // Number of available spots!
-    positionApplicants: number;
+    locked?: boolean;                       // When true, position is locked and visibility cannot be changed
+    //////////////////////// Slot Management ////////////////////////
+    totalSlots: number;                      // Total number of slots available from the start (constant)
+    openSlots: number;                       // Current number of open slots (decreases when someone is accepted)
+    committedApplicants: number;             // Number of accepted applicants who have officially committed
+    totalApplicants: number;                 // Total number of applicants (including pending, rejected, etc.)
 }
 
 import { Timestamp } from "firebase/firestore";

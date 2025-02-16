@@ -12,7 +12,7 @@ import {
   where
 } from "firebase/firestore";
 
-import { getFireStore, getUserAuth, initializeFirebase, getAllPositions, incrementAvailableSlots } from "./firebaseFunctions";
+import { getFireStore, getUserAuth, initializeFirebase, getAllPositions, incrementOpenSlots, incrementCommittedApplicants } from "./firebaseFunctions";
 import { Application, Position } from "../data/types";
 
 // Retrieve a position by ID
@@ -75,10 +75,7 @@ export const addApplication = async (applicationData: Partial<Application>) => {
   try {
     const { uid } = auth.currentUser;
     await addDoc(collection(firestore, "applications"), {
-      uid,
-      status: "pending",
-      bookMark: false,
-      email: auth.currentUser.email,
+      // uid,
       ...applicationData,
       createdAt: serverTimestamp()
     });
@@ -90,7 +87,7 @@ export const addApplication = async (applicationData: Partial<Application>) => {
 };
 
 // Increment number of applications for a position!
-export const incrementApplicantCount = async (pid: string) => {
+export const incrementTotalApplicants = async (pid: string) => {
   const app = initializeFirebase();
   const firestore = getFireStore(true);
 
@@ -107,7 +104,7 @@ export const incrementApplicantCount = async (pid: string) => {
 
     const positionDoc = querySnapshot.docs[0];
     await updateDoc(positionDoc.ref, {
-      positionApplicants: increment(1)
+      totalApplicants: increment(1)
     });
     
     return true;
@@ -165,7 +162,10 @@ export const setApplicantCommitment = async (uid: string, isCommitted: boolean) 
 
     if (!isCommitted) {
       // Increment available slots when applicant withdraws commitment
-      await incrementAvailableSlots(application.pid);
+      await incrementOpenSlots(application.pid);
+    } else {
+      // Increment committedApplicants when applicant commits
+      await incrementCommittedApplicants(application.pid);
     }
 
     ///////////////////////

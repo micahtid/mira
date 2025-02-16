@@ -153,7 +153,7 @@ export const positionFields: FormField[] = [
         placeholder: "Enter position requirements"
     },
     {
-        name: "availableSlots",
+        name: "openSlots",
         label: "Available Slots",
         type: "number",
         required: true,
