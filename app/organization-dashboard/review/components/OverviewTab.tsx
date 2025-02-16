@@ -10,13 +10,13 @@
 'use client';
 
 import React from 'react';
-import { DocumentData } from 'firebase/firestore';
+import { DocumentData, Timestamp } from 'firebase/firestore';
+import { format, differenceInDays } from 'date-fns';
+import { toast } from 'react-hot-toast';
+
 import { Application } from '@/data/types';
 import { toTitleCase } from '@/utils/misc';
-import { format, differenceInDays } from 'date-fns';
-import { Timestamp } from 'firebase/firestore';
 import { rescindApplicant } from '@/utils/organizationFunctions';
-import { toast } from 'react-hot-toast';
 import { useConfirmationModal } from "@/hooks/useConfirmationModal";
 
 interface OverviewTabProps {
@@ -28,28 +28,44 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ applicants, position }) => {
     const acceptedApplicants = applicants.filter(applicant => applicant.status === 'accepted');
     const { onOpen } = useConfirmationModal();
 
-    // Get appropriate commitment status tag for an applicant
     const getCommitmentStatus = (applicant: Application) => {
         if (applicant.rescinded) {
             return (
-                <span className="px-2 py-1 rounded-md default-label text-red-600 bg-red-50">
+                <span className="
+                    inline-flex items-center px-2.5 py-1 rounded-md text-sm font-medium
+                    text-red-700 bg-red-50 border border-red-100
+                ">
+                    <svg className="w-3.5 h-3.5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
                     Rescinded
                 </span>
             );
         }
         if (applicant.committed === undefined) return null;
         return applicant.committed ? (
-            <span className="px-2 py-1 rounded-md default-label text-emerald-600 bg-emerald-50">
+            <span className="
+                inline-flex items-center px-2.5 py-1 rounded-md text-sm font-medium
+                text-emerald-700 bg-emerald-50 border border-emerald-100
+            ">
+                <svg className="w-3.5 h-3.5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
                 Committed
             </span>
         ) : (
-            <span className="px-2 py-1 rounded-md default-label text-amber-600 bg-amber-50">
+            <span className="
+                inline-flex items-center px-2.5 py-1 rounded-md text-sm font-medium
+                text-amber-700 bg-amber-50 border border-amber-100
+            ">
+                <svg className="w-3.5 h-3.5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
                 Withdrawn
             </span>
         );
     };
 
-    // Check if an applicant's acceptance can be rescinded
     const canRescind = (applicant: Application) => {
         if (!applicant.updatedAt || applicant.committed !== undefined || applicant.rescinded) {
             return false;
@@ -59,62 +75,90 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ applicants, position }) => {
     };
 
     return (
-        <div className="space-y-6">
-            {/* Header */}
-            <div className="grid grid-cols-2 space-2 mb-12">
-                <div>
-                    <p className="default-text text-gray-900">
-                        {acceptedApplicants.length} Accepted Applicant{acceptedApplicants.length !== 1 ? 's' : ''}
-                    </p>
-                    <p className="default-text text-gray-600">
-                        {position?.openSlots || 0} Position{(position?.openSlots || 0) !== 1 ? 's' : ''} Still Available
-                    </p>
+        <div className="space-y-8">
+            {/* Stats and Policy Section */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Stats Cards */}
+                <div className="flex flex-col gap-4">
+                    <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                        <h3 className="default-subheading mb-4">Statistics</h3>
+                        <div className="grid grid-cols-3 gap-4">
+                            <div>
+                                <p className="default-label text-gray-500">Accepted</p>
+                                <p className="default-text text-2xl font-semibold text-gray-900 font-poppins">
+                                    {acceptedApplicants.length}
+                                </p>
+                            </div>
+                            <div>
+                                <p className="default-label text-gray-500">Available Slots</p>
+                                <p className="default-text text-2xl font-semibold text-gray-900 font-poppins">
+                                    {position?.openSlots || 0}
+                                </p>
+                            </div>
+                            <div>
+                                <p className="default-label text-gray-500">Committed</p>
+                                <p className="default-text text-2xl font-semibold text-gray-900 font-poppins">
+                                    {position?.committedApplicants || 0}/{position?.totalSlots || 0}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                {/* Rescind Policy */}
-                <div className="bg-primary-50 p-4 rounded-lg">
-                    <p className="default-label text-primary-700">
-                        Note: If an applicant hasn&apos;t accepted or withdrawn from their accepted position within 3 days,
-                        you can choose to rescind their offer and accept another candidate.
-                    </p>
+                {/* Policy Card */}
+                <div className="bg-primary-50 p-6 rounded-xl border border-primary-100 flex justify-center items-center">
+                    <div className="flex flex-col gap-3 items-center">
+                        <div className="flex-shrink-0">
+                            <svg className="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div className="text-center">
+                            <h3 className="default-text font-medium text-primary-900 mb-2">Rescind Policy</h3>
+                            <p className="default-label text-primary-700">
+                                If an applicant hasn&apos;t accepted or withdrawn from their accepted position within 3 days,
+                                you can choose to rescind their offer and accept another candidate.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             {/* Accepted Applicants Table */}
-            <div className="mt-8">
+            <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
                 <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-300">
-                        <thead>
+                    <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-50">
                             <tr>
-                                <th scope="col" className="px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                <th scope="col" className="px-6 py-4 text-left default-label uppercase tracking-wider text-gray-500">
                                     Name
                                 </th>
-                                <th scope="col" className="px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                <th scope="col" className="px-6 py-4 text-left default-label uppercase tracking-wider text-gray-500">
                                     Email
                                 </th>
-                                <th scope="col" className="px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                <th scope="col" className="px-6 py-4 text-left default-label uppercase tracking-wider text-gray-500">
                                     Status
                                 </th>
-                                <th scope="col" className="px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                <th scope="col" className="px-6 py-4 text-left default-label uppercase tracking-wider text-gray-500">
                                     Last Updated
                                 </th>
-                                <th scope="col" className="px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                <th scope="col" className="px-6 py-4 text-left default-label uppercase tracking-wider text-gray-500">
                                     Actions
                                 </th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-200">
+                        <tbody className="bg-white divide-y divide-gray-200">
                             {acceptedApplicants.map((applicant, index) => (
-                                <tr key={index}>
-                                    <td className="px-2 py-4 whitespace-nowrap">
+                                <tr key={index} className="hover:bg-gray-50">
+                                    <td className="px-6 py-4 whitespace-nowrap">
                                         <p className="default-text text-gray-900">{applicant.fullName}</p>
                                     </td>
-                                    <td className="px-2 py-4 whitespace-nowrap default-text">{applicant.email}</td>
-                                    <td className="px-2 py-4 whitespace-nowrap">{getCommitmentStatus(applicant)}</td>
-                                    <td className="px-2 py-4 whitespace-nowrap default-text">
-                                        {applicant.updatedAt ? format((applicant.updatedAt as Timestamp).toDate(), 'MMMM d, yyyy') : '-'}
+                                    <td className="px-6 py-4 whitespace-nowrap default-text text-gray-500">{applicant.email}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{getCommitmentStatus(applicant)}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap default-text text-gray-500">
+                                        {applicant.updatedAt ? format((applicant.updatedAt as Timestamp).toDate(), 'MMM d, yyyy') : '-'}
                                     </td>
-                                    <td className="px-2 py-4 whitespace-nowrap">
+                                    <td className="px-6 py-4 whitespace-nowrap">
                                         <button
                                             onClick={() => {
                                                 onOpen(
@@ -138,12 +182,20 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ applicants, position }) => {
                                                 );
                                             }}
                                             disabled={!canRescind(applicant)}
-                                            className={`default-text transition-colors ${
-                                                canRescind(applicant)
-                                                    ? "text-red-600 hover:bg-red-100"
+                                            className={`
+                                                inline-flex items-center px-3 py-1.5 rounded-md default-text font-poppins
+                                                transition-colors duration-150 ease-in-out
+                                                ${canRescind(applicant)
+                                                    ? "text-red-700 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                                                     : "text-gray-400 cursor-not-allowed"
-                                            }`}
+                                                }
+                                            `}
                                         >
+                                            {canRescind(applicant) && (
+                                                <svg className="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                            )}
                                             Rescind
                                         </button>
                                     </td>
@@ -153,70 +205,6 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ applicants, position }) => {
                     </table>
                 </div>
             </div>
-
-            {position && (
-                <div>
-                    <h2 className="default-subheading mt-20 mb-4">Position Overview</h2>
-                    <div className="bg-white rounded-lg border border-gray-100 shadow-sm">
-                        {/* Header Section */}
-                        <div className="p-6 border-b border-gray-100">
-                            <h3 className="default-text font-semibold text-gray-900 mb-2">
-                                {position.positionTitle}
-                            </h3>
-                            <div className="flex flex-wrap gap-3">
-                                <span className="px-3 py-1 bg-primary-50 text-primary-600 rounded-lg text-sm font-medium">
-                                    {toTitleCase(position.positionType)}
-                                </span>
-                                <span className="px-3 py-1 bg-gray-50 text-gray-600 rounded-lg text-sm font-medium">
-                                    {position.positionLocation || "Remote"}
-                                </span>
-                                {position.requireResume && (
-                                    <span className="px-3 py-1 bg-gray-50 text-gray-600 rounded-lg text-sm font-medium">
-                                        Resume Required
-                                    </span>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Content Sections */}
-                        <div className="divide-y divide-gray-100">
-                            {/* Description */}
-                            <div className="p-6">
-                                <h4 className="text-sm font-medium text-gray-500 mb-1">Description</h4>
-                                <p className="default-text text-gray-700 whitespace-pre-wrap">
-                                    {position.positionDescription}
-                                </p>
-                            </div>
-
-                            {/* Requirements */}
-                            <div className="p-6">
-                                <h4 className="text-sm font-medium text-gray-500 mb-1">Requirements</h4>
-                                <p className="default-text text-gray-700 whitespace-pre-wrap">
-                                    {position.positionRequirements || "No specific requirements listed"}
-                                </p>
-                            </div>
-
-                            {/* Application Questions */}
-                            <div className="p-6">
-                                <h4 className="text-sm font-medium text-gray-500 mb-3">Application Questions</h4>
-                                {position.positionQuestions?.length > 0 ? (
-                                    <div className="space-y-4">
-                                        {position.positionQuestions.map((question: string, index: number) => (
-                                            <div key={index} className="bg-gray-50 p-4 rounded-lg">
-                                                <p className="default-label text-gray-900">
-                                                    {index + 1}. {question}
-                                                </p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                ) : (
-                                    <p className="default-text text-gray-500">No application questions</p>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };
