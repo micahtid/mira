@@ -75,7 +75,7 @@ export const registrationFields: Record<RegistrationType, FormField[]> = {
             required: true
         },
         { 
-            name: "education",
+            name: "educationLevel",
             label: "Highest Level of Education",
             type: "text",
             placeholder: "Enter your highest education level",
@@ -83,12 +83,12 @@ export const registrationFields: Record<RegistrationType, FormField[]> = {
             maxLength: 100
         },
         { 
-            name: "resume",
+            name: "resumeText",
             label: "Resume",
             type: "text",
             multiline: true,
             placeholder: "Write your resume here",
-            required: true,
+            required: false,
             maxLength: 1000
         },
         { 

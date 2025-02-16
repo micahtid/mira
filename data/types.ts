@@ -25,24 +25,28 @@ export type Position = {
     oid: string;
     organizationName: string;
     organizationEmail: string;
-    //////////////////////// Position Details ////////////////////////
+
+    //////////// Position Details 
     positionTitle: string;
     positionType: string;
-    positionLocation: string | null;        // `null` means "Remote"
+    positionLocation: string | null;        // `null` as "Remote"
     locationType: string;
     positionDescription: string;
     positionRequirements: string;
     positionQuestions?: string[];
-    //////////////////////// Application Requirements ////////////////////////
+
+    //////////// Application Requirements 
     requireResume: boolean;
-    //////////////////////// Visibility ////////////////////////
+
+    //////////// Position Visibility
     visible: boolean;
-    locked?: boolean;                       // When true, position is locked and visibility cannot be changed
-    //////////////////////// Slot Management ////////////////////////
-    totalSlots: number;                      // Total number of slots available from the start (constant)
-    openSlots: number;                       // Current number of open slots (decreases when someone is accepted)
-    committedApplicants: number;             // Number of accepted applicants who have officially committed
-    totalApplicants: number;                 // Total number of applicants (including pending, rejected, etc.)
+    locked?: boolean;                       // When `locked`, visibility cannot be changed!
+
+    //////////// Slot Management 
+    totalSlots: number;                      // CONSTANT: Number of available spots!
+    openSlots: number;                       // VARIABLE: Number of open spots!
+    committedApplicants: number;             // VARIABLE: Number of closed / committed spots!
+    totalApplicants: number;                 // VARIABLE: Number of total applicants!
 }
 
 import { Timestamp } from "firebase/firestore";
@@ -52,16 +56,17 @@ export type Application = {
   uid: string;
   fullName: string;
   email: string;
-  ////////////////////////
-  status: string;                           // "pending" | "accepted" | "rejected"
+
+  //////////// Application Status 
+  status: "pending" | "accepted" | "rejected";                  
+  bookMark: boolean;
   committed?: boolean;
   rescinded?: boolean;
   updatedAt?: Timestamp;
-  bookMark: boolean;
-  ////////////////////////
-  education: string;
-  currentEmployment: string;
-  resume?: string;
+  
+  //////////// Application Information 
+  educationLevel: string;
+  resumeText?: string;
   resumeLink?: string;
   portfolioLink?: string;
   applicantResponses?: string[];

@@ -1,6 +1,6 @@
 'use client';
 
-import { updateAccount } from '@/utils/accountFunctions';
+import { updateAccount } from '@/utils/globalFunctions';
 import { FormField } from '@/data/types';
 
 import { useForm } from 'react-hook-form';
@@ -11,8 +11,8 @@ import EntryField from '@/components/common/EntryField';
 
 interface FormData {
   fullName: string;
-  education: string;
-  resume: string;
+  educationLevel: string;
+  resumeText: string;
   resumeLink: string;
   portfolioLink: string;
 }
@@ -22,8 +22,8 @@ const AccountSettings = () => {
   const { register, handleSubmit, formState: { isDirty }, reset } = useForm<FormData>({
     defaultValues: {
       fullName: accountData?.fullName || '',
-      education: accountData?.education || '',
-      resume: accountData?.resume || '',
+      educationLevel: accountData?.educationLevel || '',
+      resumeText: accountData?.resumeText || '',
       resumeLink: accountData?.resumeLink || '',
       portfolioLink: accountData?.portfolioLink || ''
     }
@@ -56,7 +56,7 @@ const AccountSettings = () => {
       maxLength: 50
     },
     {
-      name: 'education',
+      name: 'educationLevel',
       label: 'Education',
       type: 'text',
       multiline: true,
@@ -65,7 +65,7 @@ const AccountSettings = () => {
       maxLength: 300
     },
     {
-      name: 'resume',
+      name: 'resumeText',
       label: 'Resume',
       type: 'text',
       multiline: true,

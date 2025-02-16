@@ -1,21 +1,9 @@
-import {
-  addDoc,
-  collection,
-  doc,
-  getDocs,
-  increment,
-  onSnapshot,
-  orderBy,
-  query,
-  serverTimestamp,
-  updateDoc,
-  where
-} from "firebase/firestore";
-
-import { getFireStore, getUserAuth, initializeFirebase, getAllPositions, incrementOpenSlots, incrementCommittedApplicants } from "./firebaseFunctions";
+import { addDoc, collection, doc, getDocs, onSnapshot, orderBy, query, serverTimestamp, updateDoc, where, increment } from "firebase/firestore";
+import { getFireStore, getUserAuth, initializeFirebase } from "./firebaseFunctions";
+import { incrementCommittedApplicants, updateOpenSlots } from "./globalFunctions";
 import { Application, Position } from "../data/types";
 
-// Retrieve a position by ID
+// RETURN: Single position based on PID.
 export const getPosition = (
   pid: string,
   onUpdate: (position: Position | null) => void
@@ -38,7 +26,7 @@ export const getPosition = (
   });
 };
 
-// Get a single application!
+// RETURN: Single application based on UID & PID.
 export const getApplication = (
   uid: string, 
   pid: string,
@@ -62,7 +50,6 @@ export const getApplication = (
   });
 };
 
-// Allow applicant to apply for a position!
 export const addApplication = async (applicationData: Partial<Application>) => {
   const app = initializeFirebase();
   const auth = getUserAuth(true);
@@ -86,7 +73,7 @@ export const addApplication = async (applicationData: Partial<Application>) => {
   }
 };
 
-// Increment number of applications for a position!
+// Increment .totalApplicants!
 export const incrementTotalApplicants = async (pid: string) => {
   const app = initializeFirebase();
   const firestore = getFireStore(true);
@@ -114,7 +101,6 @@ export const incrementTotalApplicants = async (pid: string) => {
   }
 };
 
-// Retrieves all of the applicant's applications
 export const getApplicationsByUser = (
   uid: string,
   onUpdate: (applications: Application[]) => void
@@ -136,8 +122,8 @@ export const getApplicationsByUser = (
   });
 };
 
-// Allow applicant to commit or withdraw from a position!
-// After they have been accepted!
+// When an applicant COMMITS or WITHDRAWS from a position!
+// Only when .status == "accepted"!
 export const setApplicantCommitment = async (uid: string, isCommitted: boolean) => {
   try {
     const firestore = getFireStore(true);
@@ -161,10 +147,10 @@ export const setApplicantCommitment = async (uid: string, isCommitted: boolean) 
     });
 
     if (!isCommitted) {
-      // Increment available slots when applicant withdraws commitment
-      await incrementOpenSlots(application.pid);
+      // .openSlots + 1
+      await updateOpenSlots(application.pid, 1);
     } else {
-      // Increment committedApplicants when applicant commits
+      // .committedApplicants + 1
       await incrementCommittedApplicants(application.pid);
     }
 

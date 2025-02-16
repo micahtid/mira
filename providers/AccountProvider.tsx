@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { DocumentData } from "firebase/firestore";
 import { Auth, User } from "firebase/auth";
 import { initializeFirebase, getUserAuth } from "@/utils/firebaseFunctions";
-import { getAccount } from "@/utils/accountFunctions";
+import { getAccount } from "@/utils/globalFunctions";
 
 type AccountContextType = {
   account: null | undefined | DocumentData;

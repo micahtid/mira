@@ -52,12 +52,12 @@ const ApplicantProfile: React.FC<ApplicantProfileProps> = ({ applicant, position
                 <div className="mt-4 space-y-4">
                     <div>
                         <h3 className="font-semibold text-gray-700">Education</h3>
-                        <p className="default-text">{applicant.education}</p>
+                        <p className="default-text">{applicant.educationLevel}</p>
                     </div>
-                    {applicant.resume && (
+                    {applicant.resumeText && (
                         <div>
                             <h3 className="font-semibold text-gray-700">Resume</h3>
-                            <p className="default-text whitespace-pre-wrap">{applicant.resume}</p>
+                            <p className="default-text whitespace-pre-wrap">{applicant.resumeText}</p>
                         </div>
                     )}
                     {/* External Links */}

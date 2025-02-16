@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { DocumentData, Timestamp } from 'firebase/firestore';
-import { getAccount } from '@/utils/accountFunctions';
+import { getAccount } from '@/utils/globalFunctions';
 import { format } from 'date-fns';
 import { FaGlobe, FaInstagram } from 'react-icons/fa';
 

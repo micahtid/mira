@@ -54,7 +54,7 @@ const ManagePositions = () => {
   const handleVisibilityChange = async (pid: string, newVisibility: boolean, locked: boolean) => {
     // If position is locked, visibility cannot be changed
     if (locked) {
-      toast.error("This position is locked and visibility cannot be changed.");
+      toast.error("Position is complete and locked. No further modifications are allowed.");
       return;
     }
 
@@ -139,7 +139,7 @@ const ManagePositions = () => {
                     <Switch.Root
                       checked={position.visible}
                       onCheckedChange={(checked) => handleVisibilityChange(position.pid, checked, position.locked)}
-                      disabled={position.locked}
+                      // disabled={position.locked}
                       className={`w-10 h-6 bg-gray-200 rounded-full relative data-[state=checked]:bg-primary-600 
                         outline-none cursor-default ${position.locked ? 'opacity-50 cursor-not-allowed' : ''}`}
                     >

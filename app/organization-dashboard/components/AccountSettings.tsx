@@ -1,7 +1,7 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { updateAccount } from '@/utils/accountFunctions';
+import { updateAccount } from '@/utils/globalFunctions';
 
 import { FormField } from '@/data/types';
 import { useAccount } from '@/providers/AccountProvider';

@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
-import { addAccount } from "@/utils/accountFunctions";
+import { addAccount } from "@/utils/globalFunctions";
 import { signOut } from "@/utils/firebaseFunctions";
 
 import EntryField from "@/components/common/EntryField";

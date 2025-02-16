@@ -1,7 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithRedirect, signInWithPopup } from "firebase/auth";
-import { getFirestore, query, collection, orderBy, onSnapshot, getDocs, where, updateDoc, doc } from "firebase/firestore";
-import { Position } from "../data/types";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 export const initializeFirebase = () => {
     const firebaseConfig = {
@@ -34,6 +33,9 @@ export const getFireStore = (alreadyInit: boolean) => {
   return firestore;
 }
 
+////////////////////////////////
+////////////////////////////////
+
 export const signIn = () => {
   const auth = getUserAuth(false);
   const provider = new GoogleAuthProvider();
@@ -44,110 +46,3 @@ export const signOut = () => {
   const auth = getUserAuth(false);
   auth.signOut();
 }
-
-///////////////////////////////////
-export const getAllPositions = (onUpdate: (positions: Position[]) => void) => {
-  const app = initializeFirebase();
-  const firestore = getFireStore(true);
-
-  const q = query(
-    collection(firestore, `/positions`),
-    orderBy("createdAt", "desc")
-  );
-
-  return onSnapshot(q, (querySnapshot) => {
-    const positions = querySnapshot.docs.map(doc => 
-      doc.data() as Position
-    );
-    onUpdate(positions);
-  });
-};
-
-///////////////////////////////////
-export const decrementOpenSlots = async (pid: string): Promise<void> => {
-  try {
-    const firestore = getFireStore(true);
-    const q = query(
-      collection(firestore, "positions"),
-      where("pid", "==", pid)
-    );
-
-    const querySnapshot = await getDocs(q);
-    const positionDoc = querySnapshot.docs[0];
-    
-    if (!positionDoc) {
-      throw new Error("Position not found");
-    }
-
-    const position = positionDoc.data() as Position;
-    if (position.openSlots <= 0) {
-      throw new Error("No open slots remaining");
-    }
-
-    await updateDoc(doc(firestore, "positions", positionDoc.id), {
-      openSlots: position.openSlots - 1
-    });
-  } catch (error) {
-    console.error("Error decrementing open slots:", error);
-    throw error;
-  }
-};
-
-export const incrementOpenSlots = async (pid: string): Promise<void> => {
-  try {
-    const firestore = getFireStore(true);
-    const q = query(
-      collection(firestore, "positions"),
-      where("pid", "==", pid)
-    );
-
-    const querySnapshot = await getDocs(q);
-    const positionDoc = querySnapshot.docs[0];
-    
-    if (!positionDoc) {
-      throw new Error("Position not found");
-    }
-
-    const position = positionDoc.data() as Position;
-    await updateDoc(doc(firestore, "positions", positionDoc.id), {
-      openSlots: position.openSlots + 1
-    });
-  } catch (error) {
-    console.error("Error incrementing open slots:", error);
-    throw error;
-  }
-};
-
-export const incrementCommittedApplicants = async (pid: string): Promise<void> => {
-  try {
-    const firestore = getFireStore(true);
-    const q = query(
-      collection(firestore, "positions"),
-      where("pid", "==", pid)
-    );
-
-    const querySnapshot = await getDocs(q);
-    const positionDoc = querySnapshot.docs[0];
-    
-    if (!positionDoc) {
-      throw new Error("Position not found");
-    }
-    
-    const position = positionDoc.data() as Position;
-
-    // If committedApplicants equals totalSlots, lock the position
-    if ((position.committedApplicants || 0) + 1 === position.totalSlots) {
-      await updateDoc(doc(firestore, "positions", positionDoc.id), {
-        locked: true,
-        visible: false
-      });
-    }
-
-    await updateDoc(doc(firestore, "positions", positionDoc.id), {
-      committedApplicants: (position.committedApplicants || 0) + 1
-    });
-  } catch (error) {
-    console.error("Error incrementing committed applicants:", error);
-    throw error;
-  }
-};

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { DocumentData } from 'firebase/firestore';
 import { useSearchParams, useRouter } from 'next/navigation';
 
+import { Application } from '@/data/types';
 import { incrementTotalApplicants } from '@/utils/applicantFunctions';
 import { addApplication, getPosition } from '@/utils/applicantFunctions';
 
@@ -14,7 +15,6 @@ import { toast } from 'react-hot-toast';
 import EntryField from '@/components/common/EntryField';
 import Loader from '@/components/common/Loader';
 
-import { Application } from '@/data/types';
 
 interface FormData {
   questions: string[];
@@ -69,14 +69,13 @@ const Apply = () => {
 
         // Applicant information
         fullName: accountData.fullName || '',
-        education: accountData.education || '',
-        currentEmployment: accountData.currentEmployment || '',
+        educationLevel: accountData.educationLevel || '',
         
         // Position responses
         applicantResponses: position?.positionQuestions?.map((_: string, index: number) => data.questions[index]) || [],
         
         // Optional links
-        ...(position?.requireResume && accountData.resume && { resume: accountData.resume }),
+        ...(position?.requireResume && accountData.resumeText && { resumeText: accountData.resumeText }),
         ...(accountData.resumeLink && { resumeLink: accountData.resumeLink }),
         ...(accountData.portfolioLink && { portfolioLink: accountData.portfolioLink })
       };
@@ -136,7 +135,7 @@ const Apply = () => {
           {position.requireResume && (
             <div className="mb-6 p-4 bg-primary-50 border border-primary-100 rounded-lg">
               <p className="text-sm font-poppins text-primary-700">
-                Your resume will be sent in (This is the same resume in your account settings).
+                Your resumeText will be sent in (This is the same resumeText in your account settings).
                 {(accountData?.resumeLink || accountData?.portfolioLink) && (
                   <> Your resume link and portfolio link will also be included in your application.</>
                 )}
