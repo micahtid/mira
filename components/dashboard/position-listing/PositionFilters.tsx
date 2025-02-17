@@ -91,8 +91,8 @@ const PositionFilters: React.FC<PositionFiltersProps> = ({ onFiltersChange }) =>
         <button
           onClick={handleSearch}
           className="
-          default-button text-sm
-          self-end px-8 py-[11.5px]"
+          default-button
+          self-end px-8 py-[9.25px]"
         >
           Find
         </button>

@@ -15,7 +15,6 @@ import { format, differenceInDays } from 'date-fns';
 import { toast } from 'react-hot-toast';
 
 import { Application } from '@/data/types';
-import { toTitleCase } from '@/utils/misc';
 import { rescindApplicant } from '@/utils/organizationFunctions';
 import { useConfirmationModal } from "@/hooks/useConfirmationModal";
 

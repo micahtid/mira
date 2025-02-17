@@ -23,7 +23,10 @@ const OrganizationLink: React.FC<{ oid: string; name: string }> = ({ oid, name }
 const PositionPreview: React.FC<PositionPreviewProps> = ({ position, allowApply, hasApplied }) => {
   if (!position) {
     return (
-      <div className="sticky top-6 p-8 bg-white rounded-lg border border-gray-100 text-center text-gray-500">
+      <div className="
+      sticky top-6 p-8 
+      bg-white rounded-lg border border-gray-100 text-center 
+      default-text text-gray-500">
         Select a position to view details
       </div>
     );

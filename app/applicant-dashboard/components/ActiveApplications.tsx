@@ -57,7 +57,7 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
     <div className="space-y-4 mt-4">
       <div>
         <h1 className="default-subheading">Active Applications</h1>
-        <p className="default-label text-gray-500">Review and manage your applications</p>
+        <p className="default-label text-gray-500">Review and manage your applications!</p>
       </div>
       {applications.map((application) => (
         <div key={application.pid} className="default-card space-y-6">
@@ -111,7 +111,7 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
                     "Your acceptance has been rescinded because you did not respond within 3 days."
                   ) : application.committed === undefined ? (
                     <>
-                      Please accept or withdraw from this position. Note that if you don't respond within 3 days, the organization may rescind their offer.
+                      Please accept or withdraw from this position. Note that if you don&apos;t respond within 3 days, the organization may rescind their offer.
                       {application.updatedAt && (
                         <span className="mt-2 text-sm text-gray-500">
                           Accepted on: {format(application.updatedAt.toDate(), 'MMMM d, yyyy')}
