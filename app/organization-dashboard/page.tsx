@@ -1,13 +1,11 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import DashboardNavBar from "@/components/DashboardNavBar";
+import DashboardNavBar from "@/components/dashboard/DashboardNavBar";
 
 import ManagePositions from "./components/ManagePositions";
-import PositionListing from "@/components/PositionListing";
+import PositionListing from "@/components/dashboard/position-listing/PositionListing";
 import AccountSettings from "./components/AccountSettings";
-
-import { signOut } from "@/utils/firebaseFunctions";
 
 const OrganizationDashboard = () => {
   const searchParams = useSearchParams();
@@ -31,10 +29,6 @@ const OrganizationDashboard = () => {
         { label: "View Listings", link: "positions" },
         { label: "Settings", link: "account-settings" }
       ]} />
-
-      <h3 className="default-heading">Dashboard</h3>
-      <button onClick={() => signOut()} className="default-button">Log Out</button>
-      
       <div className="default-content">
         {renderContent()}
       </div>

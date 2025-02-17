@@ -3,11 +3,22 @@
 import React, { useEffect, useState } from 'react';
 import { DocumentData } from 'firebase/firestore';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { incrementApplicantCount } from '@/utils/applicationFunctions';
-import { addApplication, getPosition } from '@/utils/applicationFunctions';
+
+import { Application } from '@/data/types';
+import { incrementTotalApplicants } from '@/utils/applicantFunctions';
+import { addApplication, getPosition } from '@/utils/applicantFunctions';
+
 import { useForm } from 'react-hook-form';
 import { useAccount } from '@/providers/AccountProvider';
-import { Applicant } from '@/data/types';
+import { toast } from 'react-hot-toast';
+
+import EntryField from '@/components/common/EntryField';
+import Loader from '@/components/common/Loader';
+
+
+interface FormData {
+  questions: string[];
+}
 
 const Apply = () => {
   const searchParams = useSearchParams();
@@ -17,7 +28,7 @@ const Apply = () => {
   const [acknowledgeRequirements, setAcknowledgeRequirements] = useState(false);
   const { accountData } = useAccount();
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm<FormData>();
 
   useEffect(() => {
     if (pid) {
@@ -29,154 +40,149 @@ const Apply = () => {
     }
   }, [pid]);
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: FormData) => {
+    // 1. Validate requirements
     if (!acknowledgeRequirements) {
-      alert('Please confirm that you have read the description and meet the requirements.');
+      toast.error('Please confirm that you have read the description and meet the requirements.');
       return;
     }
 
     if (!accountData) {
-      alert('Please sign in to submit an application.');
+      toast.error('Please sign in to submit an application.');
       return;
     }
 
     if (!pid) {
-      alert('Invalid position ID.');
+      toast.error('Invalid position ID.');
       return;
     }
 
-    // TODO : CLEAN UP UNECESSARY TYPE!
     try {
-      interface ApplicationData {
-        pid: string;
-        applicantResponses: string[];
-        fullName: string;
-        education: string;
-        currentEmployment: string;
-        resume?: string;
-        resumeLink?: string;
-        portfolioLink?: string;
-      }
-
-      const applicationData: ApplicationData = {
+      // 2. Prepare application data
+      const applicationData: Application = {
+        // Core application data
         pid,
-        applicantResponses: position?.positionQuestions?.map((_: string, index: number) => data.questions[index]) || [],
+        uid: accountData.uid,
+        email: accountData.email,
+        status: "pending",
+        bookMark: false,
+
+        // Applicant information
         fullName: accountData.fullName || '',
-        education: accountData.education || '',
-        currentEmployment: accountData.currentEmployment || ''
+        educationLevel: accountData.educationLevel || '',
+        
+        // Position responses
+        applicantResponses: position?.positionQuestions?.map((_: string, index: number) => data.questions[index]) || [],
+        
+        // Optional links
+        ...(position?.requireResume && accountData.resumeText && { resumeText: accountData.resumeText }),
+        ...(accountData.resumeLink && { resumeLink: accountData.resumeLink }),
+        ...(accountData.portfolioLink && { portfolioLink: accountData.portfolioLink })
       };
 
-      if (position?.requireResume && accountData.resume) {
-        applicationData.resume = accountData.resume;
-      }
-
-      if (accountData.resumeLink) {
-        applicationData.resumeLink = accountData.resumeLink;
-      }
-
-      if (accountData.portfolioLink) {
-        applicationData.portfolioLink = accountData.portfolioLink;
-      }
-
+      // 3. Submit application and update position
       await addApplication(applicationData);
-      await incrementApplicantCount(pid);
+      await incrementTotalApplicants(pid);
 
-      alert('Application submitted successfully!');
+      // 4. Success and redirect
+      toast.success('Application submitted successfully!');
       router.push('/applicant-dashboard');
 
     } catch (error) {
       console.error('Error submitting application:', error);
-      alert('Failed to submit application. Please try again.');
+      toast.error('Failed to submit application. Please try again.');
     }
   };
 
+  if (!position) {
+    return <Loader />;
+  }
+
   return (
-    <div className="default-container space-y-6">
-      {position ? (
-        <>
-          {/* Header Section */}
-          <div className="mb-6">
-            <h1 className="text-2xl font-bold mb-2">Apply for {position.positionTitle}</h1>
-            <button className="text-blue-500 hover:underline" onClick={() => {}}>
-              @{position.organizationName}
-            </button>
+    <div className="default-container py-8">
+      <div className="mb-8">
+        <h1 className="default-subheading text-primary-900 mb-2">Apply for {position.positionTitle}</h1>
+        <button className="default-text font-medium text-blue-500 hover:text-blue-600" onClick={() => {}}>
+          @{position.organizationName}
+        </button>
+      </div>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+        <div className="space-y-6 bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+          <div>
+            <h2 className="default-text font-semibold text-gray-900 mb-3">Description</h2>
+            <p className="default-text text-gray-600">{position.positionDescription}</p>
           </div>
 
-          {/* Application Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            {/* Position Details */}
-            <div className="space-y-6">
-              <div className="bg-white p-4 rounded border">
-                <h2 className="text-lg font-semibold mb-2">Description</h2>
-                <p className="text-gray-600">{position.positionDescription}</p>
-              </div>
-
-              {position.positionRequirements && (
-                <div className="bg-white p-4 rounded border">
-                  <h2 className="text-lg font-semibold mb-2">Requirements</h2>
-                  <p className="text-gray-600">{position.positionRequirements}</p>
-                </div>
-              )}
-
-              {position.positionLocation && (
-                <div className="bg-white p-4 rounded border">
-                  <h2 className="text-lg font-semibold mb-2">Location</h2>
-                  <p className="text-gray-600">{position.positionLocation}</p>
-                </div>
-              )}
+          {position.positionRequirements && (
+            <div>
+              <h2 className="default-text font-semibold text-gray-900 mb-3">Requirements</h2>
+              <p className="default-text text-gray-600">{position.positionRequirements}</p>
             </div>
+          )}
 
-            {/* Application Questions */}
-            <div className="bg-white p-4 rounded border">
-              <h2 className="text-lg font-semibold mb-4">Application Form</h2>
-
-              {position.requireResume && (
-                <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded">
-                  <p className="text-blue-600">
-                    Your resume will be sent in (This is the same resume in your account settings).
-                    {(accountData?.resumeLink || accountData?.portfolioLink) && (
-                      <> Your resume link and portfolio link will also be included in your application.</>
-                    )}
-                  </p>
-                </div>
-              )}
-
-              {position.positionQuestions && position.positionQuestions.map((question: string, index: number) => (
-                <div key={index} className="mb-4 last:mb-0">
-                  <label className="block mb-2 font-medium">{question}</label>
-                  <textarea
-                    {...register(`questions.${index}`)}
-                    className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
-                  />
-                </div>
-              ))}
-              
-              <div className="mb-4">
-                <label className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    checked={acknowledgeRequirements}
-                    onChange={(e) => setAcknowledgeRequirements(e.target.checked)}
-                    className="form-checkbox h-4 w-4 text-blue-500"
-                  />
-                  <span className="text-gray-700">I confirm that I have read the description and meet the requirements.</span>
-                </label>
-              </div>
-
-              <div className="mt-6">
-                <button
-                  type="submit"
-                  className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-                >
-                  Submit Application
-                </button>
-              </div>
+          {position.positionLocation && (
+            <div>
+              <h2 className="default-text font-semibold text-gray-900 mb-3">Location</h2>
+              <p className="default-text text-gray-600">{position.positionLocation}</p>
             </div>
-          </form>
-        </>
-      ) : (
-        <p className="text-center text-gray-500">Loading position details...</p>
-      )}
+          )}
+        </div>
+
+        <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+          <h2 className="default-text font-semibold text-primary-900 mb-6">Application Form</h2>
+
+          {position.requireResume && (
+            <div className="mb-6 p-4 bg-primary-50 border border-primary-100 rounded-lg">
+              <p className="text-sm font-poppins text-primary-700">
+                Your resumeText will be sent in (This is the same resumeText in your account settings).
+                {(accountData?.resumeLink || accountData?.portfolioLink) && (
+                  <> Your resume link and portfolio link will also be included in your application.</>
+                )}
+              </p>
+            </div>
+          )}
+
+          {position.positionQuestions && position.positionQuestions.map((question: string, index: number) => (
+            <div key={index} className="mb-6 last:mb-0">
+              <EntryField
+                field={{
+                  name: `questions.${index}`,
+                  label: question,
+                  type: 'text',
+                  multiline: true,
+                  required: true,
+                  placeholder: 'Enter your answer'
+                }}
+                register={register}
+              />
+            </div>
+          ))}
+          
+          <div className="mt-8">
+            <label className="flex items-center space-x-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={acknowledgeRequirements}
+                onChange={(e) => setAcknowledgeRequirements(e.target.checked)}
+                className="form-checkbox h-5 w-5 text-blue-500 rounded border-gray-300 focus:ring-blue-500"
+              />
+              <span className="text-sm font-poppins text-gray-700">
+                I confirm that I have read the description and meet the requirements.
+              </span>
+            </label>
+          </div>
+
+          <div className="mt-8">
+            <button
+              type="submit"
+              className="w-full default-button"
+            >
+              Submit Application
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
   );
 };

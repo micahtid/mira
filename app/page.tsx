@@ -1,24 +1,21 @@
 "use client";
 
-import { signOut } from "@/utils/firebaseFunctions";
-
-import Accordian from "@/components/Accordian"
-
-import Login from "@/components/Login";
+import { signIn, signOut } from "@/utils/firebaseFunctions";
 
 const Home = () => {
   return (
-    <div className="default-container flex flex-col gap-4">
-      <h3 className="default-heading">This is Mira</h3>
-      <p className="default-text">We&apos;ll help you connect!</p>
-      <button onClick={signOut} className="default-button">
-        Log Out
-      </button>
-      <Accordian title="What is Mira?" content="This is a test!" />
-
-      <Login />
+    <div className="default-container py-12">
+      <h3 className="default-heading">Mira</h3>
+      <div className="flex gap-4 justify-start mt-8">
+        <button onClick={signIn} className="default-button">
+          Sign In
+        </button>
+        <button onClick={signOut} className="default-button">
+          Sign Out
+        </button>
+      </div>
     </div>
   )
 }
 
-export default Home
+export default Home;

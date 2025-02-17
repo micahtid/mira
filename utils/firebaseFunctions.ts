@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithRedirect, signInWithPopup } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 export const initializeFirebase = () => {
@@ -32,6 +32,9 @@ export const getFireStore = (alreadyInit: boolean) => {
   const firestore = getFirestore();
   return firestore;
 }
+
+////////////////////////////////
+////////////////////////////////
 
 export const signIn = () => {
   const auth = getUserAuth(false);

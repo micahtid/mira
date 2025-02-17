@@ -5,6 +5,9 @@ import "./globals.css";
 import { AccountContextProvider } from "@/providers/AccountProvider";
 import AuthRouter from "@/providers/AuthRouter";
 
+import ModalProvider from "@/providers/ModalProvider";
+import ToasterProvider from "@/providers/ToasterProvider";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -33,6 +36,8 @@ export default function RootLayout({
         <AccountContextProvider>
           <AuthRouter>
             {children}
+            <ModalProvider />
+            <ToasterProvider />
           </AuthRouter>
         </AccountContextProvider>
       </body>

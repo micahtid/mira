@@ -1,24 +1,50 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import DashboardNavBar from "@/components/DashboardNavBar";
-import PositionListing from "@/components/PositionListing";
+import { getUserAuth } from "@/utils/firebaseFunctions";
+import { getApplicationsByUser } from "@/utils/applicantFunctions";
+import DashboardNavBar from "@/components/dashboard/DashboardNavBar";
+import PositionListing from "@/components/dashboard/position-listing/PositionListing";
+import { Application } from "@/data/types";
 
 import AccountSettings from "./components/AccountSettings";
 import ActiveApplications from "./components/ActiveApplications";
 
-import { signOut } from "@/utils/firebaseFunctions";
-
 const ApplicantDashboard = () => {
   const searchParams = useSearchParams();
   const currentPage = searchParams.get("page") || "positions";
+  const [applications, setApplications] = useState<Application[]>([]);
+  const auth = getUserAuth(true);
+
+  useEffect(() => {
+    let unsubscribe: () => void;
+
+    const setupSubscription = async () => {
+      if (auth.currentUser) {
+        unsubscribe = getApplicationsByUser(auth.currentUser.uid, (fetchedApplications) => {
+          setApplications(fetchedApplications);
+        });
+      }
+    };
+
+    setupSubscription();
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
+  }, [auth.currentUser]);
 
   const renderContent = () => {
     switch (currentPage) {
       case "positions":
-        return <PositionListing allowApply={true} />;
+        return <PositionListing 
+          allowApply={true} 
+          activeApplications={applications.map(app => app.pid)}
+        />;
       case "active-applications":
-        return <ActiveApplications />;
+        return <ActiveApplications applications={applications} />;
       case "account-settings":
         return <AccountSettings />;
     }
@@ -31,10 +57,6 @@ const ApplicantDashboard = () => {
         { label: "Active Applications", link: "active-applications" },
         { label: "Settings", link: "account-settings" }
       ]} />
-      
-      <h3 className="default-heading">Dashboard</h3>
-      <button onClick={() => signOut()} className="default-button">Log Out</button>
-
       <div className="">
         {renderContent()}
       </div>

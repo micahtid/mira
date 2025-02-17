@@ -1,121 +1,25 @@
 "use client";
 
-import React from 'react';
-import { useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { addAccount } from "@/utils/accountFunctions";
-import { motion, AnimatePresence } from "framer-motion";
-import { RiArrowRightLine, RiBuildingLine, RiUserLine, RiUpload2Line, RiBriefcaseLine, RiGraduationCapLine, RiCalendarLine, RiLink } from "react-icons/ri";
+import { motion } from "framer-motion";
+import { addAccount } from "@/utils/globalFunctions";
+import { signOut } from "@/utils/firebaseFunctions";
 
-type RegistrationType = "organization" | "individual";
+import EntryField from "@/components/common/EntryField";
+import TypeSelector from "./components/TypeSelector";
 
-type FormField = {
-    name: string;
-    label: string;
-    maxLength?: number;
-    type?: string;
-    multiline?: boolean;
-    icon?: React.ReactNode;
-    placeholder?: string;
-    required?: boolean;
-};
-
-const fields: Record<RegistrationType, FormField[]> = {
-    organization: [
-        { 
-            name: "organizationName", 
-            label: "Organization Name", 
-            maxLength: 50, 
-            icon: <RiBuildingLine className="text-lg" />,
-            placeholder: "Enter organization name",
-            required: true
-        },
-        { 
-            name: "organizationMission", 
-            label: "Organization Mission", 
-            maxLength: 100,
-            placeholder: "Brief mission statement",
-            required: true
-        },
-        { 
-            name: "organizationDescription", 
-            label: "Organization Description", 
-            maxLength: 500, 
-            multiline: true,
-            placeholder: "Detailed description of your organization",
-            required: true
-        },
-    ],
-    individual: [
-        { 
-            name: "fullName", 
-            label: "Full Name", 
-            maxLength: 50, 
-            icon: <RiUserLine className="text-lg" />,
-            placeholder: "Enter your full name",
-            required: true
-        },
-        { 
-            name: "age", 
-            label: "Age", 
-            type: "number",
-            icon: <RiCalendarLine className="text-lg" />,
-            placeholder: "Enter your age",
-            required: true
-        },
-        { 
-            name: "currentEmployment", 
-            label: "Current Employment", 
-            maxLength: 100, 
-            icon: <RiBriefcaseLine className="text-lg" />,
-            placeholder: "Current job title",
-            required: true
-        },
-        { 
-            name: "education", 
-            label: "Highest Level of Education", 
-            maxLength: 100, 
-            icon: <RiGraduationCapLine className="text-lg" />,
-            placeholder: "e.g., Bachelor's in Computer Science",
-            required: true
-        },
-        {
-            name: "resumeLink",
-            label: "Resume Link (Optional)",
-            type: "url",
-            icon: <RiLink className="text-lg" />,
-            placeholder: "Link to your resume (e.g., Google Drive)",
-            required: false
-        },
-        {
-            name: "portfolioLink",
-            label: "Portfolio Link (Optional)",
-            type: "url",
-            icon: <RiLink className="text-lg" />,
-            placeholder: "Link to your portfolio",
-            required: false
-        },
-        { 
-            name: "resume", 
-            label: "Resume Text", 
-            maxLength: 2000,
-            multiline: true,
-            icon: <RiUpload2Line className="text-lg" />,
-            placeholder: "Enter your resume text (max 2000 characters)",
-            required: true
-        },
-    ],
-};
+import { registrationFields } from "@/data";
+import { RegistrationType } from "@/data/types";
 
 const Registration = () => {
     const [registrationType, setRegistrationType] = useState<RegistrationType>("individual");
-    const { register, handleSubmit, reset, formState: { errors } } = useForm();
-    const [selectedFileName, setSelectedFileName] = useState<string>("");
+    const { register, handleSubmit, reset } = useForm();
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const onSubmit = async (formData: any) => {
         try {
-            const relevantFields = fields[registrationType].map(field => field.name);
+            const relevantFields = registrationFields[registrationType].map(field => field.name);
             const filteredData = Object.fromEntries(
                 Object.entries(formData).filter(([key]) => relevantFields.includes(key))
             );
@@ -130,157 +34,68 @@ const Registration = () => {
         }
     };
 
-    const renderField = (field: FormField) => (
-        <motion.div
-            key={field.name}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="space-y-1.5"
-        >
-            <label className="text-sm md:text-base font-medium flex items-center gap-2 text-gray-300">
-                {field.label}
-                {field.required && <span className="text-red-400 text-xs">*</span>}
-                {field.maxLength && (
-                    <span className="text-gray-500 text-xs italic font-normal ml-auto">
-                        max {field.maxLength} {field.type === "number" ? "" : "characters"}
-                    </span>
-                )}
-            </label>
-
-            <div className="relative group">
-                {field.icon && (
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-hover:text-primary-400 transition-colors">
-                        {field.icon}
-                    </span>
-                )}
-                
-                {field.multiline ? (
-                    <textarea
-                        {...register(field.name, {
-                            required: field.required,
-                            maxLength: field.maxLength
-                        })}
-                        placeholder={field.placeholder}
-                        className={`w-full min-h-[120px] resize-y bg-gray-800/50 border-gray-700/50 text-white placeholder:text-gray-500 rounded-xl p-4 outline-none border transition-all duration-200 hover:bg-gray-800/70 focus:border-primary-500/50 focus:ring-2 focus:ring-primary-500/20 ${field.icon ? 'pl-10' : ''}`}
-                        maxLength={field.maxLength}
-                    />
-                ) : (
-                    <input
-                        type={field.type || "text"}
-                        {...register(field.name, {
-                            required: field.required,
-                            maxLength: field.maxLength,
-                            ...(field.type === "number" ? { min: 12, max: 100 } : {})
-                        })}
-                        placeholder={field.placeholder}
-                        className={`w-full h-11 bg-gray-800/50 border-gray-700/50 text-white placeholder:text-gray-500 rounded-xl px-4 outline-none border transition-all duration-200 hover:bg-gray-800/70 focus:border-primary-500/50 focus:ring-2 focus:ring-primary-500/20 ${field.icon ? 'pl-10' : ''}`}
-                        maxLength={field.maxLength}
-                    />
-                )}
-                
-                {errors[field.name] && (
-                    <motion.span
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="text-red-400 text-xs absolute -bottom-5 left-0"
-                    >
-                        {field.type === "number" ? "Age must be between 12 and 100" : "This field is required"}
-                    </motion.span>
-                )}
-            </div>
-        </motion.div>
-    );
-
     return (
-        <div className="w-full min-h-[100vh] flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-950 to-black px-4 sm:px-6">
-            <div className="fixed inset-0 bg-gradient-to-br from-primary-500/5 via-transparent to-accent-500/5 pointer-events-none" />
-            
-            <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                className="w-full max-w-[1000px] py-8 md:py-12 lg:py-16"
-            >
-                <div className="bg-gray-900/40 backdrop-blur-xl p-6 sm:p-8 md:p-10 rounded-2xl border border-gray-800/50 shadow-xl relative overflow-hidden">
-                    {/* Background Design Elements */}
-                    <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-                    <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-accent-500/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
-                    
-                    {/* Content */}
-                    <div className="relative">
-                        {/* Header Section */}
-                        <div className="text-center mb-8 md:mb-10">
-                            <div className="inline-flex items-center rounded-full bg-primary-500/10 px-4 py-1.5 text-sm text-primary-300 border border-primary-500/20 shadow-sm mb-6">
-                                <span className="relative flex h-2 w-2 mr-2">
-                                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary-400 opacity-75"></span>
-                                    <span className="relative inline-flex h-2 w-2 rounded-full bg-primary-500"></span>
-                                </span>
-                                Complete Your Profile
-                            </div>
-                            <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4">
-                                Choose Your{" "}
-                                <span className="bg-gradient-to-r from-primary-400 via-accent-400 to-accent-500 bg-clip-text text-transparent">
-                                    Registration Type
-                                </span>
-                            </h3>
-                            <p className="text-gray-300/90 text-sm md:text-base max-w-[600px] mx-auto">
-                                Select your registration type and fill in the required information to get started.
-                            </p>
-                        </div>
+        <div className="min-h-screen w-full bg-gradient-to-br from-white via-primary-50 to-primary-100 relative">
+            {/* Grainy texture overlay */}
+            <div className="absolute inset-0 opacity-10">
+                <div className="absolute inset-0 
+                bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iLjA1Ii8+PC9zdmc+')] bg-repeat pointer-events-none" />
+            </div>
 
-                        {/* Registration Type Selection */}
-                        <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mb-8 md:mb-10">
-                            {(["individual", "organization"] as const).map((type) => (
-                                <button
-                                    key={type}
-                                    onClick={() => {
-                                        setRegistrationType(type);
-                                        reset();
-                                        setSelectedFileName("");
-                                    }}
-                                    className={`px-6 py-2.5 rounded-xl font-medium transition-all duration-300 border ${
-                                        registrationType === type
-                                            ? 'bg-primary-500 text-white border-primary-500/50 shadow-lg scale-105'
-                                            : 'bg-gray-800/50 text-gray-300 border-gray-700/50 hover:bg-gray-700/50 hover:scale-102'
-                                    }`}
-                                >
-                                    {type.charAt(0).toUpperCase() + type.slice(1)}
-                                </button>
+            {/* Gradient overlays */}
+            <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 via-transparent to-primary-300/10 pointer-events-none" />
+            
+            <div className="relative w-full min-h-screen flex items-center justify-center p-4">
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    className="w-full max-w-xl bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-primary-100"
+                >
+                    <div className="flex justify-between items-center mb-6">
+                        <h1 className="text-xl font-semibold text-primary-900">
+                            Create Your Account
+                        </h1>
+                        <motion.button
+                            onClick={signOut}
+                            className="text-gray-500 text-sm hover:text-gray-600 transition-colors"
+                            whileHover={{ scale: 1.01 }}
+                            whileTap={{ scale: 0.99 }}
+                        >
+                            Return Home
+                        </motion.button>
+                    </div>
+
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                        <TypeSelector 
+                            registrationType={registrationType}
+                            onTypeChange={(type) => {
+                                setRegistrationType(type);
+                                reset();
+                            }}
+                        />
+
+                        <div className="space-y-4">
+                            {registrationFields[registrationType].map((field) => (
+                                <EntryField
+                                    key={field.name}
+                                    field={field}
+                                    register={register}
+                                />
                             ))}
                         </div>
 
-                        {/* Form Section */}
-                        <AnimatePresence mode="wait">
-                            <motion.form
-                                key={registrationType}
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                exit={{ opacity: 0, x: -20 }}
-                                transition={{ duration: 0.3 }}
-                                onSubmit={handleSubmit(onSubmit)}
-                                className="max-w-[600px] mx-auto space-y-8"
-                            >
-                                <div className="space-y-6">
-                                    {fields[registrationType].map(renderField)}
-                                </div>
-
-                                <motion.button 
-                                    type="submit"
-                                    className="w-full py-3.5 px-6 bg-primary-500 hover:bg-primary-400 text-white rounded-xl font-medium transition-all duration-300 group hover:shadow-lg hover:-translate-y-0.5"
-                                    whileHover={{ scale: 1.01 }}
-                                    whileTap={{ scale: 0.98 }}
-                                >
-                                    <div className="flex items-center justify-center gap-3">
-                                        <span className="text-sm md:text-base">Complete Registration</span>
-                                        <RiArrowRightLine className="text-lg opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all -ml-4 group-hover:ml-0" />
-                                    </div>
-                                </motion.button>
-                            </motion.form>
-                        </AnimatePresence>
-                    </div>
-                </div>
-            </motion.div>
+                        <motion.button
+                            type="submit"
+                            className="default-button w-full !px-0"
+                            whileHover={{ scale: 1.01 }}
+                            whileTap={{ scale: 0.99 }}
+                        >
+                            Create Account
+                        </motion.button>
+                    </form>
+                </motion.div>
+            </div>
         </div>
     );
 };

@@ -10,35 +10,43 @@
   }
 
   .default-heading {
-    @apply font-poppins font-semibold text-6xl max-lg:text-4xl
+    @apply font-poppins font-semibold text-5xl max-lg:text-3xl
+  }
+
+  .default-subheading {
+    @apply font-poppins font-semibold text-3xl max-lg:text-2xl
   }
 
   .default-text {
-    @apply font-poppins text-xl max-lg:text-lg
-  }
-
-  .default-label {
     @apply font-poppins text-lg max-lg:text-base
   }
 
+  .default-label {
+    @apply font-poppins text-base max-lg:text-sm
+  }
+
   .default-button {
-      @apply w-fit text-white uppercase font-medium py-3 px-5 bg-primary-400 rounded-md shadow-[0_3px_0_0_#2b206440] transition-all duration-100 hover:brightness-90
-    }
-}
-
-
-@keyframes fadeInSlideUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px); 
+    @apply w-fit text-white font-medium py-2 px-8 bg-primary-400 
+    rounded-lg shadow-sm transition-all duration-200
+    hover:bg-primary-500
+    disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none
   }
-  to {
-    opacity: 1;
-    transform: translateY(0); 
-  }
-}
 
-.fade-in-animation {
-  opacity: 0;
-  animation: fadeInSlideUp 1s ease-in-out forwards;
+  .default-field {
+    @apply flex-1 rounded-[12px] px-3 py-[10px]
+    text-sm font-poppins
+    bg-gray-50 border border-primary-100 hover:border-primary-300 
+    focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none
+  }
+
+  .default-card {
+    @apply bg-white p-6 rounded-lg 
+    border border-gray-100 hover:border-primary-200 
+    transition-all duration-200
+  }
+
+  .default-tag {
+    @apply px-3 py-1 rounded-lg 
+    default-label bg-primary-400/10 text-primary-400
+  }
 }
