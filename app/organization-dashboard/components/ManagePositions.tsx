@@ -68,11 +68,18 @@ const ManagePositions = () => {
 
   return (
     <div className="space-y-6 mt-4">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-semibold text-gray-900">
-          Manage Positions
-        </h2>
+
+      <div>
+        <h2 className="default-subheading text-gray-900">Manage Positions</h2>
+        <p className="default-label text-gray-500 mt-1">Review and manage your positions!</p>
       </div>
+
+      <button 
+        onClick={() => router.push('/organization-dashboard/create-position')}
+        className="default-button"
+      >
+        Create Position
+      </button>
 
       <div className="flex flex-col gap-4">
         {positions.length > 0 ? (

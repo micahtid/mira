@@ -1,4 +1,3 @@
-import React from 'react';
 import { UseFormRegister } from "react-hook-form";
 import { FormField } from '@/data/types';
 
@@ -13,15 +12,9 @@ interface EntryFieldProps {
  * Features smooth animations and optional icons.
  */
 const EntryField: React.FC<EntryFieldProps> = ({ field, register }) => {
-    const inputClasses = `
-        w-full rounded-[12px] px-3 py-[10px] outline-none transition-all duration-200 text-sm
-        bg-gray-50 border border-primary-100
-        hover:border-primary-300 focus:border-primary-500 focus:ring-1 focus:ring-primary-500
-    `;
-
     return (
         <div className="space-y-1.5 mb-4">
-            <label className="text-xs font-poppins font-medium flex items-center gap-2 text-primary-900">
+            <label className="default-label font-medium flex items-center gap-2 text-primary-900">
                 {field.icon && (
                     <span className="text-primary-400">
                         {field.icon}
@@ -30,7 +23,7 @@ const EntryField: React.FC<EntryFieldProps> = ({ field, register }) => {
                 {field.label}
                 {field.required && <span className="text-red-500 text-xs">*</span>}
                 {field.maxLength && (
-                    <span className="text-gray-400 italic font-normal ml-auto">
+                    <span className="text-xs text-gray-400 italic font-normal ml-auto">
                         max {field.maxLength} {field.type === "number" ? "" : "chars"}
                     </span>
                 )}
@@ -44,7 +37,7 @@ const EntryField: React.FC<EntryFieldProps> = ({ field, register }) => {
                             maxLength: field.maxLength
                         })}
                         placeholder={field.placeholder}
-                        className={`${inputClasses} min-h-[100px]`}
+                        className="default-field w-full min-h-[100px]"
                     />
                 ) : (
                     <input
@@ -54,7 +47,7 @@ const EntryField: React.FC<EntryFieldProps> = ({ field, register }) => {
                             maxLength: field.maxLength
                         })}
                         placeholder={field.placeholder}
-                        className={inputClasses}
+                        className="default-field w-full"
                     />
                 )}
             </div>

@@ -140,16 +140,24 @@ const CreatePosition = () => {
 
                 {/* Resume requirement checkbox */}
                 <div className="space-y-1.5">
-                    <label className="text-sm font-medium flex items-center gap-2 text-primary-900">
+                    <label className="
+                    default-label font-medium text-primary-900
+                    flex items-center gap-2">
                         Require Resume
                     </label>
                     <div className="flex items-center gap-2">
                         <input
                             type="checkbox"
                             {...register('requireResume')}
-                            className="form-checkbox h-4 w-4 text-primary-500 rounded focus:ring-primary-500 border-gray-300"
+                            className="
+                                h-4 w-4 rounded 
+                                text-primary-500 focus:ring-primary-500 border-gray-300
+                            "
                         />
-                        <span className="text-sm text-gray-600">
+                        <span className="
+                            default-label 
+                            text-sm text-medium text-gray-600
+                        ">
                             Require Applicants&apos; Resumes (& Portfolios)
                         </span>
                     </div>
@@ -157,7 +165,11 @@ const CreatePosition = () => {
 
                 {/* Application Questions section */}
                 <div className="space-y-1.5">
-                    <label className="text-sm font-medium flex items-center gap-2 text-primary-900">
+                    <label className="
+                        default-label 
+                        font-medium text-primary-900 
+                        flex items-center gap-2 
+                    ">
                         Application Questions
                     </label>
                     <div className="space-y-2">
@@ -167,27 +179,33 @@ const CreatePosition = () => {
                                 value={newQuestion}
                                 onChange={(e) => setNewQuestion(e.target.value)}
                                 placeholder="Add a question for applicants"
-                                className="
-                                flex-1 rounded-[12px] px-3 py-[10px]
-                                text-sm 
-                                bg-gray-50 border border-primary-100 hover:border-primary-300 
-                                focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none"
+                                className="default-field"
                             />
                             <button
                                 type="button"
                                 onClick={handleAddQuestion}
-                                className="px-4 py-2 bg-primary-500 text-white rounded-lg text-sm hover:bg-primary-600 transition-colors"
+                                className="default-button"
                             >
                                 Add
                             </button>
                         </div>
                         {questions.map((question, index) => (
-                            <div key={index} className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg">
-                                <span className="flex-1 text-sm">{question}</span>
+                            <div key={index} className="
+                                flex items-center gap-2 
+                                p-3 
+                                bg-gray-50 
+                                rounded-lg
+                            ">
+                                <span className="flex-1 default-label">
+                                    {question}
+                                </span>
                                 <button
                                     type="button"
                                     onClick={() => handleDeleteQuestion(index)}
-                                    className="text-red-500 hover:text-red-700"
+                                    className="
+                                        default-label 
+                                        text-red-500 hover:text-red-700
+                                    "
                                 >
                                     Remove
                                 </button>

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { DocumentData } from 'firebase/firestore';
-import { getAllPositions } from '@/utils/firebaseFunctions';
+import { getAllPositions } from '@/utils/globalFunctions';
 
 import PositionFilters from './PositionFilters';
 import PositionCard from './PositionCard';

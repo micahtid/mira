@@ -32,6 +32,13 @@
     disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none
   }
 
+  .default-field {
+    @apply flex-1 rounded-[12px] px-3 py-[10px]
+    text-sm font-poppins
+    bg-gray-50 border border-primary-100 hover:border-primary-300 
+    focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none
+  }
+
   .default-card {
     @apply bg-white p-6 rounded-lg 
     border border-gray-100 hover:border-primary-200 

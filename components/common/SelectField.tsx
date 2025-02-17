@@ -30,23 +30,35 @@ const SelectField = ({
             minHeight: '42px',
             borderRadius: '10px',
             background: 'rgb(249 250 251)', // Gray Background
-            borderColor: state.isFocused ? '#8b5cf6' : '#dad0ff', // Focus & Non Focus Border Colors
+            borderColor: state.isFocused ? '#8b5cf6' : '#dad0ff', // Focus & Non-Focus Border Colors
             boxShadow: state.isFocused ? '0 0 0 2px #8b5cf6' : 'none', 
             '&:hover': {
                 borderColor: '#a78bfa', 
             },
+            fontFamily: 'Poppins, sans-serif',
         }),
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         placeholder: (base: any) => ({
             ...base,
             fontSize: '13.5px', // Placeholder Text Size
             color: '#ACA6B2', // Placeholder Text Color
+            fontFamily: 'Poppins, sans-serif',
+        }),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        option: (base: any) => ({
+            ...base,
+            fontFamily: 'Poppins, sans-serif',
+        }),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        singleValue: (base: any) => ({
+            ...base,
+            fontFamily: 'Poppins, sans-serif',
         }),
     };
 
     return (
         <div className="space-y-1.5">
-            <label className="text-xs font-poppins font-medium flex items-center gap-2 text-primary-900">
+            <label className="default-label font-medium flex items-center gap-2 text-primary-900">
                 {label}
                 {required && <span className="text-red-500 text-xs">*</span>}
             </label>
