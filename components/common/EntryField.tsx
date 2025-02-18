@@ -23,8 +23,8 @@ const EntryField: React.FC<EntryFieldProps> = ({ field, register }) => {
                 {field.label}
                 {field.required && <span className="text-red-500 text-xs">*</span>}
                 {field.maxLength && (
-                    <span className="text-xs text-gray-400 italic font-normal ml-auto">
-                        max {field.maxLength} {field.type === "number" ? "" : "chars"}
+                    <span className="text-xs text-gray-400 italic font-normal ml-auto max-sm:hidden">
+                        {field.maxLength} {field.type === "number" ? "" : "chars"}
                     </span>
                 )}
             </label>

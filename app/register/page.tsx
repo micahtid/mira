@@ -45,24 +45,27 @@ const Registration = () => {
             {/* Gradient overlays */}
             <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 via-transparent to-primary-300/10 pointer-events-none" />
             
-            <div className="relative w-full min-h-screen flex items-center justify-center p-4">
+            <div className="relative w-full min-h-screen 
+            flex items-center justify-center p-4 max-md:p-0">
                 <motion.div 
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                    className="w-full max-w-xl bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-primary-100"
+                    className="
+                    w-full max-w-xl bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-primary-100
+                    max-md:max-w-none max-md:w-[100vw]"
                 >
                     <div className="flex justify-between items-center mb-6">
-                        <h1 className="text-xl font-semibold text-primary-900">
+                        <h1 className="default-text font-semibold text-primary-900">
                             Create Your Account
                         </h1>
                         <motion.button
                             onClick={signOut}
-                            className="text-gray-500 text-sm hover:text-gray-600 transition-colors"
+                            className="default-label text-xs text-gray-500 hover:text-gray-600 transition-colors"
                             whileHover={{ scale: 1.01 }}
                             whileTap={{ scale: 0.99 }}
                         >
-                            Return Home
+                            Return
                         </motion.button>
                     </div>
 

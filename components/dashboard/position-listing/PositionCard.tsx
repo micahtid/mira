@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { DocumentData, Timestamp } from 'firebase/firestore';
+import { DocumentData } from 'firebase/firestore';
 import Link from 'next/link';
 import { toTitleCase } from '@/utils/misc';
 import { FaBuilding } from 'react-icons/fa6';
@@ -72,7 +72,10 @@ const PositionCard: React.FC<PositionCardProps> = ({
         </div>
 
         {/* Footer: Stats and Apply Button */}
-        <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+        <div className="
+        flex items-center justify-between 
+        max-sm:flex-col max-sm:items-start max-sm:gap-y-6
+        pt-3 border-t border-gray-100">
           <div className="flex gap-2">
             <div className="px-2.5 py-1 bg-primary-50 text-primary-600 rounded-lg default-label font-medium">
               {position.openSlots} Slot{position.openSlots != 1 ? 's' : ''}
@@ -87,7 +90,7 @@ const PositionCard: React.FC<PositionCardProps> = ({
             <button
               onClick={handleApplyClick}
               disabled={hasApplied}
-              className={`lg:hidden px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+              className={`lg:hidden default-button max-lg:w-full ${
                 hasApplied
                   ? 'bg-gray-100 text-gray-500 cursor-not-allowed'
                   : 'bg-primary-600 text-white hover:bg-primary-700'

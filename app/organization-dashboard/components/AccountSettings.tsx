@@ -93,7 +93,9 @@ const AccountSettings = () => {
 
   return (
     <div className="space-y-6 mt-4">
-      <div className="flex items-center gap-6">
+      <div className="
+      flex items-center gap-6 pb-8
+      max-sm:flex-col">
         <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-100 border-4 border-white shadow-md">
           <img
             src={accountData?.profile}
@@ -101,8 +103,8 @@ const AccountSettings = () => {
           />
         </div>
         <div>
-          <h1 className="default-subheading">Update Organization Profile</h1>
-          <p className="default-label text-gray-500">Keep your organization&apos;s information up to date</p>
+          <h1 className="default-subheading max-sm:text-center">Profile Settings</h1>
+          <p className="default-label text-gray-500 max-sm:text-center">Keep your organization&apos;s information up to date!</p>
         </div>
       </div>
 
