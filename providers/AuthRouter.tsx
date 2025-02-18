@@ -42,8 +42,8 @@ const AuthRouter = (props: any) => {
       // Prevent access to home and register pages
       if (pathName === "/" || pathName === "/register") {
         const dashboardPath = accountData.type === "organization" 
-          ? "/organization-dashboard"
-          : "/applicant-dashboard";
+          ? "/organization-dashboard?page=manage-positions"
+          : "/applicant-dashboard?page=positions";
         router.push(dashboardPath);
         return;
       }

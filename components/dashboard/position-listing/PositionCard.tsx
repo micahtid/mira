@@ -4,6 +4,8 @@ import React from 'react';
 import { DocumentData, Timestamp } from 'firebase/firestore';
 import Link from 'next/link';
 import { toTitleCase } from '@/utils/misc';
+import { FaBuilding } from 'react-icons/fa6';
+import { format } from 'date-fns';
 
 interface PositionCardProps {
   position: DocumentData;
@@ -13,14 +15,14 @@ interface PositionCardProps {
   hasApplied: boolean;
 }
 
-// Component for organization name that links to organization page
 const OrganizationLink: React.FC<{ oid: string; name: string }> = ({ oid, name }) => (
   <Link 
     href={`/organization?id=${oid}`}
-    className="text-sm text-gray-500 hover:text-primary-600 transition-colors"
-    onClick={(e) => e.stopPropagation()} // Prevent card selection when clicking org link
+    className="inline-flex items-center gap-1.5 text-gray-500 hover:text-gray-900 transition-colors"
+    onClick={(e) => e.stopPropagation()} 
   >
-    {name}
+    <FaBuilding className="w-3.5 h-3.5" />
+    <span className="default-label">{name}</span>
   </Link>
 );
 
@@ -31,17 +33,6 @@ const PositionCard: React.FC<PositionCardProps> = ({
   allowApply,
   hasApplied
 }) => {
-  // Format timestamp to readable date
-  const formatDate = (timestamp: Timestamp) => {
-    if (!timestamp) return '';
-    const date = timestamp.toDate();
-    return date.toLocaleDateString('en-US', { 
-      month: 'short', 
-      day: 'numeric',
-      year: 'numeric'
-    });
-  };
-
   // Handle apply button click without triggering card selection
   const handleApplyClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -51,42 +42,42 @@ const PositionCard: React.FC<PositionCardProps> = ({
   return (
     <div
       onClick={onClick}
-      className={`cursor-pointer default-card ${
+      className={`cursor-pointer p-4 bg-white border rounded-lg transition-all duration-200 ${
         isSelected 
-          ? 'border-primary-500 hover:border-primary-500 shadow-md' 
-          : 'border-gray-100 hover:border-primary-200'
+          ? 'border-primary-500 shadow-sm' 
+          : 'border-gray-200 hover:border-gray-300'
       }`}
     >
-      <div className="space-y-4">
+      <div className="space-y-3">
         {/* Header: Title and Metadata */}
         <div>
-          <h3 className="default-text font-semibold text-gray-900">
+          <h3 className="default-text font-semibold text-gray-900 mb-2">
             {position.positionTitle}
           </h3>
-          <div className="flex items-center gap-2 mt-1">
-            <span className="text-sm font-medium text-primary-600">
+          <div className="flex flex-wrap items-center gap-2">
+            <OrganizationLink oid={position.oid} name={position.organizationName} />
+            <span className="text-gray-300">•</span>
+            <span className="default-label font-medium text-primary-600">
               {toTitleCase(position.positionType)}
             </span>
             <span className="text-gray-300">•</span>
-            <OrganizationLink oid={position.oid} name={position.organizationName} />
-            <span className="text-gray-300">•</span>
-            <span className="text-sm text-gray-500">
+            <span className="default-label text-gray-600">
               {position.positionLocation || "Remote"}
             </span>
             <span className="text-gray-300">•</span>
-            <span className="text-sm text-gray-500">
-              Posted {formatDate(position.createdAt)}
+            <span className="default-label text-gray-500">
+              Posted {position.createdAt && format(position.createdAt.toDate(), 'MMM d, yyyy')}
             </span>
           </div>
         </div>
 
         {/* Footer: Stats and Apply Button */}
-        <div className="flex items-center justify-between">
-          <div className="flex gap-3">
-            <div className="px-3 py-1 bg-primary-50 text-primary-600 rounded-lg text-sm font-medium">
+        <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+          <div className="flex gap-2">
+            <div className="px-2.5 py-1 bg-primary-50 text-primary-600 rounded-lg default-label font-medium">
               {position.openSlots} Slot{position.openSlots != 1 ? 's' : ''}
             </div>
-            <div className="px-3 py-1 bg-primary-50 text-primary-600 rounded-lg text-sm font-medium">
+            <div className="px-2.5 py-1 bg-primary-50 text-primary-600 rounded-lg default-label font-medium">
               {position.totalApplicants} Applicant{position.totalApplicants != 1 ? 's' : ''}
             </div>
           </div>
@@ -96,7 +87,7 @@ const PositionCard: React.FC<PositionCardProps> = ({
             <button
               onClick={handleApplyClick}
               disabled={hasApplied}
-              className={`lg:hidden px-4 py-2 rounded-lg font-medium transition-colors ${
+              className={`lg:hidden px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                 hasApplied
                   ? 'bg-gray-100 text-gray-500 cursor-not-allowed'
                   : 'bg-primary-600 text-white hover:bg-primary-700'
