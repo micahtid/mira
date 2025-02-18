@@ -7,7 +7,7 @@ import { getApplicantsByPosition } from '@/utils/organizationFunctions';
 import { getPosition } from '@/utils/applicantFunctions';
 import { Application } from '@/data/types';
 
-import ReviewTab from './components/ReviewTab';
+import TabControl from './components/TabControl';
 import OverviewTab from './components/OverviewTab';
 import ApplicantsList from './components/ApplicantsList';
 import ApplicantProfile from './components/ApplicantProfile';
@@ -61,13 +61,13 @@ const ReviewPosition = () => {
       </div>
 
       <div className="space-y-6">
-        <ReviewTab activeTab={activeTab} onTabChange={setActiveTab} />
+        <TabControl activeTab={activeTab} onTabChange={setActiveTab} />
         
         <div>
           {activeTab === 'overview' ? (
             <OverviewTab applicants={applicants} position={position} />
           ) : (
-            <div className="flex flex-col lg:flex-row gap-6">
+            <div className="flex flex-row gap-6 max-lg:flex-col-reverse">
               <ApplicantsList 
                 applicants={applicants}
                 selectedApplicant={selectedApplicant}

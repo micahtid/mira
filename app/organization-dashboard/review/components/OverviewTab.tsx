@@ -76,26 +76,30 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ applicants, position }) => {
     return (
         <div className="space-y-8">
             {/* Stats and Policy Section */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 max-md:grid-cols-1 gap-6">
                 {/* Stats Cards */}
                 <div className="flex flex-col gap-4">
                     <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
                         <h3 className="default-subheading mb-4">Statistics</h3>
-                        <div className="grid grid-cols-3 gap-4">
+                        <div className="grid grid-cols-3 gap-4
+                        max-[500px]:grid-cols-1">
                             <div>
-                                <p className="default-label text-gray-500">Accepted</p>
+                                <p className="default-label text-gray-500
+                                text-nowrap overflow-hidden overflow-ellipsis">Accepted</p>
                                 <p className="default-text text-2xl font-semibold text-gray-900 font-poppins">
                                     {acceptedApplicants.length}
                                 </p>
                             </div>
                             <div>
-                                <p className="default-label text-gray-500">Available Slots</p>
+                                <p className="default-label text-gray-500
+                                text-nowrap overflow-hidden overflow-ellipsis">Available Slots</p>
                                 <p className="default-text text-2xl font-semibold text-gray-900 font-poppins">
                                     {position?.openSlots || 0}
                                 </p>
                             </div>
                             <div>
-                                <p className="default-label text-gray-500">Committed</p>
+                                <p className="default-label text-gray-500
+                                text-nowrap overflow-hidden overflow-ellipsis">Committed</p>
                                 <p className="default-text text-2xl font-semibold text-gray-900 font-poppins">
                                     {position?.committedApplicants || 0}/{position?.totalSlots || 0}
                                 </p>
