@@ -1,28 +1,14 @@
 "use client";
 
-import { signIn } from "@/utils/firebaseFunctions";
-import { motion, Variants, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { 
-  FiArrowRight, FiUsers, FiAward, FiHeart, 
-  FiCheck, FiMail, FiClock, FiMapPin,
-  FiGlobe, FiMessageCircle, FiShield,
-  FiMenu, FiX, FiChevronDown, FiList
-} from "react-icons/fi";
+// React and Next.js imports
 import { useState, useEffect } from "react";
-import Link from "next/link";
-import { Home as HomeIcon, Book, Users, MessageCircle, LogIn } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
-import { 
-  UsersIcon, 
-  AwardIcon, 
-  HeartIcon, 
-  ClockIcon, 
-  MessageSquareIcon, 
-  ShieldIcon 
-} from "lucide-react";
-import { Accordion } from "@/components/ui/accordion";
 import Image from "next/image";
+import Link from "next/link";
+
+// Motion imports
+import { motion, Variants, AnimatePresence, useScroll, useTransform } from "framer-motion";
+
+// Component imports
 import Hero from "@/components/landing-page/Hero";
 import Features from "@/components/landing-page/Features";
 import VideoDemo from "@/components/landing-page/VideoDemo";
@@ -31,9 +17,13 @@ import FAQ from "@/components/landing-page/FAQ";
 import CTA from "@/components/landing-page/CTA";
 import Footer from "@/components/landing-page/Footer";
 import Navbar from "@/components/landing-page/Navbar";
-import { useResponsive } from '@/hooks/useResponsive';
-import { useSmoothScroll } from '@/hooks/useSmoothScroll';
-import { useAnimationOptimizer } from '@/hooks/useAnimationOptimizer';
+
+// Icons
+import { Home as HomeIcon, Book, Users, MessageCircle, LogIn } from "lucide-react";
+
+// Utils
+import { cn } from "@/lib/utils";
+import { signIn } from "@/utils/firebaseFunctions";
 
 // Animation variants
 const fadeIn: Variants = {
@@ -106,55 +96,16 @@ const tabVariants: Variants = {
   }
 };
 
-// Typography system update
-const typography = {
-  h1: "font-poppins text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight",
-  h2: "font-poppins text-4xl lg:text-5xl font-semibold leading-tight",
-  h3: "font-poppins text-2xl lg:text-3xl font-semibold leading-snug",
-  h4: "font-poppins text-xl font-semibold leading-snug",
-  body: "font-poppins text-lg text-gray-600 leading-relaxed max-lg:text-base",
-  small: "font-poppins text-sm text-gray-500 leading-relaxed",
-  label: "font-poppins text-base text-gray-700 font-medium max-lg:text-sm"
-};
-
-// Updated gradient system
-const gradients = {
-  primary: "bg-gradient-to-br from-primary-50 via-primary-50/50 to-white",
-  secondary: "bg-gradient-to-b from-white to-primary-50/20",
-  accent: "bg-gradient-to-br from-primary-100/40 to-primary-50/20",
-  card: "bg-white/90 backdrop-blur-sm"
-};
-
-// Spacing system
-const spacing = {
-  section: "py-16 lg:py-24",
-  container: "px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto",
-  content: "space-y-6",
-};
-
-// Component styles
-const components = {
-  card: "bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-primary-100/10",
-  button: {
-    primary: "px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors duration-300",
-    secondary: "px-6 py-3 bg-white text-primary-500 border border-primary-500 rounded-lg hover:bg-primary-50 transition-colors duration-300"
-  },
-  input: "w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all duration-300"
-};
-
 const HomePage = () => {
   const [activeTab, setActiveTab] = useState("Home");
-  const { isMobile, isTablet } = useResponsive();
-  const { shouldAnimate, reducedMotion } = useAnimationOptimizer();
-  useSmoothScroll();
 
   // Optimize animation variants based on device capabilities
   const optimizedFadeIn: Variants = {
-    initial: shouldAnimate ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 },
+    initial: { opacity: 0, y: 20 },
     animate: { 
       opacity: 1, 
       y: 0,
-      transition: reducedMotion ? { duration: 0 } : { type: "spring", damping: 30, stiffness: 400 }
+      transition: { type: "spring", damping: 30, stiffness: 400 }
     }
   };
 

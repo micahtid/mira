@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import Link from "next/link";
 import Image from "next/image";
 import { FiGlobe, FiMail, FiMessageCircle, FiHeart, FiArrowRight } from "react-icons/fi";
@@ -200,7 +200,7 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-8 border-t border-primary-100/20">
           <p className="font-poppins text-sm text-gray-600 order-2 md:order-1">
-            © 2025 All rights reserved.
+            2025 All rights reserved.
           </p>
           <div className="flex items-center gap-6 order-1 md:order-2">
             <Link href="#" className="font-poppins text-sm text-gray-600 hover:text-primary-500 transition-colors duration-200">

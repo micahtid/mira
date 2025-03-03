@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { FiArrowRight, FiMail } from "react-icons/fi";
 import { signIn } from "@/utils/firebaseFunctions";
 

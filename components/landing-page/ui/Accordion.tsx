@@ -1,6 +1,6 @@
 import * as React from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import { FiChevronDown } from "react-icons/fi";
 import { cn } from "@/lib/utils";
 
 interface AccordionItemProps {
@@ -27,7 +27,7 @@ const AccordionItem = ({ question, answer, isOpen, onToggle }: AccordionItemProp
           transition={{ duration: 0.2 }}
           className="flex-shrink-0 ml-4"
         >
-          <ChevronDown className="w-5 h-5 text-primary-500" />
+          <FiChevronDown className="w-5 h-5 text-primary-500" />
         </motion.div>
       </button>
       <AnimatePresence initial={false}>
