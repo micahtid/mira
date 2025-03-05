@@ -13,6 +13,42 @@ const floatingAnimation = {
 };
 
 const Pricing = () => {
+  const plans = [
+    {
+      title: "Student",
+      description: "Perfect for high school volunteers",
+      price: "Free",
+      duration: "forever",
+      features: ["Browse all positions", "Track volunteer hours"],
+      icon: <FiUsers className="w-5 h-5 text-primary-500" />, 
+      buttonText: "Get Started",
+      buttonAction: signIn,
+      buttonStyle: "bg-white border-2 border-primary-500 text-primary-500",
+    },
+    {
+      title: "Nonprofit Pro",
+      description: "For growing organizations",
+      price: "$29",
+      duration: "/month",
+      features: ["Unlimited positions", "Advanced analytics", "Email notifications", "Priority support"],
+      icon: <FiAward className="w-5 h-5 text-primary-500" />, 
+      buttonText: "Start Free Trial",
+      buttonAction: signIn,
+      buttonStyle: "bg-primary-500 text-white",
+    },
+    {
+      title: "Enterprise",
+      description: "For large organizations",
+      price: "Custom",
+      duration: "pricing",
+      features: ["Everything in Pro", "Custom integration", "Dedicated support", "SLA agreement"],
+      icon: <FiGlobe className="w-5 h-5 text-primary-500" />, 
+      buttonText: "Contact Sales",
+      buttonAction: () => window.location.href = "mailto:contact@mira.com",
+      buttonStyle: "bg-white border-2 border-primary-500 text-primary-500",
+    },
+  ];
+
   return (
     <section className="relative py-32 overflow-hidden">
       {/* Enhanced Background Effects */}
@@ -90,285 +126,68 @@ const Pricing = () => {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 relative">
-          {/* Free Plan */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            whileHover={{ y: -5 }}
-            className="relative rounded-2xl bg-white border border-primary-100/20 p-8 shadow-lg hover:shadow-xl transition-all duration-300"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-primary-50/20 to-white rounded-2xl" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(var(--primary-50),0.3),transparent_70%)] rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-            <div className="relative z-10">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center">
-                  <FiUsers className="w-5 h-5 text-primary-500" />
+          {plans.map((plan, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              whileHover={{ y: -5 }}
+              className={`relative rounded-2xl bg-white border p-8 shadow-lg hover:shadow-xl transition-all duration-300 ${plan.title === "Nonprofit Pro" ? "border-2 border-primary-500 scale-105 z-10" : "border-primary-100/20"}`}
+            >
+              <div className={`absolute inset-0 bg-gradient-to-br from-primary-50/20 to-white rounded-2xl ${plan.title === "Nonprofit Pro" ? "z-10" : ""}`} />
+              <div className={`absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(var(--primary-50),0.3),transparent_70%)] rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100 ${plan.title === "Nonprofit Pro" ? "z-10" : ""}`} />
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center">
+                    {plan.icon}
+                  </div>
+                  <div>
+                    <h3 className="font-poppins text-xl font-semibold text-black">{plan.title}</h3>
+                    <p className="font-poppins text-sm text-black/70">{plan.description}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-poppins text-xl font-semibold text-black">Student</h3>
-                  <p className="font-poppins text-sm text-black/70">Perfect for high school volunteers</p>
+                <div className="mb-6">
+                  <div className="flex items-baseline gap-2">
+                    <span className="font-poppins text-4xl font-bold text-black">{plan.price}</span>
+                    <span className="font-poppins text-lg text-black/70">{plan.duration}</span>
+                  </div>
+                  {plan.title === "Nonprofit Pro" && <p className="text-sm text-primary-500 mt-1">Save 20% with annual billing</p>}
                 </div>
+                <ul className="space-y-4 mb-8">
+                  {plan.features.map((feature, i) => (
+                    <motion.li 
+                      key={i}
+                      className="flex items-center gap-3"
+                      initial={{ opacity: 0, x: -10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.3 + i * 0.1 }}
+                    >
+                      <div className="w-5 h-5 rounded-full bg-primary-50 flex items-center justify-center">
+                        <FiCheck className="w-3 h-3 text-primary-500" />
+                      </div>
+                      <span className="font-poppins text-base text-black/80">{feature}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={plan.buttonAction}
+                  className={`group relative w-full py-3 px-6 rounded-xl ${plan.buttonStyle} font-medium overflow-hidden`}
+                >
+                  <div className="absolute inset-0 bg-primary-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(var(--primary-100),0.1),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    {plan.buttonText}
+                    {plan.title === "Enterprise" ? <FiMail className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" /> : <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />}
+                  </span>
+                </motion.button>
               </div>
-              <div className="mb-6">
-                <div className="flex items-baseline gap-2">
-                  <span className="font-poppins text-4xl font-bold text-black">Free</span>
-                  <span className="font-poppins text-lg text-black/70">forever</span>
-                </div>
-              </div>
-              <ul className="space-y-4 mb-8">
-                <motion.li 
-                  className="flex items-center gap-3"
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.3 }}
-                >
-                  <div className="w-5 h-5 rounded-full bg-primary-50 flex items-center justify-center">
-                    <FiCheck className="w-3 h-3 text-primary-500" />
-                  </div>
-                  <span className="font-poppins text-base text-black/80">Browse all positions</span>
-                </motion.li>
-                <motion.li 
-                  className="flex items-center gap-3"
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.4 }}
-                >
-                  <div className="w-5 h-5 rounded-full bg-primary-50 flex items-center justify-center">
-                    <FiCheck className="w-3 h-3 text-primary-500" />
-                  </div>
-                  <span className="font-poppins text-base text-black/80">Track volunteer hours</span>
-                </motion.li>
-              </ul>
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={signIn}
-                className="group relative w-full py-3 px-6 rounded-xl bg-white border-2 border-primary-500 text-primary-500 font-medium overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-primary-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(var(--primary-100),0.1),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <span className="relative z-10 flex items-center justify-center gap-2">
-                  Get Started
-                  <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-                </span>
-              </motion.button>
-            </div>
-          </motion.div>
-
-          {/* Pro Plan */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            whileHover={{ y: -5 }}
-            className="relative rounded-2xl border-2 border-primary-500 bg-white p-8 shadow-xl transform-gpu transition-all duration-300"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-primary-50/50 to-white rounded-2xl" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(var(--primary-50),0.5),transparent_70%)] rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-            <div className="absolute -top-5 left-1/2 transform -translate-x-1/2">
-              <span className="px-4 py-2 rounded-full bg-primary-500 text-white text-sm font-medium shadow-lg">
-                Most Popular
-              </span>
-            </div>
-            <div className="relative z-10">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-primary-100 flex items-center justify-center">
-                  <FiAward className="w-5 h-5 text-primary-500" />
-                </div>
-                <div>
-                  <h3 className="font-poppins text-xl font-semibold text-black">Nonprofit Pro</h3>
-                  <p className="font-poppins text-sm text-black/70">For growing organizations</p>
-                </div>
-              </div>
-              <div className="mb-6">
-                <div className="flex items-baseline gap-2">
-                  <span className="font-poppins text-4xl font-bold text-black">$29</span>
-                  <span className="font-poppins text-lg text-black/70">/month</span>
-                </div>
-                <p className="text-sm text-primary-500 mt-1">Save 20% with annual billing</p>
-              </div>
-              <ul className="space-y-4 mb-8">
-                <motion.li 
-                  className="flex items-center gap-3"
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.3 }}
-                >
-                  <div className="w-5 h-5 rounded-full bg-primary-50 flex items-center justify-center">
-                    <FiCheck className="w-3 h-3 text-primary-500" />
-                  </div>
-                  <span className="font-poppins text-base text-black/80">Unlimited positions</span>
-                </motion.li>
-                <motion.li 
-                  className="flex items-center gap-3"
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.4 }}
-                >
-                  <div className="w-5 h-5 rounded-full bg-primary-50 flex items-center justify-center">
-                    <FiCheck className="w-3 h-3 text-primary-500" />
-                  </div>
-                  <span className="font-poppins text-base text-black/80">Advanced analytics</span>
-                </motion.li>
-                <motion.li 
-                  className="flex items-center gap-3"
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.5 }}
-                >
-                  <div className="w-5 h-5 rounded-full bg-primary-50 flex items-center justify-center">
-                    <FiCheck className="w-3 h-3 text-primary-500" />
-                  </div>
-                  <span className="font-poppins text-base text-black/80">Email notifications</span>
-                </motion.li>
-                <motion.li 
-                  className="flex items-center gap-3"
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.6 }}
-                >
-                  <div className="w-5 h-5 rounded-full bg-primary-50 flex items-center justify-center">
-                    <FiCheck className="w-3 h-3 text-primary-500" />
-                  </div>
-                  <span className="font-poppins text-base text-black/80">Priority support</span>
-                </motion.li>
-              </ul>
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={signIn}
-                className="group relative w-full py-3 px-6 rounded-xl bg-primary-500 text-white font-medium overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.1),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <span className="relative z-10 flex items-center justify-center gap-2">
-                  Start Free Trial
-                  <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-                </span>
-              </motion.button>
-            </div>
-          </motion.div>
-
-          {/* Enterprise Plan */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            whileHover={{ y: -5 }}
-            className="relative rounded-2xl bg-white border border-primary-100/20 p-8 shadow-lg hover:shadow-xl transition-all duration-300"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-primary-50/20 to-white rounded-2xl" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(var(--primary-50),0.3),transparent_70%)] rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-            <div className="relative z-10">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center">
-                  <FiGlobe className="w-5 h-5 text-primary-500" />
-                </div>
-                <div>
-                  <h3 className="font-poppins text-xl font-semibold text-black">Enterprise</h3>
-                  <p className="font-poppins text-sm text-black/70">For large organizations</p>
-                </div>
-              </div>
-              <div className="mb-6">
-                <div className="flex items-baseline gap-2">
-                  <span className="font-poppins text-4xl font-bold text-black">Custom</span>
-                  <span className="font-poppins text-lg text-black/70">pricing</span>
-                </div>
-                <p className="text-sm text-primary-500 mt-1">Tailored to your needs</p>
-              </div>
-              <ul className="space-y-4 mb-8">
-                <motion.li 
-                  className="flex items-center gap-3"
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.3 }}
-                >
-                  <div className="w-5 h-5 rounded-full bg-primary-50 flex items-center justify-center">
-                    <FiCheck className="w-3 h-3 text-primary-500" />
-                  </div>
-                  <span className="font-poppins text-base text-black/80">Everything in Pro</span>
-                </motion.li>
-                <motion.li 
-                  className="flex items-center gap-3"
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.4 }}
-                >
-                  <div className="w-5 h-5 rounded-full bg-primary-50 flex items-center justify-center">
-                    <FiCheck className="w-3 h-3 text-primary-500" />
-                  </div>
-                  <span className="font-poppins text-base text-black/80">Custom integration</span>
-                </motion.li>
-                <motion.li 
-                  className="flex items-center gap-3"
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.5 }}
-                >
-                  <div className="w-5 h-5 rounded-full bg-primary-50 flex items-center justify-center">
-                    <FiCheck className="w-3 h-3 text-primary-500" />
-                  </div>
-                  <span className="font-poppins text-base text-black/80">Dedicated support</span>
-                </motion.li>
-                <motion.li 
-                  className="flex items-center gap-3"
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.6 }}
-                >
-                  <div className="w-5 h-5 rounded-full bg-primary-50 flex items-center justify-center">
-                    <FiCheck className="w-3 h-3 text-primary-500" />
-                  </div>
-                  <span className="font-poppins text-base text-black/80">SLA agreement</span>
-                </motion.li>
-              </ul>
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => window.location.href = "mailto:contact@mira.com"}
-                className="group relative w-full py-3 px-6 rounded-xl bg-white border-2 border-primary-500 text-primary-500 font-medium overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-primary-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(var(--primary-100),0.1),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <span className="relative z-10 flex items-center justify-center gap-2">
-                  Contact Sales
-                  <FiMail className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-                </span>
-              </motion.button>
-            </div>
-          </motion.div>
+            </motion.div>
+          ))}
         </div>
-
-        {/* Feature Comparison */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-16 text-center"
-        >
-          <p className="font-poppins text-base text-gray-600 mb-4">
-            Need help choosing? Compare all features
-          </p>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary-50 text-primary-500 hover:bg-primary-100 transition-colors duration-200 font-medium"
-          >
-            <FiCheck className="w-5 h-5" />
-            View Full Comparison
-          </motion.button>
-        </motion.div>
       </div>
     </section>
   );

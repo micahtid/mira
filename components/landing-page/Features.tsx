@@ -39,26 +39,15 @@ const features: BentoCardProps[] = [
     background: "from-primary-100/30 to-primary-50/50"
   },
   {
-    name: "Track Impact",
+    name: "Safety & Verification",
     className: "md:col-span-1",
-    Icon: FiHeart,
-    description: "Track volunteer hours and generate impact reports.",
-    features: ["Real-time tracking", "Impact metrics", "Custom reports", "Data insights"],
-    href: "/impact",
+    Icon: FiShield,
+    description: "Robust verification system for nonprofits and volunteer hour tracking.",
+    features: ["ID verification", "Background checks", "Hour validation", "Secure data"],
+    href: "/safety",
     cta: "Learn More",
     color: "bg-primary-500",
-    background: "from-primary-50/40 to-primary-100/20"
-  },
-  {
-    name: "Time Tracking",
-    className: "md:col-span-2",
-    Icon: FiClock,
-    description: "Automated time tracking and verification system for volunteer hours.",
-    features: ["QR code check-in", "GPS verification", "Digital signatures", "Export reports"],
-    href: "/time-tracking",
-    cta: "Explore Features",
-    color: "bg-primary-500",
-    background: "from-primary-100/20 to-primary-50/40"
+    background: "from-primary-100/40 to-primary-50/30"
   },
   {
     name: "Communication",
@@ -70,28 +59,17 @@ const features: BentoCardProps[] = [
     cta: "Start Chatting",
     color: "bg-primary-500",
     background: "from-primary-50/30 to-primary-100/40"
-  },
-  {
-    name: "Safety & Verification",
-    className: "md:col-span-1",
-    Icon: FiShield,
-    description: "Robust verification system for nonprofits and volunteer hour tracking.",
-    features: ["ID verification", "Background checks", "Hour validation", "Secure data"],
-    href: "/safety",
-    cta: "Learn More",
-    color: "bg-primary-500",
-    background: "from-primary-100/40 to-primary-50/30"
   }
 ];
 
 const Features = () => {
   return (
-    <section className="py-12 lg:py-28 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-white via-gray-50 to-gray-50" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(var(--primary-50),0.2),transparent_50%)]" />
-      <div className="absolute inset-0 opacity-[0.02] bg-[linear-gradient(45deg,#000_1px,transparent_1px),linear-gradient(-45deg,#000_1px,transparent_1px)] bg-[size:3rem_3rem]" />
+    <section className="py-12 lg:py-28 relative overflow-hidden z-10">
+      <div className="absolute inset-0 bg-gradient-to-b from-white via-gray-50 to-gray-50 z-0" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(var(--primary-50),0.2),transparent_50%)] z-0" />
+      <div className="absolute inset-0 opacity-[0.02] bg-[linear-gradient(45deg,#000_1px,transparent_1px),linear-gradient(-45deg,#000_1px,transparent_1px)] bg-[size:3rem_3rem] z-0" />
       
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

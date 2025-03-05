@@ -127,39 +127,13 @@ const HomePage = () => {
             alt="Logo"
             width={60}
             height={60}
-            className="rounded-xl"
+            className="rounded-xl z-50"
           />
         </Link>
       </div>
 
-      {/* Enhanced global background */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        {/* Main gradients */}
-        <div className="absolute w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(var(--primary-50),0.2),transparent_70%)]" />
-        <div className="absolute w-full h-full bg-[radial-gradient(circle_at_bottom_left,rgba(var(--primary-100),0.2),transparent_70%)]" />
-        
-        {/* Grid pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.2)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.2)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
-        
-        {/* Animated background elements */}
-        <motion.div
-          animate={{
-            ...floatingAnimation,
-            transition: { ...floatingAnimation.transition, delay: 0.2 }
-          }}
-          className="absolute top-20 left-[20%] w-64 h-64 rounded-full bg-primary-100/10 blur-3xl"
-        />
-        <motion.div
-          animate={{
-            ...floatingAnimation,
-            transition: { ...floatingAnimation.transition, delay: 0.7 }
-          }}
-          className="absolute bottom-40 right-[15%] w-96 h-96 rounded-full bg-primary-200/10 blur-3xl"
-        />
-      </div>
-
       {/* Floating Navbar */}
-      <div className="fixed bottom-0 sm:top-6 left-1/2 -translate-x-1/2 z-50 mb-6">
+      <div className="fixed bottom-0 sm:top-6 left-1/2 -translate-x-1/2 z-50 mb-6 min-h-fit">
         <div className="flex items-center gap-3 bg-white/10 border border-primary-100/10 backdrop-blur-lg py-1 px-1 rounded-full shadow-lg">
           {navItems.map((item) => {
             const Icon = item.icon;

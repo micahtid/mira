@@ -24,6 +24,7 @@ const CTA = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
           className="relative"
         >
           {/* Floating Elements */}
@@ -51,6 +52,7 @@ const CTA = () => {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
                   className="inline-block px-4 py-1.5 rounded-full bg-primary-50 text-primary-500 text-sm font-medium mb-4"
                 >
                   Success Stories
@@ -59,7 +61,7 @@ const CTA = () => {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: 0.1 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
                   className="font-poppins text-4xl lg:text-5xl font-semibold leading-tight text-gray-900 mb-4"
                 >
                   Join Our Growing{' '}
@@ -118,7 +120,7 @@ const CTA = () => {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: 0.2 + index * 0.1 }}
+                    transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
                     className="relative group"
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-primary-50/50 to-white rounded-2xl transform transition-transform group-hover:scale-105 duration-300" />
@@ -176,4 +178,4 @@ const CTA = () => {
   );
 };
 
-export default CTA; 
+export default CTA;

@@ -8,12 +8,12 @@ const itemVariants = {
   animate: { 
     opacity: 1, 
     height: "auto",
-    transition: { duration: 0.2 } // Reduced from typical 0.3
+    transition: { duration: 0.3 } // Adjusted for smoother animation
   },
   exit: { 
     opacity: 0, 
     height: 0,
-    transition: { duration: 0.2 } // Reduced from typical 0.3
+    transition: { duration: 0.3 } // Adjusted for smoother animation
   }
 };
 
@@ -100,7 +100,7 @@ const FAQ = () => {
         whileInView={{ 
           opacity: 1, 
           y: 0,
-          transition: { duration: 0.3 } // Reduced from 0.5
+          transition: { duration: 0.4 } // Adjusted for smoother animation
         }}
         viewport={{ once: true }}
         className="max-w-3xl mx-auto px-4 sm:px-6"
