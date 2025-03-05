@@ -16,7 +16,6 @@ import Pricing from "@/components/landing-page/Pricing";
 import FAQ from "@/components/landing-page/FAQ";
 import CTA from "@/components/landing-page/CTA";
 import Footer from "@/components/landing-page/Footer";
-import Navbar from "@/components/landing-page/Navbar";
 
 // Icons
 import { Home as HomeIcon, Book, Users, MessageCircle, LogIn } from "lucide-react";
@@ -25,94 +24,13 @@ import { Home as HomeIcon, Book, Users, MessageCircle, LogIn } from "lucide-reac
 import { cn } from "@/lib/utils";
 import { signIn } from "@/utils/firebaseFunctions";
 
-// Animation variants
-const fadeIn: Variants = {
-  initial: { opacity: 0, y: 20 },
-  animate: { 
-    opacity: 1, 
-    y: 0,
-    transition: { type: "spring", damping: 30, stiffness: 400 }
-  }
-};
-
-const navFade: Variants = {
-  initial: { opacity: 0, y: -20 },
-  animate: { 
-    opacity: 1, 
-    y: 0,
-    transition: { 
-      type: "spring",
-      damping: 25,
-      stiffness: 300
-    }
-  },
-  exit: {
-    opacity: 0,
-    y: -20,
-    transition: { type: "spring", damping: 25, stiffness: 300 }
-  }
-};
-
-const staggerContainer: Variants = {
-  animate: {
-    transition: {
-      staggerChildren: 0.1,
-      ease: [0.22, 1, 0.36, 1]
-    }
-  }
-};
-
-const fadeInScale: Variants = {
-  initial: { opacity: 0, scale: 0.95 },
-  animate: { 
-    opacity: 1, 
-    scale: 1,
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
-  }
-};
-
-const floatingAnimation = {
-  y: [0, -10, 0],
-  rotate: [-1, 1, -1],
-  transition: {
-    duration: 4,
-    repeat: Infinity,
-    ease: "easeInOut"
-  }
-};
-
-// Add new animation variants for tabs
-const tabVariants: Variants = {
-  initial: { opacity: 0, y: -10 },
-  animate: { 
-    opacity: 1, 
-    y: 0,
-    transition: { type: "spring", damping: 20, stiffness: 300 }
-  },
-  exit: {
-    opacity: 0,
-    y: -10,
-    transition: { type: "spring", damping: 20, stiffness: 300 }
-  }
-};
 
 const HomePage = () => {
   const [activeTab, setActiveTab] = useState("Home");
 
-  // Optimize animation variants based on device capabilities
-  const optimizedFadeIn: Variants = {
-    initial: { opacity: 0, y: 20 },
-    animate: { 
-      opacity: 1, 
-      y: 0,
-      transition: { type: "spring", damping: 30, stiffness: 400 }
-    }
-  };
-
   const navItems = [
-    { name: "Home", url: "/", icon: HomeIcon },
+    { name: "Home", url: "/#home", icon: HomeIcon },
     { name: "Platform", url: "#platform", icon: Book },
-    { name: "About Us", url: "#about", icon: Users },
     { name: "Contact", url: "#contact", icon: MessageCircle },
     { name: "Sign In", url: "#", icon: LogIn, onClick: signIn },
   ];

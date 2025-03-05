@@ -38,7 +38,7 @@ const CTA = () => {
               ...floatingAnimation,
               transition: { ...floatingAnimation.transition, delay: 0.5 }
             }}
-            className="absolute -bottom-32 -right-16 w-96 h-96 rounded-full bg-gradient-to-br from-primary-200/20 to-primary-50/10 backdrop-blur-sm border border-primary-200/20"
+            className="absolute -bottom-20 -right-16 w-96 h-96 rounded-full bg-gradient-to-br from-primary-200/20 to-primary-50/10 backdrop-blur-sm border border-primary-200/20"
             style={{ transformOrigin: "center center" }}
           />
 
@@ -94,7 +94,7 @@ const CTA = () => {
               </div>
 
               {/* Testimonials Grid */}
-              <div className="grid md:grid-cols-3 gap-8 mb-16">
+              <div className="grid lg:grid-cols-3 gap-8 mb-16">
                 {[
                   {
                     quote: "Through Mira, I found my passion for environmental conservation. The platform made it easy to connect with local nonprofits.",
@@ -123,7 +123,7 @@ const CTA = () => {
                     transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
                     className="relative group"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary-50/50 to-white rounded-2xl transform transition-transform group-hover:scale-105 duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary-50/40 to-white border border-primary-500/30 rounded-2xl hover:scale-[1.03] transition-transform duration-300" />
                     <div className="relative p-6 text-center">
                       <div className="mb-4">
                         <svg className="w-8 h-8 text-primary-300 mx-auto" fill="currentColor" viewBox="0 0 24 24">
@@ -144,10 +144,9 @@ const CTA = () => {
               {/* CTA Buttons */}
               <div className="flex flex-wrap gap-6 justify-center">
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={signIn}
-                  className="group relative px-8 py-4 bg-primary-500 text-white rounded-xl text-lg font-medium overflow-hidden"
+                  className="group relative px-8 py-4 bg-primary-500 text-white rounded-xl text-lg font-medium overflow-hidden hover:bg-primary-600 transition-all duration-300"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.1),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -157,10 +156,9 @@ const CTA = () => {
                   </span>
                 </motion.button>
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => window.location.href = "mailto:contact@mira.com"}
-                  className="group relative px-8 py-4 bg-white text-primary-500 border-2 border-primary-500 rounded-xl text-lg font-medium overflow-hidden"
+                  className="group relative px-8 py-4 bg-white text-primary-500 border-2 border-primary-500 rounded-xl text-lg font-medium overflow-hidden hover:bg-primary-100 transition-all duration-300"
                 >
                   <div className="absolute inset-0 bg-primary-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(var(--primary-100),0.1),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

@@ -76,7 +76,7 @@ const VideoDemo = () => {
         </motion.div>
 
         {/* Steps Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 mb-8 md:mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 mb-8 md:mb-16">
           {steps.map((step, index) => (
             <motion.div
               key={step.number}
@@ -113,16 +113,14 @@ const VideoDemo = () => {
             <div className="absolute inset-0 bg-gradient-to-br from-primary-500/20 to-primary-900/40" />
             
             {/* Play Button */}
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
+            <button
               className="absolute inset-0 w-full h-full flex items-center justify-center group"
             >
-              <div className="relative w-14 h-14 md:w-20 md:h-20 rounded-full bg-white shadow-lg flex items-center justify-center">
+              <div className="relative w-14 h-14 md:w-20 md:h-20 rounded-full bg-white shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-transform duration-300">
                 <div className="absolute inset-0 bg-primary-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <FiPlay className="w-6 h-6 md:w-8 md:h-8 text-primary-500 relative z-10 translate-x-0.5" />
               </div>
-            </motion.button>
+            </button>
 
             <iframe
               src="https://www.youtube.com/embed/your-video-id"
@@ -152,20 +150,15 @@ const VideoDemo = () => {
             Want to learn more about our platform?
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center w-full sm:w-auto">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-full sm:w-auto"
-            >
+            <div className="w-full sm:w-auto">
               <Link 
                 href="/documentation"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white border-2 border-primary-500 text-primary-500 hover:bg-primary-50 transition-colors duration-200 font-medium w-full sm:w-auto group"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white border-2 border-primary-500 text-primary-500 hover:bg-primary-50 hover:-translate-y-[2px] active:translate-y-0 transition-all duration-300 font-medium w-full sm:w-auto group"
               >
                 <FiCheck className="w-5 h-5" />
                 View Documentation
-                <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
               </Link>
-            </motion.div>
+            </div>
           </div>
         </motion.div>
       </div>

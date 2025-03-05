@@ -1,16 +1,15 @@
 // Motion imports
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
+import React from 'react';
 
 // UI Components
-import { BentoGrid } from "@/components/landing-page/ui/BentoGrid";
+import { BentoGrid, BentoGridProps } from "@/components/landing-page/ui/BentoGrid";
 import type { BentoCardProps } from "@/components/landing-page/ui/BentoGrid";
 
 // Icons
-import { 
+import {
   FiUsers,
-  FiClock,
   FiBarChart2,
-  FiHeart,
   FiShield,
   FiCheckCircle
 } from "react-icons/fi";
@@ -25,7 +24,7 @@ const features: BentoCardProps[] = [
     href: "/nonprofits",
     cta: "Post a Position",
     color: "bg-primary-500",
-    background: "from-primary-50/50 to-primary-100/30"
+    background: "from-primary-50/20 to-primary-100/10"
   },
   {
     name: "For Students",
@@ -36,7 +35,7 @@ const features: BentoCardProps[] = [
     href: "/students",
     cta: "Browse Positions",
     color: "bg-primary-500",
-    background: "from-primary-100/30 to-primary-50/50"
+    background: "from-primary-100/10 to-primary-50/20"
   },
   {
     name: "Safety & Verification",
@@ -47,7 +46,7 @@ const features: BentoCardProps[] = [
     href: "/safety",
     cta: "Learn More",
     color: "bg-primary-500",
-    background: "from-primary-100/40 to-primary-50/30"
+    background: "from-primary-100/15 to-primary-50/15"
   },
   {
     name: "Communication",
@@ -58,15 +57,26 @@ const features: BentoCardProps[] = [
     href: "/messaging",
     cta: "Start Chatting",
     color: "bg-primary-500",
-    background: "from-primary-50/30 to-primary-100/40"
+    background: "from-primary-50/15 to-primary-100/15"
   }
 ];
 
+interface Props extends Omit<BentoGridProps, 'children'> {
+  children?: React.ReactNode;
+}
+
 const Features = () => {
+  const props: Props = {
+    items: features,
+    className: "max-w-6xl mx-auto gap-4 md:gap-6",
+  };
+
   return (
-    <section className="py-12 lg:py-28 relative overflow-hidden z-10">
+    <section 
+    id="platform"
+    className="py-12 lg:py-28 relative overflow-hidden z-10">
       <div className="absolute inset-0 bg-gradient-to-b from-white via-gray-50 to-gray-50 z-0" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(var(--primary-50),0.2),transparent_50%)] z-0" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(var(--primary-50),0.05),transparent_50%)] z-0" />
       <div className="absolute inset-0 opacity-[0.02] bg-[linear-gradient(45deg,#000_1px,transparent_1px),linear-gradient(-45deg,#000_1px,transparent_1px)] bg-[size:3rem_3rem] z-0" />
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
@@ -76,7 +86,7 @@ const Features = () => {
           viewport={{ once: true }}
           className="text-center max-w-3xl mx-auto mb-8 md:mb-16"
         >
-          <motion.span 
+          <motion.span
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -84,7 +94,7 @@ const Features = () => {
           >
             Platform Features
           </motion.span>
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -115,7 +125,7 @@ const Features = () => {
               </motion.svg>
             </span>
           </motion.h2>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -126,7 +136,7 @@ const Features = () => {
           </motion.p>
         </motion.div>
 
-        <BentoGrid items={features} className="max-w-6xl mx-auto gap-4 md:gap-6" />
+        <BentoGrid {...props} />
       </div>
     </section>
   );
