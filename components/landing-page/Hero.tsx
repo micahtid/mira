@@ -14,6 +14,15 @@ const floatingAnimation = {
   }
 };
 
+// Shared className constants
+const sharedClasses = {
+  floatingElement: "bg-gradient-to-br backdrop-blur-sm shadow-lg",
+  floatingBase: "absolute rounded-2xl border",
+  floatingCircle: "absolute rounded-full border",
+  primaryGradient: "from-primary-200/20 to-primary-50/10 border-primary-200/20",
+  buttonBase: "group relative w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 rounded-xl text-base md:text-lg font-medium overflow-hidden inline-flex items-center justify-center hover:-translate-y-[2px] active:translate-y-0 transition-all duration-300",
+};
+
 const Hero = () => {
   return (
     <section 
@@ -27,7 +36,7 @@ const Hero = () => {
         {/* Top Left Group */}
         <motion.div
           animate={floatingAnimation}
-          className="absolute top-[15%] left-[10%] w-48 h-48 rounded-2xl bg-gradient-to-br from-primary-100/20 to-primary-50/10 backdrop-blur-sm border border-primary-200/20 shadow-xl z-10 md:opacity-100 opacity-[0.35]"
+          className={`${sharedClasses.floatingBase} ${sharedClasses.floatingElement} ${sharedClasses.primaryGradient} top-[15%] left-[10%] w-48 h-48 z-10 md:opacity-100 opacity-[0.35]`}
           style={{ transformOrigin: "center center" }}
         />
         <motion.div
@@ -35,7 +44,7 @@ const Hero = () => {
             ...floatingAnimation,
             transition: { ...floatingAnimation.transition, delay: 0.2 }
           }}
-          className="absolute top-[25%] left-[15%] w-32 h-32 rounded-full bg-gradient-to-br from-blue-200/20 to-blue-50/10 backdrop-blur-sm border border-blue-200/20 shadow-lg z-9 max-lg:hidden"
+          className={`${sharedClasses.floatingCircle} ${sharedClasses.floatingElement} from-blue-200/20 to-blue-50/10 border-blue-200/20 top-[25%] left-[15%] w-32 h-32 z-9 max-lg:hidden`}
           style={{ transformOrigin: "center center" }}
         />
 
@@ -45,7 +54,7 @@ const Hero = () => {
             ...floatingAnimation,
             transition: { ...floatingAnimation.transition, delay: 0.4 }
           }}
-          className="absolute top-[20%] right-[15%] w-40 h-40 rounded-2xl bg-gradient-to-br from-purple-200/20 to-purple-50/10 backdrop-blur-sm border border-purple-200/20 shadow-lg z-9 md:opacity-100 opacity-[0.35]"
+          className={`${sharedClasses.floatingBase} ${sharedClasses.floatingElement} from-purple-200/20 to-purple-50/10 border-purple-200/20 top-[20%] right-[15%] w-40 h-40 z-9 md:opacity-100 opacity-[0.35]`}
           style={{ transformOrigin: "center center" }}
         />
         <motion.div
@@ -53,7 +62,7 @@ const Hero = () => {
             ...floatingAnimation,
             transition: { ...floatingAnimation.transition, delay: 0.6 }
           }}
-          className="absolute top-[35%] right-[20%] w-24 h-24 rounded-full bg-gradient-to-br from-primary-200/20 to-primary-50/10 backdrop-blur-sm border border-primary-200/20 shadow-lg z-8 max-xl:hidden"
+          className={`${sharedClasses.floatingCircle} ${sharedClasses.floatingElement} ${sharedClasses.primaryGradient} top-[35%] right-[20%] w-24 h-24 z-8 max-xl:hidden`}
           style={{ transformOrigin: "center center" }}
         />
 
@@ -63,7 +72,7 @@ const Hero = () => {
             ...floatingAnimation,
             transition: { ...floatingAnimation.transition, delay: 0.3 }
           }}
-          className="absolute bottom-[20%] right-[5%] w-60 h-60 rounded-2xl bg-gradient-to-br from-primary-200/20 to-primary-50/10 backdrop-blur-sm border border-primary-200/20 shadow-xl z-10 md:opacity-100 opacity-[0.35]"
+          className={`${sharedClasses.floatingBase} ${sharedClasses.floatingElement} ${sharedClasses.primaryGradient} bottom-[20%] right-[5%] w-60 h-60 z-10 md:opacity-100 opacity-[0.35]`}
           style={{ transformOrigin: "center center" }}
         />
         <motion.div
@@ -71,7 +80,7 @@ const Hero = () => {
             ...floatingAnimation,
             transition: { ...floatingAnimation.transition, delay: 0.5 }
           }}
-          className="absolute bottom-[30%] right-[15%] w-36 h-36 rounded-full bg-gradient-to-br from-pink-200/20 to-pink-50/10 backdrop-blur-sm border border-pink-200/20 shadow-lg z-9 max-lg:hidden"
+          className={`${sharedClasses.floatingCircle} ${sharedClasses.floatingElement} from-pink-200/20 to-pink-50/10 border-pink-200/20 bottom-[30%] right-[15%] w-36 h-36 z-9 max-lg:hidden`}
           style={{ transformOrigin: "center center" }}
         />
 
@@ -81,7 +90,7 @@ const Hero = () => {
             ...floatingAnimation,
             transition: { ...floatingAnimation.transition, delay: 0.7 }
           }}
-          className="absolute bottom-[25%] left-[15%] w-44 h-44 rounded-2xl bg-gradient-to-br from-indigo-200/20 to-indigo-50/10 backdrop-blur-sm border border-indigo-200/20 shadow-lg z-9 md:opacity-100 opacity-[0.35]"
+          className={`${sharedClasses.floatingBase} ${sharedClasses.floatingElement} from-indigo-200/20 to-indigo-50/10 border-indigo-200/20 bottom-[25%] left-[15%] w-44 h-44 z-9 md:opacity-100 opacity-[0.35]`}
           style={{ transformOrigin: "center center" }}
         />
         <motion.div
@@ -89,7 +98,7 @@ const Hero = () => {
             ...floatingAnimation,
             transition: { ...floatingAnimation.transition, delay: 0.9 }
           }}
-          className="absolute bottom-[15%] left-[25%] w-28 h-28 rounded-full bg-gradient-to-br from-primary-100/20 to-primary-50/10 backdrop-blur-sm border border-primary-200/20 shadow-lg z-8 max-xl:hidden"
+          className={`${sharedClasses.floatingCircle} ${sharedClasses.floatingElement} ${sharedClasses.primaryGradient} bottom-[15%] left-[25%] w-28 h-28 z-8 max-xl:hidden`}
           style={{ transformOrigin: "center center" }}
         />
       </div>
@@ -149,7 +158,7 @@ const Hero = () => {
             >
               <button 
                 onClick={signIn}
-                className="group relative w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-primary-500 text-white rounded-xl text-base md:text-lg font-medium overflow-hidden inline-flex items-center justify-center hover:bg-primary-600 hover:-translate-y-[2px] active:translate-y-0 transition-all duration-300"
+                className={`${sharedClasses.buttonBase} bg-primary-500 text-white hover:bg-primary-600`}
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   Browse Positions
@@ -162,7 +171,7 @@ const Hero = () => {
             >
               <button 
                 onClick={signIn}
-                className="group relative w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-white text-primary-500 border-2 border-primary-500 rounded-xl text-base md:text-lg font-medium overflow-hidden inline-flex items-center justify-center hover:bg-primary-100 hover:-translate-y-[2px] active:translate-y-0 transition-all duration-300"
+                className={`${sharedClasses.buttonBase} bg-white text-primary-500 border-2 border-primary-500 hover:bg-primary-100`}
               >
                 <span className="relative z-10">Post a Position</span>
               </button>

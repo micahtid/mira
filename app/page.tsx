@@ -1,12 +1,12 @@
 "use client";
 
 // React and Next.js imports
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 // Motion imports
-import { motion, Variants, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 
 // Component imports
 import Hero from "@/components/landing-page/Hero";

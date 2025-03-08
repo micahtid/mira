@@ -65,6 +65,14 @@ interface Props extends Omit<BentoGridProps, 'children'> {
   children?: React.ReactNode;
 }
 
+// Shared className constants
+const sharedClasses = {
+  sectionBase: "relative overflow-hidden z-10",
+  motionText: "font-poppins text-base md:text-lg text-gray-600 mb-8 md:mb-12",
+  badgeBase: "inline-block px-4 py-1.5 rounded-full bg-primary-50 text-primary-500 text-sm font-medium mb-4",
+  heading: "font-poppins text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight mb-4 text-black",
+};
+
 const Features = () => {
   const props: Props = {
     items: features,
@@ -74,7 +82,7 @@ const Features = () => {
   return (
     <section 
     id="platform"
-    className="py-12 lg:py-28 relative overflow-hidden z-10">
+    className={`${sharedClasses.sectionBase} py-12 lg:py-28`}>
       <div className="absolute inset-0 bg-gradient-to-b from-white via-gray-50 to-gray-50 z-0" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(var(--primary-50),0.05),transparent_50%)] z-0" />
       <div className="absolute inset-0 opacity-[0.02] bg-[linear-gradient(45deg,#000_1px,transparent_1px),linear-gradient(-45deg,#000_1px,transparent_1px)] bg-[size:3rem_3rem] z-0" />
@@ -90,7 +98,7 @@ const Features = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-block px-4 py-1.5 rounded-full bg-primary-50 text-primary-500 text-sm font-medium mb-4"
+            className={sharedClasses.badgeBase}
           >
             Platform Features
           </motion.span>
@@ -99,7 +107,7 @@ const Features = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="font-poppins text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight mb-4 text-black"
+            className={sharedClasses.heading}
           >
             <span className="relative inline-block">
               Streamlined Volunteer Management
@@ -130,7 +138,7 @@ const Features = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="font-poppins text-base md:text-lg text-gray-600 mb-8 md:mb-12"
+            className={sharedClasses.motionText}
           >
             Everything you need to manage volunteer positions and track impact, all in one place.
           </motion.p>
