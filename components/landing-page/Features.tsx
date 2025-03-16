@@ -9,7 +9,6 @@ import type { BentoCardProps } from "@/components/landing-page/ui/BentoGrid";
 // Icons
 import {
   FiUsers,
-  FiBarChart2,
   FiShield,
   FiCheckCircle
 } from "react-icons/fi";
@@ -129,7 +128,7 @@ const Features = () => {
             transition={{ delay: 0.2 }}
             className={sharedClasses.motionText}
           >
-            The premier youth volunteer platform. Whether you're an organization looking for prospective volunteers or an individual looking to gain experience, Mira is your perfect platform.
+            The premier youth volunteer platform. Whether you&apos;re an organization looking for prospective volunteers or an individual looking to gain experience, Mira is your perfect platform.
           </motion.p>
         </motion.div>
 

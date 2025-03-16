@@ -1,4 +1,4 @@
-import { FiArrowRight, FiUsers, FiAward, FiGlobe, FiCheck, FiMail } from "react-icons/fi";
+import { FiArrowRight, FiUsers, FiAward, FiGlobe, FiCheck } from "react-icons/fi";
 import { signIn } from "@/utils/firebaseFunctions";
 
 const Pricing = () => {

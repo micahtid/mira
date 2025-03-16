@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { FiArrowRight } from "react-icons/fi";
 import { signIn } from "@/utils/firebaseFunctions";
-import Image from "next/image";
 
 const sharedClasses = {
   buttonBase: "group relative w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 rounded-xl text-base md:text-lg font-medium overflow-hidden inline-flex items-center justify-center hover:-translate-y-[2px] active:translate-y-0 transition-all duration-300",
