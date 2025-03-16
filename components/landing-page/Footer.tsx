@@ -1,10 +1,20 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { FiGlobe, FiMail, FiMessageCircle, FiHeart, FiArrowRight } from "react-icons/fi";
+import { FiGlobe, FiMail, FiPhone, FiHeart, FiArrowRight, FiMessageCircle } from "react-icons/fi";
 import { signIn } from "@/utils/firebaseFunctions";
 
 const Footer = () => {
+  const copyPhoneNumber = () => {
+    navigator.clipboard.writeText('+62 812 3576 6940')
+      .then(() => {
+        alert('Phone number copied to clipboard!');
+      })
+      .catch(err => {
+        console.error('Failed to copy: ', err);
+      });
+  };
+
   return (
     <footer 
     id="contact"
@@ -29,15 +39,21 @@ const Footer = () => {
             {[
               { icon: FiGlobe, href: "#", label: "Website" },
               { icon: FiMail, href: "mailto:contact@mira.com", label: "Email" },
-              { icon: FiMessageCircle, href: "#", label: "Twitter" },
-              { icon: FiHeart, href: "#", label: "Instagram" }
+              { icon: FiPhone, onClick: copyPhoneNumber, label: "Phone" },
+              { icon: FiHeart, href: "https://www.instagram.com/mira.app.official/", label: "Instagram" }
             ].map((item, i) => {
               const Icon = item.icon;
               return (
                 <a
                   key={i}
-                  href={item.href}
-                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary-50 text-primary-500 flex items-center justify-center hover:bg-primary-100 hover:scale-110 active:scale-95 transition-all duration-200"
+                  href={item.href || "#"}
+                  onClick={(e) => {
+                    if (item.onClick) {
+                      e.preventDefault();
+                      item.onClick();
+                    }
+                  }}
+                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary-50 text-primary-500 flex items-center justify-center hover:bg-primary-100 hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer"
                   aria-label={item.label}
                 >
                   <Icon size={18} className="sm:text-[20px]" />
@@ -148,8 +164,8 @@ const Footer = () => {
             <h4 className="font-poppins text-sm font-semibold text-gray-900 mb-4">Legal</h4>
             <ul className="space-y-3">
               {[
-                { name: "Privacy Policy", href: "/privacy" },
-                { name: "Terms of Service", href: "/terms" }
+                { name: "Privacy Policy", href: "/terms-and-policy" },
+                { name: "Terms of Service", href: "/terms-and-policy" }
               ].map((item) => (
                 <li 
                   key={item.name}
@@ -198,16 +214,15 @@ const Footer = () => {
             2025 All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <Link href="#" className="font-poppins text-sm text-gray-600 hover:text-primary-500 transition-colors duration-200">
+            <Link href="tel:+6281235766940" className="font-poppins text-sm text-gray-600 hover:text-primary-500 transition-colors duration-200">
+              Support: +62 812 3576 6940
+            </Link>
+            <Link href="/terms-and-policy" className="font-poppins text-sm text-gray-600 hover:text-primary-500 transition-colors duration-200">
               Terms
             </Link>
             <span className="text-gray-300">•</span>
-            <Link href="#" className="font-poppins text-sm text-gray-600 hover:text-primary-500 transition-colors duration-200">
+            <Link href="/terms-and-policy" className="font-poppins text-sm text-gray-600 hover:text-primary-500 transition-colors duration-200">
               Privacy
-            </Link>
-            <span className="text-gray-300">•</span>
-            <Link href="#" className="font-poppins text-sm text-gray-600 hover:text-primary-500 transition-colors duration-200">
-              Cookies
             </Link>
           </div>
         </div>

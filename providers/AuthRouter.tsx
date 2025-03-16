@@ -23,7 +23,8 @@ const AuthRouter = (props: any) => {
 
     // Case 1: Not Logged In
     if (!account) {
-      if (pathName !== "/") {
+      // Allow access to terms-and-policy page without authentication
+      if (pathName !== "/" && pathName !== "/terms-and-policy") {
         router.push("/");
       }
       return;
@@ -45,6 +46,11 @@ const AuthRouter = (props: any) => {
           ? "/organization-dashboard?page=manage-positions"
           : "/applicant-dashboard?page=positions";
         router.push(dashboardPath);
+        return;
+      }
+
+      // Allow access to terms-and-policy page for all users!
+      if (pathName === "/terms-and-policy") {
         return;
       }
 
