@@ -6,46 +6,47 @@ const steps = [
   {
     number: "01",
     title: "Create Your Profile",
-    description: "Sign up and create your volunteer profile in just a few minutes. Add your interests, skills, and availability.",
-    color: "from-blue-500/20 to-blue-100/20"
+    description: "Sign up and create your profile in minutes. Add your interests, skills, and availability.",
+    color: "from-blue-500/20 to-blue-100/20",
   },
   {
     number: "02",
-    title: "Browse Opportunities",
-    description: "Explore volunteer positions that match your interests and schedule. Filter by cause, location, and time commitment.",
-    color: "from-purple-500/20 to-purple-100/20"
+    title: "Browse Positions",
+    description: "Explore volunteer roles and filter by position types.",
+    color: "from-purple-500/20 to-purple-100/20",
   },
   {
     number: "03",
-    title: "Apply & Connect",
-    description: "Apply to positions with one click and connect directly with nonprofit organizations.",
-    color: "from-pink-500/20 to-pink-100/20"
+    title: "Apply & Wait",
+    description: "Interested in a position? Apply with one click. Then, just wait for a response.",
+    color: "from-pink-500/20 to-pink-100/20",
   },
   {
     number: "04",
-    title: "Track Impact",
-    description: "Log your volunteer hours and see your impact grow. Get verified certificates for your service.",
-    color: "from-primary-500/20 to-primary-100/20"
-  }
+    title: "Commit",
+    description: "You'll receive a response in a few days. Once accepted, you're all set.",
+    color: "from-primary-500/20 to-primary-100/20",
+  },
 ];
+
 
 const VideoDemo = () => {
   return (
-    <section className="relative py-16 md:py-32 overflow-hidden">
+    <section id="how-it-works" className="relative py-12 sm:py-16 md:py-24 lg:py-32 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-white via-primary-50/20 to-white" />
       
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-8 md:mb-16"
+          className="text-center mb-6 sm:mb-8 md:mb-16"
         >
-          <span className="inline-block px-4 py-1.5 rounded-full bg-primary-50 text-primary-500 text-sm font-medium mb-4">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-primary-50 text-primary-500 text-sm font-medium mb-3 sm:mb-4">
             Platform Demo
           </span>
-          <h2 className="font-poppins text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight text-gray-900 mb-4">
+          <h2 className="font-poppins text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight text-gray-900 mb-3 sm:mb-4">
             <span className="relative inline-block">
               See How It Works
               <motion.svg
@@ -70,8 +71,8 @@ const VideoDemo = () => {
               </motion.svg>
             </span>
           </h2>
-          <p className="font-poppins text-base md:text-xl text-gray-600 max-w-2xl mx-auto">
-            Watch our quick tutorial to learn how to find and apply for volunteer positions
+          <p className="font-poppins text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
+            Watch our quick tutorial to learn how to find and apply for volunteer positions.
           </p>
         </motion.div>
 
@@ -146,7 +147,7 @@ const VideoDemo = () => {
           transition={{ delay: 0.4, duration: 0.5 }}
           className="mt-8 md:mt-12 flex flex-col items-center"
         >
-          <p className="font-poppins text-base md:text-lg text-gray-600 mb-4">
+          <p className="font-poppins text-base sm:text-lg text-gray-600 mb-4">
             Want to learn more about our platform?
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center w-full sm:w-auto">

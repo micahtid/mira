@@ -2,29 +2,30 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { FiGlobe, FiMail, FiMessageCircle, FiHeart, FiArrowRight } from "react-icons/fi";
+import { signIn } from "@/utils/firebaseFunctions";
 
 const Footer = () => {
   return (
     <footer 
     id="contact"
-    className="relative border-t border-primary-100/20 bg-gradient-to-b from-white to-primary-50/10 py-20">
+    className="relative border-t border-primary-100/20 bg-gradient-to-b from-white to-primary-50/10 py-12 sm:py-16 md:py-20">
       {/* Enhanced Background Effects */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(var(--primary-50),0.3),transparent_70%)]" />
       <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(var(--primary-50),0.05)_1px,transparent_1px),linear-gradient(-45deg,rgba(var(--primary-50),0.05)_1px,transparent_1px)] bg-[size:20px_20px]" />
       
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-3 sm:px-4 md:px-6 lg:px-8">
         {/* Logo and Social Links */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-8">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-8 sm:mb-10 md:mb-12 gap-6 md:gap-8">
           <div className="flex items-center gap-3">
             <Image
-              src="/images/logo.png"
+              src="/logo.png"
               alt="Logo"
               width={60}
               height={60}
               className="rounded-xl"
             />
           </div>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4 sm:gap-6">
             {[
               { icon: FiGlobe, href: "#", label: "Website" },
               { icon: FiMail, href: "mailto:contact@mira.com", label: "Email" },
@@ -36,10 +37,10 @@ const Footer = () => {
                 <a
                   key={i}
                   href={item.href}
-                  className="w-10 h-10 rounded-full bg-primary-50 text-primary-500 flex items-center justify-center hover:bg-primary-100 hover:scale-110 active:scale-95 transition-all duration-200"
+                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary-50 text-primary-500 flex items-center justify-center hover:bg-primary-100 hover:scale-110 active:scale-95 transition-all duration-200"
                   aria-label={item.label}
                 >
-                  <Icon size={20} />
+                  <Icon size={18} className="sm:text-[20px]" />
                 </a>
               );
             })}
@@ -47,7 +48,7 @@ const Footer = () => {
         </div>
 
         {/* Navigation Links */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 sm:gap-8 mb-8 sm:mb-10 md:mb-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -57,10 +58,9 @@ const Footer = () => {
             <h4 className="font-poppins text-sm font-semibold text-gray-900 mb-4">Platform</h4>
             <ul className="space-y-3">
               {[
-                { name: "Browse Positions", href: "#platform" },
-                { name: "Post a Position", href: "#platform" },
-                { name: "How it Works", href: "#about" },
-                { name: "Impact", href: "#about" }
+                { name: "Browse Positions", href: "#home", onClick: signIn },
+                { name: "Post a Position", href: "#home", onClick: signIn },
+                { name: "How it Works", href: "#how-it-works" },
               ].map((item) => (
                 <li 
                   key={item.name}
@@ -68,6 +68,12 @@ const Footer = () => {
                 >
                   <Link
                     href={item.href}
+                    onClick={(e) => {
+                      if (item.onClick) {
+                        e.preventDefault();
+                        item.onClick();
+                      }
+                    }}
                     className="font-poppins text-sm text-gray-600 hover:text-primary-500 transition-colors duration-200 flex items-center gap-2 group"
                   >
                     {item.name}
@@ -88,9 +94,7 @@ const Footer = () => {
             <ul className="space-y-3">
               {[
                 { name: "For Students", href: "#platform" },
-                { name: "For Nonprofits", href: "#platform" },
-                { name: "Help Center", href: "#contact" },
-                { name: "Guidelines", href: "#about" }
+                { name: "For Nonprofits", href: "#platform" }
               ].map((item) => (
                 <li 
                   key={item.name}
@@ -117,10 +121,7 @@ const Footer = () => {
             <h4 className="font-poppins text-sm font-semibold text-gray-900 mb-4">Company</h4>
             <ul className="space-y-3">
               {[
-                { name: "About Us", href: "#about" },
-                { name: "Partners", href: "#about" },
-                { name: "Success Stories", href: "#about" },
-                { name: "Contact", href: "#contact" }
+                { name: "About Us", href: "#about" }
               ].map((item) => (
                 <li 
                   key={item.name}
@@ -148,9 +149,7 @@ const Footer = () => {
             <ul className="space-y-3">
               {[
                 { name: "Privacy Policy", href: "/privacy" },
-                { name: "Terms of Service", href: "/terms" },
-                { name: "Cookie Policy", href: "/cookies" },
-                { name: "Accessibility", href: "/accessibility" }
+                { name: "Terms of Service", href: "/terms" }
               ].map((item) => (
                 <li 
                   key={item.name}

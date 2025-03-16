@@ -69,32 +69,34 @@ const FAQ = () => {
   const faqs = [
     {
       question: "What is Mira?",
-      answer: "Mira is a platform that connects nonprofits with volunteers, making it easier to manage volunteer programs and track impact. We help organizations streamline their volunteer management while providing students with meaningful opportunities to make a difference."
+      answer:
+        "Mira is a platform that connects youth-led organizations with high school students, making it easier to find and manage volunteers. We streamline the volunteer process, helping organizations grow while providing students with meaningful opportunities to make an impact.",
     },
     {
-      question: "How do I get started?",
-      answer: "Getting started is simple! If you're a student, you can sign up for free and start browsing volunteer opportunities right away. For nonprofits, choose a plan that fits your needs and create your organization's profile to begin posting positions."
+      question: "[For Students] How does the application process work?",
+      answer:
+      "After finding a position, simply answer the organization's application questions and submit your application. You will receive an email within a few days regarding your application status. If accepted, you can choose to accept or decline the offer.",
     },
     {
-      question: "Is Mira free for students?",
-      answer: "Yes! Mira is completely free for students. You can create an account, browse opportunities, track your volunteer hours, and build your impact portfolio without any cost."
+      question: "[For Organizations] Is there a verification process for organizations?",
+      answer:
+        "Currently, there is no verification required to create an organization profile. However, if you notice an entity impersonating your organization, please contact us immediately, and our team will take swift action to resolve the issue.",
     },
     {
-      question: "What features are included in the Pro plan?",
-      answer: "The Pro plan includes unlimited volunteer position postings, advanced analytics to track impact, automated email notifications, priority support, and more. It's perfect for growing nonprofits looking to scale their volunteer programs."
+      question: "[For Organizations] Does Mira partner with nonprofits?",
+      answer:
+        "Yes! While we don’t actively seek partnerships as frequently, Mira collaborates with select organizations by offering lifetime Pro memberships in exchange for backlinks and promotional reposts.",
     },
     {
-      question: "Can I switch plans later?",
-      answer: "Absolutely! You can upgrade, downgrade, or cancel your plan at any time. If you upgrade, you'll be prorated for the remainder of your billing cycle. If you downgrade, your new rate will take effect at your next billing cycle."
+      question: "[For Organizations] How can I cancel my subscription?",
+      answer:
+        "To cancel your Mira Pro subscription, please contact our support team. If you have a valid reason for cancellation, we will review your request and process a full refund if eligible.",
     },
-    {
-      question: "Do you offer discounts for nonprofits?",
-      answer: "Yes, we offer special discounts for registered nonprofits. Contact our sales team to learn more about our nonprofit pricing and available discounts."
-    }
   ];
+  
 
   return (
-    <section className="py-16 md:py-24">
+    <section id="faq" className="relative py-12 sm:py-16 md:py-24 lg:py-32 overflow-hidden">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ 
@@ -103,18 +105,18 @@ const FAQ = () => {
           transition: { duration: 0.4 } // Adjusted for smoother animation
         }}
         viewport={{ once: true }}
-        className="max-w-3xl mx-auto px-4 sm:px-6"
+        className="max-w-3xl mx-auto px-3 sm:px-4 md:px-6"
       >
-        <div className="text-center mb-12">
-          <h2 className="font-poppins text-3xl md:text-4xl font-semibold text-gray-900 mb-4">
+        <div className="text-center mb-8 sm:mb-10 md:mb-12">
+          <h2 className="font-poppins text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-900 mb-3 sm:mb-4">
             Frequently Asked Questions
           </h2>
-          <p className="font-poppins text-lg text-gray-600">
-            Everything you need to know about our volunteer platform
+          <p className="font-poppins text-base sm:text-lg text-gray-600">
+            Everything you need to know about Mira!
           </p>
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2 sm:space-y-3">
           {faqs.map((faq, index) => (
             <FAQItem
               key={index}

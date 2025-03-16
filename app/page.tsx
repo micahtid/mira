@@ -38,21 +38,21 @@ const HomePage = () => {
   return (
     <main className="relative min-h-screen antialiased">
       {/* Fixed Logo in top-left corner */}
-      <div className="fixed top-6 left-6 z-50">
+      <div className="fixed top-4 sm:top-6 left-3 sm:left-6 z-50">
         <Link href="/" className="flex items-center gap-3">
           <Image
-            src="/images/logo.png"
+            src="/logo.png"
             alt="Logo"
-            width={60}
-            height={60}
-            className="rounded-xl z-50"
+            width={50}
+            height={50}
+            className="rounded-xl z-50 sm:w-[60px] sm:h-[60px]"
           />
         </Link>
       </div>
 
       {/* Floating Navbar */}
-      <div className="fixed bottom-0 sm:top-6 left-1/2 -translate-x-1/2 z-50 mb-6 min-h-fit">
-        <div className="flex items-center gap-3 bg-white/10 border border-primary-100/10 backdrop-blur-lg py-1 px-1 rounded-full shadow-lg">
+      <div className="fixed bottom-0 sm:top-6 left-1/2 -translate-x-1/2 z-50 mb-4 sm:mb-6 min-h-fit w-[95%] sm:w-auto">
+        <div className="flex items-center justify-between sm:justify-start gap-1 sm:gap-3 bg-white/10 border border-primary-100/10 backdrop-blur-lg py-1 px-1 rounded-full shadow-lg">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.name;
@@ -69,7 +69,7 @@ const HomePage = () => {
                   setActiveTab(item.name);
                 }}
                 className={cn(
-                  "relative cursor-pointer text-sm font-semibold px-6 py-2 rounded-full transition-colors",
+                  "relative cursor-pointer text-xs sm:text-sm font-semibold px-3 sm:px-6 py-2 rounded-full transition-colors flex-1 sm:flex-auto text-center",
                   "text-gray-600 hover:text-primary-500",
                   isActive && "bg-primary-50/50 text-primary-500"
                 )}
