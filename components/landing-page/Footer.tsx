@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { FiGlobe, FiMail, FiPhone, FiHeart, FiArrowRight, FiMessageCircle } from "react-icons/fi";
+import { FiGlobe, FiMail, FiPhone, FiHeart, FiArrowRight } from "react-icons/fi";
 import { signIn } from "@/utils/firebaseFunctions";
 
 const Footer = () => {
