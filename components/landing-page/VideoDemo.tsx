@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FiPlay, FiCheck, FiArrowRight } from "react-icons/fi";
+import { FiPlay, FiCheck } from "react-icons/fi";
 import Link from "next/link";
 
 const steps = [

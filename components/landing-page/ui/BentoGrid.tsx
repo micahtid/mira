@@ -7,7 +7,7 @@ interface BentoCardProps {
   name: string;
   description?: string;
   header?: ReactNode;
-  Icon?: any;
+  Icon?: React.ElementType;
   features?: string[];
   href?: string;
   cta?: string;

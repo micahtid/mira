@@ -18,7 +18,7 @@ import CTA from "@/components/landing-page/CTA";
 import Footer from "@/components/landing-page/Footer";
 
 // Icons
-import { Home as HomeIcon, Book, Users, MessageCircle, LogIn } from "lucide-react";
+import { Home as HomeIcon, Book, MessageCircle, LogIn } from "lucide-react";
 
 // Utils
 import { cn } from "@/lib/utils";
