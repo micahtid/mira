@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { FiPlus } from 'react-icons/fi';
 
 import { addPosition } from '@/utils/organizationFunctions';
 import { Position, SelectOption } from '@/data/types';
@@ -115,7 +116,7 @@ const CreatePosition = () => {
                     required
                     isSearchable
                     isClearable
-                    placeholder="Select or type a position type..."
+                    placeholder="Select position type..."
                 />
 
                 {/* Form Fields */}
@@ -184,9 +185,14 @@ const CreatePosition = () => {
                             <button
                                 type="button"
                                 onClick={handleAddQuestion}
-                                className="default-button"
+                                className="
+                                px-[12.5px] py-2.5
+                                bg-white text-gray-700
+                                border border-gray-200
+                                rounded-lg
+                                "
                             >
-                                Add
+                                <FiPlus />
                             </button>
                         </div>
                         {questions.map((question, index) => (
@@ -216,7 +222,7 @@ const CreatePosition = () => {
 
                 <button
                     type="submit"
-                    className="w-full default-button rounded-[12px]"
+                    className="w-full default-button"
                 >
                     Create Position
                 </button>

@@ -41,9 +41,11 @@ const ApplicantProfile: React.FC<ApplicantProfileProps> = ({ applicant, position
         <div className="space-y-6">
             {/* Applicant Name & Status */}
             <div>
-                <div className="flex items-center gap-2">
-                    <h1 className="default-subheading">{applicant.fullName}</h1>
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium capitalize ${getStatusColor(applicant.status, applicant.rescinded || false)}`}>
+                <div className="flex items-center gap-4">
+                    <h1 className="default-subheading text-nowrap overflow-hidden overflow-ellipsis">{applicant.fullName}</h1>
+                    <span className={`px-3 py-1 rounded-full text-sm font-medium capitalize
+                        max-md:max-w-[75px] max-md:overflow-hidden max-md:overflow-ellipsis
+                         ${getStatusColor(applicant.status, applicant.rescinded || false)}`}>
                         {applicant.rescinded ? 'Rescinded' : applicant.status}
                     </span>
                 </div>
@@ -95,7 +97,7 @@ const ApplicantProfile: React.FC<ApplicantProfileProps> = ({ applicant, position
             </div>
 
             {/* Application Responses */}
-            {position?.positionQuestions && (
+            {position?.positionQuestions[0] && (
                 <div className="space-y-4">
                     <h3 className="default-text font-semibold">Application Responses</h3>
                     {position.positionQuestions.map((question: string, index: number) => (
@@ -110,7 +112,8 @@ const ApplicantProfile: React.FC<ApplicantProfileProps> = ({ applicant, position
             )}
 
             {/* Action Buttons */}
-            <div className="flex gap-4 pt-4">
+            <div className="flex gap-4 pt-4
+            max-md:flex-col">
                 <button 
                     onClick={() => {
                         onOpen(
@@ -133,7 +136,8 @@ const ApplicantProfile: React.FC<ApplicantProfileProps> = ({ applicant, position
                     }}
                     disabled={applicant.status !== 'pending' || (position?.openSlots || 0) <= 0}
                     className={`default-button bg-emerald-600 hover:bg-emerald-700 
-                        disabled:opacity-50 disabled:cursor-not-allowed`}
+                        disabled:opacity-50 disabled:cursor-not-allowed
+                        max-md:w-full`}
                 >
                     {(position?.openSlots || 0) <= 0 ? 'No Available Slots' : 'Accept'}
                 </button>
@@ -159,7 +163,8 @@ const ApplicantProfile: React.FC<ApplicantProfileProps> = ({ applicant, position
                     }}
                     disabled={applicant.status !== 'pending'}
                     className={`default-button bg-rose-600 hover:bg-rose-700 
-                        disabled:opacity-50 disabled:cursor-not-allowed`}
+                        disabled:opacity-50 disabled:cursor-not-allowed
+                        max-md:w-full`}
                 >
                     Reject
                 </button>
@@ -172,7 +177,8 @@ const ApplicantProfile: React.FC<ApplicantProfileProps> = ({ applicant, position
                         applicant.bookMark 
                             ? 'bg-gray-600 hover:bg-gray-700' 
                             : 'bg-yellow-600 hover:bg-yellow-700'
-                    } disabled:opacity-50 disabled:cursor-not-allowed`}
+                    } disabled:opacity-50 disabled:cursor-not-allowed
+                    max-md:w-full`}
                 >
                     {applicant.bookMark ? 'Remove Bookmark' : 'Bookmark'}
                 </button>

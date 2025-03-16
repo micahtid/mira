@@ -43,14 +43,14 @@ const PositionPreview: React.FC<PositionPreviewProps> = ({ position, allowApply,
           <OrganizationLink oid={position.oid} name={`@${position.organizationName}`} />
         </div>
         <div className="flex flex-wrap gap-3">
-          <span className="px-3 py-1 bg-primary-50 text-primary-600 rounded-lg text-sm font-medium">
+          <span className="px-3 py-1 bg-primary-50 default-label text-primary-600 rounded-lg font-medium">
             {toTitleCase(position.positionType)}
           </span>
-          <span className="px-3 py-1 bg-gray-50 text-gray-600 rounded-lg text-sm font-medium">
+          <span className="px-3 py-1 bg-gray-50 default-label text-gray-600 rounded-lg font-medium">
             {position.positionLocation || "Remote"}
           </span>
           {position.requireResume && (
-            <span className="px-3 py-1 bg-gray-50 text-gray-600 rounded-lg text-sm font-medium">
+            <span className="px-3 py-1 bg-gray-50 default-label text-gray-600 rounded-lg font-medium">
               Resume Required
             </span>
           )}
@@ -59,7 +59,7 @@ const PositionPreview: React.FC<PositionPreviewProps> = ({ position, allowApply,
 
       {/* Description Section */}
       <div className="p-6">
-        <h3 className="text-sm font-medium text-gray-500 mb-1">Description</h3>
+        <h3 className="default-label font-medium text-gray-500 mb-1">Description</h3>
         <p className="default-text text-gray-700 whitespace-pre-wrap">
           {position.positionDescription}
         </p>
@@ -68,7 +68,7 @@ const PositionPreview: React.FC<PositionPreviewProps> = ({ position, allowApply,
       {/* Requirements Section (Optional) */}
       {position.positionRequirements && (
         <div className="p-6">
-          <h3 className="text-sm font-medium text-gray-500 mb-1">Requirements</h3>
+          <h3 className="default-label font-medium text-gray-500 mb-1">Requirements</h3>
           <p className="default-text text-gray-700 whitespace-pre-wrap">
             {position.positionRequirements}
           </p>
@@ -81,14 +81,19 @@ const PositionPreview: React.FC<PositionPreviewProps> = ({ position, allowApply,
           {hasApplied ? (
             <button
               disabled
-              className="block w-full py-2 bg-gray-100 text-gray-500 font-medium rounded-lg cursor-not-allowed"
+              className="block w-full default-button 
+              bg-gray-100 text-gray-500 hover:bg-gray-100 
+              font-medium cursor-not-allowed"
             >
               Already Applied
             </button>
           ) : (
             <Link
               href={`/applicant-dashboard/apply?pid=${position.pid}`}
-              className="block w-full py-2 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors text-center"
+              className="
+              block default-button w-full
+              bg-primary-600 text-white hover:bg-primary-700 
+              font-medium"
             >
               Apply Now
             </Link>

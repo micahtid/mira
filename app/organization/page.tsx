@@ -79,7 +79,8 @@ export default function OrganizationPage() {
           {/* Social Links */}
           <div>
             <h2 className="default-subheading">Connect With Us</h2>
-            <div className="flex gap-6 mt-2">
+            <div className="flex gap-6 mt-2
+            max-md:flex-col max-md:gap-y-2">
               <div className="flex items-center gap-2">
                 <FaGlobe className="text-gray-400" />
                 {organization.organizationWebsite ? (

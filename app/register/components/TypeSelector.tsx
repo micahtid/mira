@@ -19,7 +19,8 @@ const TypeSelector: React.FC<RegistrationTypeToggleProps> = ({ registrationType,
     ];
 
     return (
-        <div className="flex gap-3 w-full">
+        <div className="flex gap-3 w-full
+        max-md:flex-col">
             {types.map(({ type, label, icon }) => (
                 <motion.button
                     key={type}

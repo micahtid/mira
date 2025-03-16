@@ -30,8 +30,8 @@ const SelectField = ({
             minHeight: '42px',
             borderRadius: '10px',
             background: 'rgb(249 250 251)', // Gray Background
-            borderColor: state.isFocused ? '#8b5cf6' : '#dad0ff', // Focus & Non-Focus Border Colors
-            boxShadow: state.isFocused ? '0 0 0 2px #8b5cf6' : 'none', 
+            borderColor: state.isFocused ? '#8b5cf6' : '#dad0ff', // Focus & Non Focus Border Colors
+            boxShadow: 'none', 
             '&:hover': {
                 borderColor: '#a78bfa', 
             },

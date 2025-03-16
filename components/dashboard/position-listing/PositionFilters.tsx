@@ -55,12 +55,7 @@ const PositionFilters: React.FC<PositionFiltersProps> = ({ onFiltersChange }) =>
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           placeholder="Search positions..."
-          className="w-full pl-10 pr-4 py-[10px]
-          rounded-[12px]
-          border border-primary-100 
-          hover:border-primary-300 
-          focus:border-primary-500 focus:ring-1 focus:ring-primary-500 
-          outline-none bg-gray-50 text-sm"
+          className="default-field w-full pl-10 pr-4"
         />
       </div>
 
