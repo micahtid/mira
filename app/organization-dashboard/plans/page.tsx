@@ -1,48 +1,83 @@
 "use client";
 
-import { getCheckoutUrl, getPremiumStatus, getPortalUrl } from "@/utils/stripeFunctions";
+import { getCheckoutUrl, getPortalUrl } from "@/utils/stripeFunctions";
 import { useRouter } from "next/navigation";
-
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useAccount } from "@/providers/AccountProvider";
 
 const Plans = () => {
     const router = useRouter();
-    const [isPremium, setIsPremium] = useState(false);
-    
-    useEffect(() => {
-        const checkPremium = async () => {
-            const newPremiumStatus = await getPremiumStatus();
-            setIsPremium(newPremiumStatus)
-        }
-        checkPremium();
-    }, [])
+    const { isPremium } = useAccount();
+    const [isLoading, setIsLoading] = useState(false);
 
     const upgradeToPremium = async () => {
-        const productId = "price_1R40FPFwEZHzHvCUVeb7cTWR";
-        const checkoutUrl = await getCheckoutUrl(productId);
-        router.push(checkoutUrl);
-    }
+        try {
+            setIsLoading(true);
+            const productId = "price_1R40FPFwEZHzHvCUVeb7cTWR";
+            const checkoutUrl = await getCheckoutUrl(productId);
+            router.push(checkoutUrl);
+        } catch (error) {
+            console.error("Error upgrading to premium:", error);
+            setIsLoading(false);
+        }
+    };
 
     const manageSubscription = async () => {
-        const portalUrl = await getPortalUrl();
-        router.push(portalUrl);
+        try {
+            setIsLoading(true);
+            const portalUrl = await getPortalUrl();
+            router.push(portalUrl);
+        } catch (error) {
+            console.error("Error managing subscription:", error);
+            setIsLoading(false);
+        }
+    };
+
+    if (isLoading) {
+        return (
+            <div className="mx-auto max-w-standard p-standard flex items-center justify-center min-h-[60vh]">
+                <div className="text-center">
+                    <div className="animate-pulse text-primary-600 text-xl mb-2">Loading...</div>
+                    <p className="text-gray-500">Processing your request</p>
+                </div>
+            </div>
+        );
     }
 
-  return (
-    <div className='mx-auto max-w-standard p-standard
-    flex flex-col gap-y-4'>
-        <h3 className="default-subheading">Hello</h3>
-        <p className="default-text">{isPremium ? "You are premium" : "You are not premium"}</p>
-        <button
-        disabled={isPremium}
-        className={`p-2 bg-primary-50 default-text w-min text-nowrap rounded-md ${isPremium && "opacity-50"}`}
-        onClick={upgradeToPremium}>Upgrade to Premium</button>
-        <button
-        disabled={!isPremium}
-        className={`p-2 bg-primary-50 default-text w-min text-nowrap rounded-md ${!isPremium && "opacity-50"}`}
-        onClick={manageSubscription}>Manage Subscription</button>
-    </div>
-  )
-}
+    return (
+        <div className="mx-auto max-w-standard p-standard py-8">
+            <div className="bg-white rounded-lg shadow-sm p-6">
+                <h1 className="text-xl font-medium text-gray-800 mb-4">Subscription Status</h1>
+                
+                <div className="flex items-center mb-6">
+                    <div className={`w-3 h-3 rounded-full mr-2 ${isPremium ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                    <span className="text-gray-700">
+                        {isPremium ? "Premium Plan" : "Free Plan"}
+                    </span>
+                </div>
 
-export default Plans
+                <div className="space-y-3">
+                    {!isPremium && (
+                        <button
+                            onClick={upgradeToPremium}
+                            className="w-full py-2 px-4 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-md transition-colors"
+                        >
+                            Upgrade to Premium
+                        </button>
+                    )}
+
+                    {isPremium && (
+                        <button
+                            onClick={manageSubscription}
+                            className="w-full py-2 px-4 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-md transition-colors"
+                        >
+                            Manage Subscription
+                        </button>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default Plans;

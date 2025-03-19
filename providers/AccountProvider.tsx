@@ -5,10 +5,12 @@ import { DocumentData } from "firebase/firestore";
 import { Auth, User } from "firebase/auth";
 import { initializeFirebase, getUserAuth } from "@/utils/firebaseFunctions";
 import { getAccount } from "@/utils/globalFunctions";
+import { getPremiumStatus } from "@/utils/stripeFunctions";
 
 type AccountContextType = {
   account: null | undefined | DocumentData;
   accountData: null | undefined | DocumentData;
+  isPremium: boolean;
 };
 
 export const AccountContext = createContext<AccountContextType | undefined>(
@@ -25,19 +27,35 @@ export const AccountContextProvider = (props: Props) => {
 
   const [account, setAccount] = useState<User | undefined | null>(undefined);
   const [accountData, setAccountData] = useState<DocumentData | undefined | null>(undefined);
+  const [isPremium, setIsPremium] = useState<boolean>(false);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
       if (firebaseUser) {
-        // Keep both states as undefined while we fetch the data
+        // Both states as undefined while fetching data!
         const userDoc = await getAccount(firebaseUser.uid);
-        // Update both states at once to prevent flashing
+
+        // Update both states at once to prevent flashing!
         setAccount(firebaseUser);
         setAccountData(userDoc);
+        
+        // Check Premium Status For Organizations
+        if (userDoc && (userDoc as DocumentData).type === "organization") {
+          try {
+            const premiumStatus = await getPremiumStatus();
+            setIsPremium(premiumStatus);
+          } catch (error) {
+            console.error("Error checking premium status:", error);
+            setIsPremium(false);
+          }
+        } else {
+          setIsPremium(false);
+        }
       } else {
-        // Update both states at once for logout
+        // Update all states during lougout...
         setAccount(null);
         setAccountData(null);
+        setIsPremium(false);
       }
     });
 
@@ -47,7 +65,8 @@ export const AccountContextProvider = (props: Props) => {
 
   const value = {
     account,
-    accountData
+    accountData,
+    isPremium
   };
 
   return <AccountContext.Provider value={value} {...props} />;
