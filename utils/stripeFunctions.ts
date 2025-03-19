@@ -70,7 +70,7 @@ export const getPortalUrl = async (): Promise<string> => {
       returnUrl: window.location.origin,
     });
 
-    // Add a type to the data
+    // Add a type to the data!
     dataWithUrl = data as { url: string };
     console.log("Reroute to Stripe portal: ", dataWithUrl.url);
   } catch (error) {

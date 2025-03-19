@@ -1,6 +1,6 @@
 "use client";
 
-import { getCheckoutUrl, getPremiumStatus } from "@/utils/stripeFunctions";
+import { getCheckoutUrl, getPremiumStatus, getPortalUrl } from "@/utils/stripeFunctions";
 import { useRouter } from "next/navigation";
 
 import { useState, useEffect } from "react";
@@ -23,6 +23,11 @@ const Plans = () => {
         router.push(checkoutUrl);
     }
 
+    const manageSubscription = async () => {
+        const portalUrl = await getPortalUrl();
+        router.push(portalUrl);
+    }
+
   return (
     <div className='mx-auto max-w-standard p-standard
     flex flex-col gap-y-4'>
@@ -32,6 +37,10 @@ const Plans = () => {
         disabled={isPremium}
         className={`p-2 bg-primary-50 default-text w-min text-nowrap rounded-md ${isPremium && "opacity-50"}`}
         onClick={upgradeToPremium}>Upgrade to Premium</button>
+        <button
+        disabled={!isPremium}
+        className={`p-2 bg-primary-50 default-text w-min text-nowrap rounded-md ${!isPremium && "opacity-50"}`}
+        onClick={manageSubscription}>Manage Subscription</button>
     </div>
   )
 }
