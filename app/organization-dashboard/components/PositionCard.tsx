@@ -4,7 +4,7 @@ import { DocumentData, Timestamp } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
 import * as Switch from '@radix-ui/react-switch';
 import { format } from 'date-fns';
-import { toTitleCase } from '@/utils/misc';
+import { toTitleCase } from '@/utils/helper';
 import { 
   FiMapPin, 
   FiLock, 

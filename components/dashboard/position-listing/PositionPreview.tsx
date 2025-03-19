@@ -3,7 +3,7 @@
 import React from 'react';
 import { DocumentData } from 'firebase/firestore';
 import Link from 'next/link';
-import { toTitleCase } from '@/utils/misc';
+import { toTitleCase } from '@/utils/helper';
 
 interface PositionPreviewProps {
   position: DocumentData | null;

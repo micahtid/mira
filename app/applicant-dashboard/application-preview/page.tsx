@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useAccount } from '@/providers/AccountProvider';
 import { getApplication, getPosition } from '@/utils/applicantFunctions';
 import { Application, Position } from '@/data/types';
-import { toTitleCase } from '@/utils/misc';
+import { toTitleCase } from '@/utils/helper';
 import Loader from '@/components/common/Loader';
 
 export default function ApplicationPreview() {

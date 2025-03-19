@@ -2,7 +2,7 @@
 
 import { setApplicantCommitment } from '@/utils/applicantFunctions';
 import { Application } from '@/data/types';
-import { toTitleCase } from '@/utils/misc';
+import { toTitleCase } from '@/utils/helper';
 import { useConfirmationModal } from '@/hooks/useConfirmationModal';
 import { toast } from 'react-hot-toast';
 import { format } from 'date-fns';
