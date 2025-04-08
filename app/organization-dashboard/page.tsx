@@ -26,7 +26,7 @@ const OrganizationDashboard = () => {
   return (
     <>
       <Header />
-      <div className="default-container w-full flex flex-col gap-6">
+      <div className="default-container w-full flex flex-col gap-6 mb-36">
         <DashboardNavBar items={[
           { label: "Manage Positions", link: "manage-positions" }, 
           { label: "View Listings", link: "positions" },

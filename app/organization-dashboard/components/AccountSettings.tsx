@@ -157,7 +157,7 @@ const AccountSettings = () => {
       {/* Profile Information */}
       <div className="bg-white rounded-lg border border-gray-100 overflow-hidden">
         <div className="p-5 border-b border-gray-100 bg-gray-50">
-          <h3 className="default-label font-medium flex items-center gap-2">
+          <h3 className="default-label font-medium flex items-center gap-3">
             <User size={18} className="text-primary-500" />
             Profile Information
           </h3>
@@ -193,7 +193,7 @@ const AccountSettings = () => {
       {/* Organization Information */}
       <div className="bg-white rounded-lg border border-gray-100 overflow-hidden">
         <div className="p-5 border-b border-gray-100 bg-gray-50">
-          <h3 className="default-label font-medium flex items-center gap-2">
+          <h3 className="default-label font-medium flex items-center gap-3">
             <Building size={18} className="text-primary-500" />
             Organization Information
           </h3>
