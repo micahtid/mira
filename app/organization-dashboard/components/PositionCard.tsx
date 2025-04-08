@@ -51,7 +51,7 @@ const PositionCard = ({
         <div className="flex flex-col md:flex-row md:items-start gap-4">
           <div className="flex-1 min-w-0">
             <h3 className="
-              text-xl font-semibold text-gray-900
+              text-xl font-poppins font-semibold text-gray-900
               hover:text-primary-600 
               cursor-pointer truncate
               transition-colors duration-200
