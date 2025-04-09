@@ -1,11 +1,13 @@
 'use client';
 
+import { useState } from 'react';
 import { updateAccount } from '@/utils/globalFunctions';
 import { FormField } from '@/data/types';
 
 import { useForm } from 'react-hook-form';
 import { useAccount } from '@/providers/AccountProvider';
 import { toast } from 'react-hot-toast';
+import { User, Edit2, X, Save, Briefcase, Book } from 'lucide-react';
 
 import EntryField from '@/components/common/EntryField';
 
@@ -19,6 +21,9 @@ interface FormData {
 
 const AccountSettings = () => {
   const { account, accountData } = useAccount();
+  const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(false);
+  
   const { register, handleSubmit, formState: { isDirty }, reset } = useForm<FormData>({
     defaultValues: {
       fullName: accountData?.fullName || '',
@@ -30,6 +35,8 @@ const AccountSettings = () => {
   });
 
   const onSubmit = async (data: FormData) => {
+    setLoading(true);
+    
     try {
       await updateAccount({
         uid: account?.uid,
@@ -39,11 +46,25 @@ const AccountSettings = () => {
       toast.success('Profile updated successfully!');
       // Reset form with new values to update dirty state
       reset(data, { keepDirty: false });
-      
+      setIsEditing(false);
     } catch (error) {
       console.error('Error updating profile:', error);
       toast.error('Failed to update profile. Please try again.');
+    } finally {
+      setLoading(false);
     }
+  };
+  
+  const cancelEdit = () => {
+    // Reset form to current account values
+    reset({
+      fullName: accountData?.fullName || '',
+      educationLevel: accountData?.educationLevel || '',
+      resumeText: accountData?.resumeText || '',
+      resumeLink: accountData?.resumeLink || '',
+      portfolioLink: accountData?.portfolioLink || ''
+    });
+    setIsEditing(false);
   };
 
   const fields: FormField[] = [
@@ -92,43 +113,164 @@ const AccountSettings = () => {
   ];
 
   return (
-    <div className="space-y-6">
-      <div className="
-      flex items-center gap-6 pb-8
-      max-sm:flex-col">
-        <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-100 border-4 border-white shadow-md">
-          <img
-            src={accountData?.profile}
-            className="w-full h-full object-cover"
-          />
-        </div>
+    <div className="flex flex-col gap-6">
+      {/* Header */}
+      <div className="flex justify-between items-center">
         <div>
-          <h1 className="default-subheading max-sm:text-center">Update Profile</h1>
-          <p className="default-label text-gray-500 max-sm:text-center">Keep your information up to date!</p>
+          <h2 className="default-subheading">Account Settings</h2>
+          <p className="default-text text-gray-600 mt-1">
+            Manage your personal profile information
+          </p>
+        </div>
+        
+        {!isEditing ? (
+          <button
+            onClick={() => setIsEditing(true)}
+            className="outlined-button flex items-center gap-3 text-primary-500 border-primary-200 hover:bg-primary-50"
+          >
+            <Edit2 size={18} />
+            Edit Profile
+          </button>
+        ) : (
+          <div className="flex gap-3">
+            <button
+              onClick={cancelEdit}
+              className="outlined-button flex items-center gap-2"
+              disabled={loading}
+            >
+              <X size={18} />
+              Cancel
+            </button>
+            <button
+              onClick={handleSubmit(onSubmit)}
+              className="default-button flex items-center gap-3"
+              disabled={loading || !isDirty}
+            >
+              <Save size={18} />
+              {loading ? "Saving..." : "Save Changes"}
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Account Information */}
+      <div className="bg-white rounded-lg border border-gray-100 overflow-hidden">
+        <div className="p-5 border-b border-gray-100 bg-gray-50">
+          <h3 className="default-label font-medium flex items-center gap-3">
+            <User size={18} className="text-primary-500" />
+            Account Information
+          </h3>
+        </div>
+        
+        <div className="p-6">
+          <div className="flex items-center gap-4">
+            <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-100">
+              <img
+                src={accountData?.profile}
+                alt="Profile" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div>
+              <p className="font-medium text-gray-800 font-poppins">{accountData?.fullName || "Not provided"}</p>
+              <p className="text-sm text-gray-600 font-poppins">{accountData?.email || "No email provided"}</p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {fields.map((field) => (
-          <EntryField
-            key={field.name}
-            field={field}
-            register={register}
-          />
-        ))}
-
-        <div className="pt-4">
-          <button
-            type="submit"
-            disabled={!isDirty}
-            className={`w-full default-button ${
-              !isDirty && 'opacity-50 cursor-not-allowed'
-            }`}
-          >
-            Update Profile
-          </button>
+      {/* Personal Information */}
+      <div className="bg-white rounded-lg border border-gray-100 overflow-hidden">
+        <div className="p-5 border-b border-gray-100 bg-gray-50">
+          <h3 className="default-label font-medium flex items-center gap-3">
+            <Briefcase size={18} className="text-primary-500" />
+            Personal Information
+          </h3>
         </div>
-      </form>
+        
+        <div className="p-6">
+          {isEditing ? (
+            <form className="space-y-5">
+              {fields.map((field) => (
+                <EntryField
+                  key={field.name}
+                  field={field}
+                  register={register}
+                />
+              ))}
+            </form>
+          ) : (
+            <div className="space-y-6">
+              <div>
+                <label className="text-sm font-poppins font-medium text-gray-700 mb-1">
+                  Full Name
+                </label>
+                <p className="default-text text-gray-800">
+                  {accountData?.fullName || "Not Provided"}
+                </p>
+              </div>
+              
+              <div>
+                <label className="text-sm font-poppins font-medium text-gray-700 mb-1">
+                  Education
+                </label>
+                <p className="default-text text-gray-800 whitespace-pre-wrap">
+                  {accountData?.educationLevel || "Not Provided"}
+                </p>
+              </div>
+              
+              <div>
+                <label className="text-sm font-poppins font-medium text-gray-700 mb-1">
+                  Resume
+                </label>
+                <p className="default-text text-gray-800 whitespace-pre-wrap">
+                  {accountData?.resumeText || "Not Provided"}
+                </p>
+              </div>
+              
+              <div>
+                <label className="text-sm font-poppins font-medium text-gray-700 mb-1">
+                  Resume Link
+                </label>
+                <p className="default-text text-gray-800">
+                  {accountData?.resumeLink ? (
+                    <a 
+                      href={accountData.resumeLink} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-primary-500 hover:underline"
+                    >
+                      {accountData.resumeLink}
+                    </a>
+                  ) : (
+                    "Not Provided"
+                  )}
+                </p>
+              </div>
+              
+              <div>
+                <label className="text-sm font-poppins font-medium text-gray-700 mb-1">
+                  Portfolio Link
+                </label>
+                <p className="default-text text-gray-800">
+                  {accountData?.portfolioLink ? (
+                    <a 
+                      href={accountData.portfolioLink} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-primary-500 hover:underline"
+                    >
+                      {accountData.portfolioLink}
+                    </a>
+                  ) : (
+                    "Not Provided"
+                  )}
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

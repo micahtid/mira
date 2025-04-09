@@ -42,11 +42,11 @@ const PositionCard = ({ position, onVisibilityChange, onDelete, isDeleting }: Po
 
   // CSS Class Helpers
   const badgeClasses = {
-    base: "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border",
-    locked: "w-min text-nowrap bg-gray-100 text-gray-700 border-gray-200",
-    visible: "w-min text-nowrap bg-green-50 text-green-700 border-green-100",
-    hidden: "w-min text-nowrap bg-amber-50 text-amber-700 border-amber-100",
-    type: "bg-primary-50 text-primary-700 border-primary-100"
+    base: "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium",
+    locked: "w-min text-nowrap bg-gray-100 text-gray-700",
+    visible: "w-min text-nowrap bg-green-50 text-green-700",
+    hidden: "w-min text-nowrap bg-amber-50 text-amber-700",
+    type: "bg-primary-50 text-primary-700"
   };
   
   const statClasses = "inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-medium";

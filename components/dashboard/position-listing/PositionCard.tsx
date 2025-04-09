@@ -87,12 +87,12 @@ const PositionCard: React.FC<PositionCardProps> = ({
 
           {/* Position Stats */}
           <div className="flex flex-wrap gap-3 mt-2">
-            <div className={`${statClasses} bg-blue-50 text-blue-700 border border-blue-100`}>
+            <div className={`${statClasses} bg-blue-50 text-blue-700`}>
               <FiCheckCircle className="w-4 h-4 text-blue-600" />
               <span>{position.openSlots} Slot{position.openSlots !== 1 ? 's' : ''}</span>
             </div>
             
-            <div className={`${statClasses} bg-green-50 text-green-700 border border-green-100`}>
+            <div className={`${statClasses} bg-green-50 text-green-700`}>
               <FiUsers className="w-4 h-4 text-green-600" />
               <span>{position.totalApplicants} Applicant{position.totalApplicants !== 1 ? 's' : ''}</span>
             </div>
