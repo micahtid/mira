@@ -32,8 +32,8 @@ const DashboardNavBar = ({ items }: DashboardNavBarProps) => {
   return (
     <nav className="relative bg-white border-b border-gray-100">
       {/* Desktop Navigation */}
-      <div className="hidden md:flex items-center gap-6 p-4">
-        <h1 className="text-base font-semibold text-gray-900">
+      <div className="hidden md:flex items-center gap-6 py-4">
+        <h1 className="text-base font-poppins font-semibold text-gray-900">
           Dashboard
         </h1>
         <div className="h-5 w-px bg-gray-200" />
@@ -43,7 +43,7 @@ const DashboardNavBar = ({ items }: DashboardNavBarProps) => {
               key={item.link}
               onClick={() => handleNavigation(item.link)}
               className={twMerge(
-                'px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200',
+                'px-4 py-2 rounded-lg text-sm font-poppins font-medium transition-all duration-200',
                 currentPage === item.link
                   ? 'text-primary-600 bg-primary-50/80'
                   : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
@@ -61,7 +61,7 @@ const DashboardNavBar = ({ items }: DashboardNavBarProps) => {
           className="
             inline-flex items-center gap-2
             px-4 py-2 rounded-lg
-            text-sm font-medium
+            text-sm font-poppins font-medium
             text-gray-600 hover:text-gray-900
             hover:bg-gray-50
             transition-all duration-200
@@ -74,8 +74,8 @@ const DashboardNavBar = ({ items }: DashboardNavBarProps) => {
 
       {/* Mobile Navigation */}
       <div className="md:hidden">
-        <div className="flex items-center justify-between p-4">
-          <h1 className="text-base font-semibold text-gray-900">
+        <div className="flex items-center justify-between py-4">
+          <h1 className="text-base font-poppins font-semibold text-gray-900">
             Dashboard
           </h1>
           <button
@@ -107,7 +107,7 @@ const DashboardNavBar = ({ items }: DashboardNavBarProps) => {
                 key={item.link}
                 onClick={() => handleNavigation(item.link)}
                 className={twMerge(
-                  'w-full px-4 py-2.5 rounded-lg text-sm font-medium text-left transition-all duration-200',
+                  'w-full px-4 py-2.5 rounded-lg text-sm font-poppins font-medium text-left transition-all duration-200',
                   currentPage === item.link
                     ? 'text-primary-600 bg-primary-50/80'
                     : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
@@ -124,7 +124,7 @@ const DashboardNavBar = ({ items }: DashboardNavBarProps) => {
               className="
                 w-full px-4 py-2.5
                 rounded-lg
-                text-sm font-medium
+                text-sm font-poppins font-medium
                 text-left
                 text-gray-600 hover:text-gray-900
                 hover:bg-gray-50

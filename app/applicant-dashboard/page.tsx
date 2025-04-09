@@ -8,6 +8,8 @@ import DashboardNavBar from "@/components/dashboard/DashboardNavBar";
 import PositionListing from "@/components/dashboard/position-listing/PositionListing";
 import { Application } from "@/data/types";
 
+import Header from "./components/Header";
+
 import AccountSettings from "./components/AccountSettings";
 import ActiveApplications from "./components/ActiveApplications";
 
@@ -51,16 +53,19 @@ const ApplicantDashboard = () => {
   };
 
   return (
-    <div className="default-container w-full flex flex-col gap-6">
-      <DashboardNavBar items={[
-        { label: "View Listings", link: "positions" }, 
-        { label: "Active Applications", link: "active-applications" },
-        { label: "Settings", link: "account-settings" }
-      ]} />
-      <div className="">
-        {renderContent()}
+    <>
+      <Header />
+      <div className="default-container w-full flex flex-col gap-6 mb-24">
+        <DashboardNavBar items={[
+          { label: "View Listings", link: "positions" }, 
+          { label: "Active Applications", link: "active-applications" },
+          { label: "Settings", link: "account-settings" }
+        ]} />
+        <div className="">
+          {renderContent()}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
