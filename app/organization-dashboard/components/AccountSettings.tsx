@@ -127,7 +127,7 @@ const AccountSettings = () => {
         {!isEditing ? (
           <button
             onClick={() => setIsEditing(true)}
-            className="default-button flex items-center gap-3 bg-white text-primary-500 border border-primary-200 hover:bg-primary-50"
+            className="outlined-button flex items-center gap-3 text-primary-500 border-primary-200 hover:bg-primary-50"
           >
             <Edit2 size={18} />
             Edit Profile
@@ -136,7 +136,7 @@ const AccountSettings = () => {
           <div className="flex gap-3">
             <button
               onClick={cancelEdit}
-              className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 text-gray-700 hover:bg-gray-50"
+              className="outlined-button flex items-center gap-2"
               disabled={loading}
             >
               <X size={18} />

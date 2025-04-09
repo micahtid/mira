@@ -114,8 +114,6 @@ const ManagePositions = () => {
 
   // UI Components
   const renderHeader = () => {
-    const buttonClasses = "inline-flex items-center justify-center gap-2 px-5 py-2.5 w-full sm:w-auto bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 rounded-lg font-poppins font-medium";
-    
     return (
       <div className="flex flex-col gap-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -126,7 +124,7 @@ const ManagePositions = () => {
 
           <button 
             onClick={() => router.push('/organization-dashboard/create-position')}
-            className={buttonClasses}
+            className="outlined-button inline-flex items-center justify-center gap-2 w-full sm:w-auto"
           >
             <FiPlus className="w-4 h-4" />
             <span>Create Position</span>

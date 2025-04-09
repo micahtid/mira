@@ -26,7 +26,7 @@ const PositionPreview: React.FC<PositionPreviewProps> = ({ position, allowApply,
       <div className="
       sticky top-6 p-8 
       bg-white rounded-lg border border-gray-100 text-center 
-      default-text text-gray-500">
+      default-text text-base text-gray-500">
         Select a position to view details
       </div>
     );

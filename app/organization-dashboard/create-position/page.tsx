@@ -133,26 +133,26 @@ const CreatePosition = () => {
             {/* Back Button */}
             <button 
                 onClick={handleBack}
-                className="flex items-center gap-2 text-gray-600 hover:text-primary-600 transition-colors mb-6 font-poppins"
+                className="back-button mb-6"
             >
                 <FiArrowLeft className="w-4 h-4" />
                 <span>Back to Dashboard</span>
             </button>
             
-            <div className="mb-6">
+            <div className="mb-8">
                 <h1 className="text-2xl font-bold text-gray-900 font-poppins">Create New Position</h1>
                 <p className="text-gray-500 font-poppins mt-1">Fill out the form below to create a new volunteer position</p>
             </div>
             
-            <form onSubmit={handleFormSubmit(handleSubmit)} className="space-y-8">
+            <form onSubmit={handleFormSubmit(handleSubmit)} className="space-y-10">
                 {/* Position Details Section */}
-                <div className={sectionClass}>
+                <div className="bg-white rounded-lg border border-gray-200 p-8 space-y-6">
                     <h2 className={sectionTitleClass}>
                         <FiHelpCircle className="w-5 h-5 text-gray-400" />
                         Position Details
                     </h2>
                     
-                    <div className="space-y-5">
+                    <div className="space-y-6">
                         {/* Position Type Select */}
                         <SelectField
                             label="Position Type"
@@ -188,13 +188,13 @@ const CreatePosition = () => {
                 </div>
                 
                 {/* Application Requirements Section */}
-                <div className={sectionClass}>
+                <div className="bg-white rounded-lg border border-gray-200 p-8 space-y-6">
                     <h2 className={sectionTitleClass}>
                         <FiHelpCircle className="w-5 h-5 text-gray-400" />
                         Application Requirements
                     </h2>
                     
-                    <div className="space-y-5">
+                    <div className="space-y-6">
                         {/* Resume requirement checkbox */}
                         <div className="space-y-1.5">
                             <label className="font-medium text-gray-700 font-poppins flex items-center gap-2">
@@ -229,7 +229,7 @@ const CreatePosition = () => {
                                     <button
                                         type="button"
                                         onClick={handleAddQuestion}
-                                        className="px-3 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-200 rounded-lg transition-colors"
+                                        className="outlined-button px-3 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-200"
                                     >
                                         <FiPlus className="w-5 h-5" />
                                     </button>
@@ -261,15 +261,11 @@ const CreatePosition = () => {
                 </div>
 
                 {/* Submit Button */}
-                <div className="flex justify-end pt-4">
+                <div className="flex justify-end pt-6">
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className={`
-                            px-6 py-2.5 rounded-lg font-poppins font-medium
-                            ${isSubmitting ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-primary-600 text-white hover:bg-primary-700'}
-                            transition-colors duration-200
-                        `}
+                        className={`default-button ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                     >
                         {isSubmitting ? 'Creating...' : 'Create Position'}
                     </button>

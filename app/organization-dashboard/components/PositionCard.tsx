@@ -163,7 +163,7 @@ const PositionCard = ({ position, onVisibilityChange, onDelete, isDeleting }: Po
             <button
               onClick={() => onDelete(pid)}
               disabled={isDeleting || isLocked}
-              className={`inline-flex items-center justify-center gap-2 px-4 py-2 bg-red-50 text-red-700 border border-red-200 rounded-lg font-poppins font-medium ${(isDeleting || isLocked) ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={`outlined-button inline-flex items-center justify-center gap-2 bg-red-50 text-red-700 border-red-200 ${(isDeleting || isLocked) ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               <FiTrash2 className="w-4 h-4" />
               {isDeleting ? 'Deleting...' : 'Delete'}
