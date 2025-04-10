@@ -249,13 +249,17 @@ const Apply = () => {
             {position.positionQuestions && position.positionQuestions.length > 0 ? (
               <div className="space-y-6">
                 {position.positionQuestions.map((question: string, index: number) => (
-                  <div key={index} className="p-4 bg-gray-50 rounded-lg border border-gray-100">
-                    <p className="font-medium text-gray-800 font-poppins mb-3">{question}</p>
-                    <textarea
-                      {...register(`questions.${index}`, { required: true })}
-                      placeholder="Enter your answer"
-                      rows={4}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 font-poppins text-gray-700"
+                  <div key={index} className="p-4 rounded-lg border border-gray-100">
+                    <EntryField
+                      field={{
+                        name: `questions.${index}`,
+                        label: question,
+                        type: 'text',
+                        multiline: true,
+                        required: true,
+                        placeholder: 'Enter your answer'
+                      }}
+                      register={register}
                     />
                   </div>
                 ))}

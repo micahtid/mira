@@ -114,11 +114,43 @@ export const getApplicationsByUser = (
     orderBy("createdAt", "desc")
   );
 
-  return onSnapshot(q, (querySnapshot) => {
+  return onSnapshot(q, async (querySnapshot) => {
+    // Retrieve all applications!
     const applications = querySnapshot.docs.map(doc => 
       doc.data() as Application
     );
-    onUpdate(applications);
+    
+    // For each application, get position data!
+    const applicationsWithPositions = await Promise.all(
+      applications.map(async (application) => {
+        try {
+          const positionQuery = query(
+            collection(firestore, "positions"),
+            where("pid", "==", application.pid)
+          );
+          
+          const positionSnapshot = await getDocs(positionQuery);
+          
+          if (!positionSnapshot.empty) {
+            const positionData = positionSnapshot.docs[0].data();
+            // Merge position & applicant data!
+            return {
+              ...application,
+              positionTitle: positionData.positionTitle,
+              positionType: positionData.positionType,
+              organizationName: positionData.organizationName
+            };
+          }
+          
+          return application;
+        } catch (error) {
+          console.error("Error fetching position for application:", error);
+          return application;
+        }
+      })
+    );
+    
+    onUpdate(applicationsWithPositions);
   });
 };
 
