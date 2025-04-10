@@ -82,7 +82,7 @@ const PositionCard = ({ position, onVisibilityChange, onDelete, isDeleting }: Po
   return (
     <div className="w-full bg-white border-2 border-gray-200 rounded-lg font-poppins overflow-hidden">
       {/* Position Header w/ Gradient Color */}
-      <div className="h-2 bg-gradient-to-r from-primary-400 to-primary-600"></div>
+      <div className="h-1 bg-gradient-to-r from-primary-400 to-primary-600"></div>
       
       <div className="p-6">
         <div className="flex flex-col gap-5">
