@@ -15,9 +15,9 @@ import {
   FiXCircle, 
   FiAlertCircle, 
   FiCalendar, 
-  FiExternalLink,
   FiSearch
 } from 'react-icons/fi';
+import { FaEye } from "react-icons/fa";
 import SelectField from '@/components/common/SelectField';
 import { SelectOption } from '@/data/types';
 
@@ -331,8 +331,8 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
                       href={`/applicant-dashboard/application-preview?pid=${application.pid}`}
                       className="text-primary-600 hover:text-primary-700 default-text font-medium inline-flex items-center gap-2"
                     >
-                      <FiExternalLink size={18} />
-                      View Details
+                      <FaEye size={18} />
+                      Preview
                     </Link>
                   </div>
                   
