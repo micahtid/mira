@@ -73,95 +73,90 @@ const PositionCard = ({ position, onVisibilityChange, onDelete, isDeleting }: Po
   };
 
   return (
-    <div className="w-full bg-white border-2 border-gray-200 rounded-lg font-poppins overflow-hidden">
-      {/* Position Header w/ Gradient Color */}
-      <div className="h-1 bg-gradient-to-r from-primary-400 to-primary-600"></div>
-      
-      <div className="p-6">
-        <div className="flex flex-col gap-5">
-          {/* Position Title and Type */}
-          <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
-            <div className="flex-1 min-w-0">
-              <h3 className="text-xl font-poppins font-semibold text-gray-900 truncate">
-                {positionTitle}
-              </h3>
+    <div className="w-full bg-white border-[1px] border-gray-200 rounded-lg font-poppins overflow-hidden p-6">
+      <div className="flex flex-col gap-5">
+        {/* Position Title and Type */}
+        <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+          <div className="flex-1 min-w-0">
+            <h3 className="text-xl font-poppins font-semibold text-gray-900 truncate">
+              {positionTitle}
+            </h3>
 
-              <div className="flex flex-wrap items-center gap-2 mt-2">
-                <span className={`${badgeClasses.base} ${badgeClasses.type}`}>
-                  {toTitleCase(positionType || '')}
-                </span>
-                
+            <div className="flex flex-wrap items-center gap-2 mt-2">
+              <span className={`${badgeClasses.base} ${badgeClasses.type}`}>
+                {toTitleCase(positionType || '')}
+              </span>
+              
+              <span className="inline-flex items-center gap-1.5 text-sm text-gray-600">
+                <FiCalendar className="w-3.5 h-3.5" />
+                {formatDate(createdAt)}
+              </span>
+              
+              {positionLocation && (
                 <span className="inline-flex items-center gap-1.5 text-sm text-gray-600">
-                  <FiCalendar className="w-3.5 h-3.5" />
-                  {formatDate(createdAt)}
+                  <FiMapPin className="w-3.5 h-3.5" />
+                  {positionLocation}
                 </span>
-                
-                {positionLocation && (
-                  <span className="inline-flex items-center gap-1.5 text-sm text-gray-600">
-                    <FiMapPin className="w-3.5 h-3.5" />
-                    {positionLocation}
-                  </span>
-                )}
-              </div>
+              )}
             </div>
+          </div>
 
-            {/* Status Badge */}
-            {renderStatusBadge()}
-          </div>
-          
-          {/* Position Stats */}
-          <div className="flex flex-wrap gap-3 mt-3">
-            <div className={`${statClasses} bg-blue-50 border-blue-100`}>
-              <FiUsers className="w-4 h-4 text-blue-600" />
-              <span className="text-blue-700">
-                {totalApplicants} Applicant{totalApplicants !== 1 ? 's' : ''}
-              </span>
-            </div>
-            
-            <div className={`${statClasses} bg-green-50 border-green-100`}>
-              <FiCheckCircle className="w-4 h-4 text-green-600" />
-              <span className="text-green-700">
-                {committedApplicants}/{totalSlots} Committed
-              </span>
-            </div>
-          </div>
+          {/* Status Badge */}
+          {renderStatusBadge()}
         </div>
-
-        {/* Actions */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-8 pt-4 border-t border-gray-200">
-          <div className="flex items-center gap-3 w-full sm:w-auto">
-            <Switch.Root
-              checked={isVisible}
-              onCheckedChange={(checked) => onVisibilityChange(pid, checked, isLocked)}
-              className={`w-10 h-6 bg-gray-200 rounded-full relative data-[state=checked]:bg-primary-600 
-                outline-none cursor-default ${isLocked ? 'opacity-50 cursor-not-allowed' : ''}`}
-              disabled={isLocked}
-            >
-              <Switch.Thumb className="block w-4 h-4 bg-white rounded-full transition-transform duration-100 translate-x-1 will-change-transform data-[state=checked]:translate-x-5" />
-            </Switch.Root>
-            <span className="text-sm font-medium text-gray-700 font-poppins whitespace-nowrap">
-              {isVisible ? 'Visible to Public' : 'Hidden from Public'}
+        
+        {/* Position Stats */}
+        <div className="flex flex-wrap gap-3 mt-3">
+          <div className={`${statClasses} bg-blue-50 border-blue-100`}>
+            <FiUsers className="w-4 h-4 text-blue-600" />
+            <span className="text-blue-700">
+              {totalApplicants} Applicant{totalApplicants !== 1 ? 's' : ''}
             </span>
           </div>
-
-          <div className="flex flex-wrap items-center gap-3">
-            <Link
-              href={`/organization-dashboard/review?pid=${pid}`}
-              className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-primary-50 text-primary-700 border border-primary-200 rounded-lg font-poppins font-medium"
-            >
-              <FiEye className="w-4 h-4" />
-              Review Applications
-            </Link>
-            
-            <button
-              onClick={() => onDelete(pid)}
-              disabled={isDeleting || isLocked}
-              className={`outlined-button inline-flex items-center justify-center gap-2 bg-red-50 text-red-700 border-red-200 ${(isDeleting || isLocked) ? 'opacity-50 cursor-not-allowed' : ''}`}
-            >
-              <FiTrash2 className="w-4 h-4" />
-              {isDeleting ? 'Deleting...' : 'Delete'}
-            </button>
+          
+          <div className={`${statClasses} bg-green-50 border-green-100`}>
+            <FiCheckCircle className="w-4 h-4 text-green-600" />
+            <span className="text-green-700">
+              {committedApplicants}/{totalSlots} Committed
+            </span>
           </div>
+        </div>
+      </div>
+
+      {/* Actions */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-8 pt-4 border-t border-gray-200">
+        <div className="flex items-center gap-3 w-full sm:w-auto">
+          <Switch.Root
+            checked={isVisible}
+            onCheckedChange={(checked) => onVisibilityChange(pid, checked, isLocked)}
+            className={`w-10 h-6 bg-gray-200 rounded-full relative data-[state=checked]:bg-primary-600 
+              outline-none cursor-default ${isLocked ? 'opacity-50 cursor-not-allowed' : ''}`}
+            disabled={isLocked}
+          >
+            <Switch.Thumb className="block w-4 h-4 bg-white rounded-full transition-transform duration-100 translate-x-1 will-change-transform data-[state=checked]:translate-x-5" />
+          </Switch.Root>
+          <span className="text-sm font-medium text-gray-700 font-poppins whitespace-nowrap">
+            {isVisible ? 'Visible to Public' : 'Hidden from Public'}
+          </span>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3">
+          <Link
+            href={`/organization-dashboard/review?pid=${pid}`}
+            className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-primary-50 text-primary-700 border border-primary-200 rounded-lg font-poppins font-medium"
+          >
+            <FiEye className="w-4 h-4" />
+            Review Applications
+          </Link>
+          
+          <button
+            onClick={() => onDelete(pid)}
+            disabled={isDeleting || isLocked}
+            className={`outlined-button inline-flex items-center justify-center gap-2 bg-red-50 text-red-700 border-red-200 ${(isDeleting || isLocked) ? 'opacity-50 cursor-not-allowed' : ''}`}
+          >
+            <FiTrash2 className="w-4 h-4" />
+            {isDeleting ? 'Deleting...' : 'Delete'}
+          </button>
         </div>
       </div>
     </div>

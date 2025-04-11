@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { ClipboardList, Users, Eye, PenLine, Clock, CheckSquare } from 'lucide-react';
+import { ClipboardList, Users, Eye, PenLine, Clock, CheckSquare, Settings, Building, User } from 'lucide-react';
 import Modal from '@/components/dashboard/Modal';
 import { useHelpModal } from '@/hooks/useHelpModal';
 import { LucideIcon } from 'lucide-react';
@@ -15,12 +15,12 @@ type CardItem = {
 const HelpModal = () => {
   const { isOpen, onClose } = useHelpModal();
   const [step, setStep] = useState(1);
-  const totalSteps = 2;
+  const totalSteps = 3;
   
   // Card Styles
   const cardStyles = {
     container: "default-card flex flex-col items-center text-center p-4",
-    icon: "text-primary-500 mb-3",
+    icon: "text-gray-700 mb-3", // Changed from text-primary-500 to reduce purple
     title: "default-text font-semibold",
     description: "default-text text-sm text-gray-600 mt-1"
   };
@@ -40,7 +40,7 @@ const HelpModal = () => {
     {
       icon: Clock,
       title: "Track Status",
-      description: "Monitor active, hidden, and completed positions"
+      description: "Monitor active, hidden, and locked positions"
     }
   ];
   
@@ -49,17 +49,36 @@ const HelpModal = () => {
     {
       icon: Eye,
       title: "Browse Listings",
-      description: "See how your positions appear to applicants and check applicant count"
+      description: "Browse all available positions posted by different organizations"
     },
     {
       icon: Users,
-      title: "Review Applications",
-      description: "Access applicant details, resumes, and contact information"
+      title: "Preview Appearance",
+      description: "See how your positions appear to potential applicants"
     },
     {
       icon: CheckSquare,
-      title: "Manage Status",
-      description: "Approve or reject applications and track applicant progress"
+      title: "Filter Options",
+      description: "Search and filter positions by keywords and position types"
+    }
+  ];
+  
+  // Card Data (STEP 3)
+  const accountSettingsCards: CardItem[] = [
+    {
+      icon: User,
+      title: "Account Info",
+      description: "Manage your account details and login information"
+    },
+    {
+      icon: Building,
+      title: "Organization Profile",
+      description: "Update your organization's name, description, and mission"
+    },
+    {
+      icon: Settings,
+      title: "External Links",
+      description: "Add your website and social media profiles"
     }
   ];
   
@@ -96,8 +115,8 @@ const HelpModal = () => {
       case 1:
         return (
           <div className="flex flex-col gap-y-6">
-            <h3 className="default-subheading text-center text-primary-600 flex items-center justify-center gap-4">
-              <ClipboardList size={28} />
+            <h3 className="default-subheading text-center text-gray-800 flex items-center justify-center gap-4">
+              <ClipboardList size={28} className="text-gray-700" />
               Manage Positions
             </h3>
             <p className="default-text text-center">
@@ -124,12 +143,12 @@ const HelpModal = () => {
       case 2:
         return (
           <div className="flex flex-col gap-y-6">
-            <h3 className="default-subheading text-center text-primary-600 flex items-center justify-center gap-2">
-              <Users size={24} />
+            <h3 className="default-subheading text-center text-gray-800 flex items-center justify-center gap-4">
+              <Users size={28} className="text-gray-700" />
               View Listings
             </h3>
             <p className="default-text text-center">
-              View your available positions among other positions posted.
+              Browse all available positions and see how your positions appear to potential applicants.
             </p>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
@@ -137,6 +156,34 @@ const HelpModal = () => {
                 const Icon = card.icon;
                 return (
                   <div key={`view-card-${index}`} className={cardStyles.container}>
+                    <Icon size={40} className={cardStyles.icon} />
+                    <h4 className={cardStyles.title}>{card.title}</h4>
+                    <p className={cardStyles.description}>
+                      {card.description}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      
+      case 3:
+        return (
+          <div className="flex flex-col gap-y-6">
+            <h3 className="default-subheading text-center text-gray-800 flex items-center justify-center gap-4">
+              <Settings size={28} className="text-gray-700" />
+              Account Settings
+            </h3>
+            <p className="default-text text-center">
+              Manage your organization's profile information and account details.
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+              {accountSettingsCards.map((card, index) => {
+                const Icon = card.icon;
+                return (
+                  <div key={`settings-card-${index}`} className={cardStyles.container}>
                     <Icon size={40} className={cardStyles.icon} />
                     <h4 className={cardStyles.title}>{card.title}</h4>
                     <p className={cardStyles.description}>
