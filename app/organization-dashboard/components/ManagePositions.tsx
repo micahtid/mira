@@ -89,7 +89,7 @@ const ManagePositions = () => {
           await deletePosition(pid);
           setDeleting(null);
           router.refresh();
-        } catch (error) {
+        } catch (_) {
           toast.error("Failed to delete position. Please try again.");
           setDeleting(null);
         }
@@ -107,7 +107,7 @@ const ManagePositions = () => {
       await updateVisibility(pid, newVisibility);
       toast.success(`Position is now ${newVisibility ? 'visible' : 'hidden'}.`);
       router.refresh();
-    } catch (error) {
+    } catch (_) {
       toast.error("Failed to update visibility. Please try again.");
     }
   };

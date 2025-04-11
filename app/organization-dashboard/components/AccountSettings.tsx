@@ -120,7 +120,7 @@ const AccountSettings = () => {
         <div>
           <h2 className="default-subheading">Account Settings</h2>
           <p className="default-text text-gray-600 mt-1">
-            Manage your organization's profile information
+            Manage your organization&apos;s profile information
           </p>
         </div>
         

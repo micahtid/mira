@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { ClipboardList, Users, X, ChevronRight, Eye, PenLine, Clock, CheckSquare } from 'lucide-react';
+import { ClipboardList, Users, Eye, PenLine, Clock, CheckSquare } from 'lucide-react';
 import Modal from '@/components/dashboard/Modal';
 import { useHelpModal } from '@/hooks/useHelpModal';
 import { LucideIcon } from 'lucide-react';

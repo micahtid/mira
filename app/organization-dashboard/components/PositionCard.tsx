@@ -1,7 +1,6 @@
 'use client';
 
 import { DocumentData, Timestamp } from 'firebase/firestore';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import * as Switch from '@radix-ui/react-switch';
 import { format } from 'date-fns';
@@ -24,7 +23,6 @@ interface PositionCardProps {
  */
 
 const PositionCard = ({ position, onVisibilityChange, onDelete, isDeleting }: PositionCardProps) => {
-  const router = useRouter();
   
   // Helper functions
   const formatDate = (timestamp: Timestamp) => {
