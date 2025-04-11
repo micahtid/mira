@@ -125,7 +125,6 @@ const CreatePosition = () => {
     };
 
     // CSS Helper Classes
-    const sectionClass = "bg-white rounded-lg border border-gray-200 p-6 space-y-5";
     const sectionTitleClass = "text-lg font-semibold text-gray-900 font-poppins flex items-center gap-2";
     
     return (

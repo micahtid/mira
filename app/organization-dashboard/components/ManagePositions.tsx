@@ -18,16 +18,6 @@ import { useConfirmationModal } from "@/hooks/useConfirmationModal";
 // Utils & Functions
 import { getPositionsByOrg, deletePosition, updateVisibility } from '@/utils/organizationFunctions';
 
-/**
- * ManagePositions Component
- * 
- * Displays and manages all positions created by an organization.
- * Features:
- * - View all positions with their details
- * - Toggle position visibility
- * - Review applications
- * - Delete positions
- */
 const ManagePositions = () => {
   // Hooks
   const router = useRouter();
@@ -89,6 +79,7 @@ const ManagePositions = () => {
           await deletePosition(pid);
           setDeleting(null);
           router.refresh();
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (_) {
           toast.error("Failed to delete position. Please try again.");
           setDeleting(null);
@@ -107,6 +98,7 @@ const ManagePositions = () => {
       await updateVisibility(pid, newVisibility);
       toast.success(`Position is now ${newVisibility ? 'visible' : 'hidden'}.`);
       router.refresh();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (_) {
       toast.error("Failed to update visibility. Please try again.");
     }

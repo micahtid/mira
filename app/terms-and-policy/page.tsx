@@ -79,7 +79,7 @@ const TermsAndPolicy = () => {
                 <h3 className="font-poppins font-semibold text-xl sm:text-2xl text-gray-800 mb-3 sm:mb-4">Third-Party Services</h3>
                 <p className="default-text text-gray-700">
                   Mira uses Firebase for authentication and data storage. Please review 
-                  Firebase's privacy policy to understand how they handle your data. <strong>We do not 
+                  Firebase&apos;s privacy policy to understand how they handle your data. <strong>We do not 
                   sell your personal information to third parties under any circumstances.</strong>
                 </p>
               </div>
@@ -119,7 +119,7 @@ const TermsAndPolicy = () => {
               <div>
                 <h3 className="font-poppins font-semibold text-xl sm:text-2xl text-gray-800 mb-3 sm:mb-4">User Accounts</h3>
                 <p className="default-text text-gray-700">
-                  Users must create an account to access Mira's features. You are responsible for 
+                  Users must create an account to access Mira&apos;s features. You are responsible for 
                   maintaining the confidentiality of your account information and for all activities 
                   that occur under your account. You must provide accurate and complete information 
                   when creating your account.
@@ -161,7 +161,7 @@ const TermsAndPolicy = () => {
                   <li className="default-text text-gray-700">Use Mira for any illegal purpose</li>
                   <li className="default-text text-gray-700">Post false or misleading information</li>
                   <li className="default-text text-gray-700">Harass or discriminate against other users</li>
-                  <li className="default-text text-gray-700">Attempt to gain unauthorized access to Mira's systems</li>
+                  <li className="default-text text-gray-700">Attempt to gain unauthorized access to Mira&apos;s systems</li>
                 </ul>
               </div>
               

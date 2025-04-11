@@ -52,7 +52,7 @@ const ReviewPosition = () => {
         unsubscribeApplicants();
       };
     }
-  }, [pid, selectedApplicant?.uid]);
+  }, [pid, selectedApplicant, selectedApplicant?.uid]);
 
   return (
     <div className="default-container space-y-6 py-8">

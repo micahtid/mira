@@ -17,20 +17,15 @@ interface PositionCardProps {
   isDeleting: boolean;
 }
 
-/**
- * PositionCard Component
- * Displays a single position with its details and actions
- */
-
 const PositionCard = ({ position, onVisibilityChange, onDelete, isDeleting }: PositionCardProps) => {
   
-  // Helper functions
+  // Helper Functions
   const formatDate = (timestamp: Timestamp) => {
     if (!timestamp) return '';
     return format(timestamp.toDate(), 'MMM d, yyyy');
   };
   
-  // Derived values
+  // Derived Values
   const { pid, positionTitle, positionType, createdAt, positionLocation, locked, visible } = position;
   const isLocked = locked || false;
   const isVisible = visible || false;
