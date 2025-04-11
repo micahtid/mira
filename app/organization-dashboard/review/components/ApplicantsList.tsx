@@ -23,9 +23,9 @@ const ApplicantsList: React.FC<ApplicantsListProps> = ({
     onSelectApplicant 
 }) => {
     const getStatusColor = (applicant: Application) => {
-        if (applicant.rescinded) return 'bg-orange-100';                    // Rescinded Applications
-        if (applicant.status === 'accepted') return 'bg-green-200';         // Accepted Applications
-        if (applicant.status === 'rejected') return 'bg-red-200';           // Rejected Applications
+        if (applicant.rescinded) return 'bg-orange-50';                    // Rescinded Applications
+        if (applicant.status === 'accepted') return 'bg-emerald-50';        // Accepted Applications
+        if (applicant.status === 'rejected') return 'bg-red-50';            // Rejected Applications
         if (applicant.bookMark) return 'bg-yellow-50';                      // Bookmarked Applications
         return 'bg-white';                                                  // Default Applications
     };
@@ -33,47 +33,54 @@ const ApplicantsList: React.FC<ApplicantsListProps> = ({
     const getCommitmentStatus = (applicant: Application) => {
         if (applicant.committed === undefined) return null;
         return applicant.committed ? (
-            <span className="px-2 py-1 text-sm rounded-md text-emerald-600 bg-emerald-50">
+            <span className="px-2 py-1 text-xs rounded-full font-medium text-emerald-600 bg-emerald-50 border border-emerald-100">
                 Committed
             </span>
         ) : (
-            <span className="px-2 py-1 text-sm rounded-md text-amber-600 bg-amber-50">
+            <span className="px-2 py-1 text-xs rounded-full font-medium text-amber-600 bg-amber-50 border border-amber-100">
                 Withdrawn
             </span>
         );
     };
 
     return (
-        <div className="w-full lg:w-1/3 bg-gray-50 rounded-lg p-4 space-y-4 border border-gray-200">
-            <h2 className="default-text font-medium text-gray-900">Applicants</h2>
-            <div className="space-y-2">
+        <div className="w-full lg:w-1/3 bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+            <div className="p-4 border-b border-gray-100">
+                <h2 className="default-text font-medium">Applicants</h2>
+            </div>
+            <div className="p-2 max-h-[600px] overflow-y-auto">
                 {/* Sort applicants by status: Accepted -> Pending -> Rejected! */}
-                {[...applicants]
-                    .sort((a, b) => {
-                        const statusOrder = { accepted: 0, pending: 1, rejected: 2 };
-                        return statusOrder[a.status as keyof typeof statusOrder] - statusOrder[b.status as keyof typeof statusOrder];
-                    })
-                    .map((applicant, index) => {
-                        return (
-                            <button
-                                key={index}
-                                onClick={() => onSelectApplicant(applicant)}
-                                className={`w-full text-left p-3 rounded-md transition-all
-                                    ${getStatusColor(applicant)}
-                                    ${selectedApplicant?.uid === applicant.uid 
-                                        ? 'bg-gray-100' 
-                                        : 'hover:bg-gray-100'
-                                    }`}
-                            >
-                                <div className="flex justify-between items-center">
-                                    <p className="default-text text-gray-900">
-                                        {applicant.fullName}
-                                    </p>
-                                    {getCommitmentStatus(applicant)}
-                                </div>
-                            </button>
-                        );
-                    })}
+                {applicants.length > 0 ? (
+                    [...applicants]
+                        .sort((a, b) => {
+                            const statusOrder = { accepted: 0, pending: 1, rejected: 2 };
+                            return statusOrder[a.status as keyof typeof statusOrder] - statusOrder[b.status as keyof typeof statusOrder];
+                        })
+                        .map((applicant, index) => {
+                            return (
+                                <button
+                                    key={index}
+                                    onClick={() => onSelectApplicant(applicant)}
+                                    className={`w-full text-left p-3 rounded-md transition-all mb-1
+                                        ${selectedApplicant?.uid === applicant.uid 
+                                            ? 'bg-primary-50 border border-primary-100' 
+                                            : `${getStatusColor(applicant)} hover:bg-gray-50 border border-transparent`
+                                        }`}
+                                >
+                                    <div className="flex justify-between items-center">
+                                        <p className="default-text text-gray-900 font-medium truncate mr-2">
+                                            {applicant.fullName}
+                                        </p>
+                                        {getCommitmentStatus(applicant)}
+                                    </div>
+                                </button>
+                            );
+                        })
+                ) : (
+                    <div className="flex flex-col items-center justify-center p-8 text-gray-500">
+                        <p className="default-text text-center">No applicants found</p>
+                    </div>
+                )}
             </div>
         </div>
     );

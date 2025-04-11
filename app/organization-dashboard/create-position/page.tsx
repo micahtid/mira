@@ -1,18 +1,25 @@
 'use client';
 
 import React, { useState } from 'react';
-import { FiPlus } from 'react-icons/fi';
-
-import { addPosition } from '@/utils/organizationFunctions';
-import { Position, SelectOption } from '@/data/types';
-import { positionFields, positionTypeOptions, locationTypeOptions } from '@/data';
-
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { useAccount } from '@/providers/AccountProvider';
 import { toast } from "react-hot-toast";
 import { v4 as uuidv4 } from 'uuid';
 
+// Icons
+import { FiPlus, FiArrowLeft, FiHelpCircle, FiTrash2 } from 'react-icons/fi';
+
+// Data & Types
+import { Position, SelectOption } from '@/data/types';
+import { positionFields, positionTypeOptions, locationTypeOptions } from '@/data';
+
+// Utils & Functions
+import { addPosition } from '@/utils/organizationFunctions';
+
+// Hooks & Context
+import { useAccount } from '@/providers/AccountProvider';
+
+// Components
 import EntryField from '@/components/common/EntryField';
 import SelectField from '@/components/common/SelectField';
 
@@ -26,16 +33,26 @@ type FormData = {
 }
 
 const CreatePosition = () => {
+    // Hooks
     const router = useRouter();
     const { account, accountData } = useAccount();
     const { register, handleSubmit: handleFormSubmit } = useForm<FormData>();
     
-    // States for form data
+    // Form States
     const [positionType, setPositionType] = useState<SelectOption | null>(null);
     const [locationType, setLocationType] = useState<SelectOption>(locationTypeOptions[0]);
     const [questions, setQuestions] = useState<string[]>([]);
     const [newQuestion, setNewQuestion] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
     
+    // Handle back button click
+    const handleBack = () => {
+        router.back();
+    };
+    
+
+
+    // Question Handlers
     const handleAddQuestion = () => {
         if (newQuestion.trim()) {
             setQuestions(prev => [...prev, newQuestion.trim()]);
@@ -47,6 +64,7 @@ const CreatePosition = () => {
         setQuestions(prev => prev.filter((_, i) => i !== index));
     };
 
+    // Form Submission
     const handleSubmit = async (formData: FormData) => {
         if (!account || !accountData) {
             toast.error('Please sign in to create a position.');
@@ -59,21 +77,23 @@ const CreatePosition = () => {
         }
 
         try {
-            // For remote positions, explicitly set location to null
-            // For on-site positions, ensure location is provided
-            const location = locationType.value === 'remote' ? null : formData.location || '';
+            setIsSubmitting(true);
             
+            // Validate location based on type
+            const location = locationType.value === 'remote' ? null : formData.location || '';
             if (locationType.value === 'on-site' && !location) {
                 toast.error('Please provide a location for on-site positions.');
+                setIsSubmitting(false);
                 return;
             }
 
+            // Create position object
             const position: Position = {
                 pid: uuidv4(),
                 oid: account.uid,
                 organizationName: accountData.organizationName || '',
                 organizationEmail: accountData.email || '',
-                //////////////////////// Position Details ////////////////////////
+                // Position Details
                 positionTitle: formData.title,
                 positionType: positionType.value,
                 positionLocation: location,
@@ -81,12 +101,12 @@ const CreatePosition = () => {
                 positionDescription: formData.description,
                 positionRequirements: formData.requirements,
                 positionQuestions: questions,
-                //////////////////////// Application Requirements ////////////////////////
+                // Application Requirements
                 requireResume: formData.requireResume,
-                //////////////////////// Visibility ////////////////////////
+                // Visibility
                 visible: true,
                 locked: false,
-                //////////////////////// Slot Management ////////////////////////
+                // Slot Management
                 totalSlots: Number(formData.openSlots),
                 openSlots: Number(formData.openSlots),
                 committedApplicants: 0,
@@ -99,133 +119,156 @@ const CreatePosition = () => {
         } catch (error) {
             console.error('Error creating position:', error);
             toast.error('Failed to create position. Please try again.');
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
+    // CSS Helper Classes
+    const sectionTitleClass = "text-lg font-semibold text-gray-900 font-poppins flex items-center gap-2";
+    
     return (
         <div className="default-container py-8">
-            <h1 className="default-subheading mb-6">Create New Position</h1>
+            {/* Back Button */}
+            <button 
+                onClick={handleBack}
+                className="back-button mb-6"
+            >
+                <FiArrowLeft className="w-4 h-4" />
+                <span>Back to Dashboard</span>
+            </button>
             
-            <form onSubmit={handleFormSubmit(handleSubmit)} className="space-y-6">
-                {/* Position Type Select */}
-                <SelectField
-                    label="Position Type"
-                    value={positionType}
-                    onChange={newValue => setPositionType(newValue)}
-                    options={positionTypeOptions}
-                    required
-                    isSearchable
-                    isClearable
-                    placeholder="Select position type..."
-                />
-
-                {/* Form Fields */}
-                {positionFields.map((field) => (
-                    (field.name !== 'location' || locationType.value === 'on-site') && (
-                        <EntryField
-                            key={field.name}
-                            field={field}
-                            register={register}
+            <div className="mb-8">
+                <h1 className="text-2xl font-bold text-gray-900 font-poppins">Create New Position</h1>
+                <p className="text-gray-500 font-poppins mt-1">Fill out the form below to create a new volunteer position</p>
+            </div>
+            
+            <form onSubmit={handleFormSubmit(handleSubmit)} className="space-y-10">
+                {/* Position Details Section */}
+                <div className="bg-white rounded-lg border border-gray-200 p-8 space-y-6">
+                    <h2 className={sectionTitleClass}>
+                        <FiHelpCircle className="w-5 h-5 text-gray-400" />
+                        Position Details
+                    </h2>
+                    
+                    <div className="space-y-6">
+                        {/* Position Type Select */}
+                        <SelectField
+                            label="Position Type"
+                            value={positionType}
+                            onChange={newValue => setPositionType(newValue)}
+                            options={positionTypeOptions}
+                            required
+                            isSearchable
+                            isClearable
+                            placeholder="Select position type..."
                         />
-                    )
-                ))}
 
-                {/* Location Type Select */}
-                <SelectField
-                    label="Location Type"
-                    value={locationType}
-                    onChange={newValue => newValue && setLocationType(newValue)}
-                    options={locationTypeOptions}
-                    required
-                />
-
-                {/* Resume requirement checkbox */}
-                <div className="space-y-1.5">
-                    <label className="
-                    default-label font-medium text-primary-900
-                    flex items-center gap-2">
-                        Require Resume
-                    </label>
-                    <div className="flex items-center gap-2">
-                        <input
-                            type="checkbox"
-                            {...register('requireResume')}
-                            className="
-                                h-4 w-4 rounded 
-                                text-primary-500 focus:ring-primary-500 border-gray-300
-                            "
-                        />
-                        <span className="
-                            default-label 
-                            text-sm text-medium text-gray-600
-                        ">
-                            Require Applicants&apos; Resumes (& Portfolios)
-                        </span>
-                    </div>
-                </div>
-
-                {/* Application Questions section */}
-                <div className="space-y-1.5">
-                    <label className="
-                        default-label 
-                        font-medium text-primary-900 
-                        flex items-center gap-2 
-                    ">
-                        Application Questions
-                    </label>
-                    <div className="space-y-2">
-                        <div className="flex gap-2">
-                            <input
-                                type="text"
-                                value={newQuestion}
-                                onChange={(e) => setNewQuestion(e.target.value)}
-                                placeholder="Add a question for applicants"
-                                className="default-field"
-                            />
-                            <button
-                                type="button"
-                                onClick={handleAddQuestion}
-                                className="
-                                px-[12.5px] py-2.5
-                                bg-white text-gray-700
-                                border border-gray-200
-                                rounded-lg
-                                "
-                            >
-                                <FiPlus />
-                            </button>
-                        </div>
-                        {questions.map((question, index) => (
-                            <div key={index} className="
-                                flex items-center gap-2 
-                                p-3 
-                                bg-gray-50 
-                                rounded-lg
-                            ">
-                                <span className="flex-1 default-label">
-                                    {question}
-                                </span>
-                                <button
-                                    type="button"
-                                    onClick={() => handleDeleteQuestion(index)}
-                                    className="
-                                        default-label 
-                                        text-red-500 hover:text-red-700
-                                    "
-                                >
-                                    Remove
-                                </button>
-                            </div>
+                        {/* Basic Form Fields */}
+                        {positionFields.map((field) => (
+                            (field.name !== 'location' || locationType.value === 'on-site') && (
+                                <EntryField
+                                    key={field.name}
+                                    field={field}
+                                    register={register}
+                                />
+                            )
                         ))}
+
+                        {/* Location Type Select */}
+                        <SelectField
+                            label="Location Type"
+                            value={locationType}
+                            onChange={newValue => newValue && setLocationType(newValue)}
+                            options={locationTypeOptions}
+                            required
+                        />
+                    </div>
+                </div>
+                
+                {/* Application Requirements Section */}
+                <div className="bg-white rounded-lg border border-gray-200 p-8 space-y-6">
+                    <h2 className={sectionTitleClass}>
+                        <FiHelpCircle className="w-5 h-5 text-gray-400" />
+                        Application Requirements
+                    </h2>
+                    
+                    <div className="space-y-6">
+                        {/* Resume requirement checkbox */}
+                        <div className="space-y-1.5">
+                            <label className="font-medium text-gray-700 font-poppins flex items-center gap-2">
+                                Require Resume
+                            </label>
+                            <div className="flex items-center gap-2">
+                                <input
+                                    type="checkbox"
+                                    {...register('requireResume')}
+                                    className="h-4 w-4 rounded text-blue-500 focus:ring-blue-500 border-gray-300"
+                                />
+                                <span className="text-sm text-gray-600 font-poppins">
+                                    Require Applicants&apos; Resumes (& Portfolios)
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* Application Questions section */}
+                        <div className="space-y-3">
+                            <label className="font-medium text-gray-700 font-poppins">
+                                Application Questions
+                            </label>
+                            <div className="space-y-3">
+                                <div className="flex gap-2">
+                                    <input
+                                        type="text"
+                                        value={newQuestion}
+                                        onChange={(e) => setNewQuestion(e.target.value)}
+                                        placeholder="Add a question for applicants"
+                                        className="default-field font-poppins w-full"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={handleAddQuestion}
+                                        className="outlined-button px-3 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-200"
+                                    >
+                                        <FiPlus className="w-5 h-5" />
+                                    </button>
+                                </div>
+                                
+                                {questions.length > 0 ? (
+                                    <div className="space-y-2 mt-2">
+                                        {questions.map((question, index) => (
+                                            <div key={index} className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                                <span className="flex-1 text-gray-700 font-poppins">
+                                                    {question}
+                                                </span>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleDeleteQuestion(index)}
+                                                    className="text-red-500 hover:text-red-700 p-1 rounded-full hover:bg-red-50 transition-colors"
+                                                >
+                                                    <FiTrash2 className="w-4 h-4" />
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <p className="text-sm text-gray-500 italic font-poppins">No questions added yet. Add questions to gather specific information from applicants.</p>
+                                )}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <button
-                    type="submit"
-                    className="w-full default-button"
-                >
-                    Create Position
-                </button>
+                {/* Submit Button */}
+                <div className="flex justify-end pt-6">
+                    <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className={`default-button ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    >
+                        {isSubmitting ? 'Creating...' : 'Create Position'}
+                    </button>
+                </div>
             </form>
         </div>
     );
