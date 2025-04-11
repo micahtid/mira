@@ -164,8 +164,8 @@ const Footer = () => {
             <h4 className="font-poppins text-sm font-semibold text-gray-900 mb-4">Legal</h4>
             <ul className="space-y-3">
               {[
-                { name: "Privacy Policy", href: "/terms-and-policy" },
-                { name: "Terms of Service", href: "/terms-and-policy" }
+                { name: "Privacy Policy", href: "/terms-and-policy#privacy-policy" },
+                { name: "Terms of Service", href: "/terms-and-policy#terms-of-service" }
               ].map((item) => (
                 <li 
                   key={item.name}
