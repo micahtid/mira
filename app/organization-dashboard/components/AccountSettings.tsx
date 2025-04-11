@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAccount } from '@/providers/AccountProvider';
 import { updateAccount } from '@/utils/globalFunctions';
-import { Building, Edit2, X, Save, User, Mail } from "lucide-react";
+import { Building, Edit2, X, Save, User } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { FormField } from '@/data/types';
 import EntryField from '@/components/common/EntryField';
@@ -58,7 +58,7 @@ const AccountSettings = () => {
       type: 'text',
       multiline: true,
       required: true,
-      placeholder: 'What is your organization\'s mission?',
+      placeholder: 'What is your organization&apos;s mission?',
       maxLength: 300
     },
     {

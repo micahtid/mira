@@ -7,7 +7,7 @@ import { FormField } from '@/data/types';
 import { useForm } from 'react-hook-form';
 import { useAccount } from '@/providers/AccountProvider';
 import { toast } from 'react-hot-toast';
-import { User, Edit2, X, Save, Briefcase, Book } from 'lucide-react';
+import { User, Edit2, X, Save, Briefcase } from 'lucide-react';
 
 import EntryField from '@/components/common/EntryField';
 
@@ -44,7 +44,7 @@ const AccountSettings = () => {
         ...data
       });
       toast.success('Profile updated successfully!');
-      // Reset form with new values to update dirty state
+      // Reset Form With New Values to Update Dirty State
       reset(data, { keepDirty: false });
       setIsEditing(false);
     } catch (error) {
@@ -56,7 +56,7 @@ const AccountSettings = () => {
   };
   
   const cancelEdit = () => {
-    // Reset form to current account values
+    // Reset Form to Current Account Values...
     reset({
       fullName: accountData?.fullName || '',
       educationLevel: accountData?.educationLevel || '',

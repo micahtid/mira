@@ -9,11 +9,8 @@ import { format } from 'date-fns';
 import { 
   FaArrowLeft, 
   FaFileAlt, 
-  FaMapMarkerAlt, 
-  FaCalendarAlt, 
   FaUser, 
   FaLink, 
-  FaBookmark,
   FaCheckCircle,
   FaTimesCircle,
   FaExclamationCircle,
@@ -38,21 +35,15 @@ export default function ApplicationPreview() {
   // Hooks
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { account, accountData } = useAccount();
+  const { account } = useAccount();
   
   // State
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [application, setApplication] = useState<Application | null>(null);
   const [position, setPosition] = useState<Position | null>(null);
-
-  // Format timestamp to readable date
-  const formatDate = (timestamp: any) => {
-    if (!timestamp) return 'N/A';
-    return format(timestamp.toDate(), 'MMM d, yyyy');
-  };
   
-  // Get appropriate status icon based on application status
+  // Get Appropriate Status Icon Based on Application Status
   const getStatusIcon = (status: string, rescinded?: boolean, committed?: boolean) => {
     if (rescinded) return <FaExclamationCircle className="w-5 h-5 text-red-500" />;
     
@@ -68,7 +59,7 @@ export default function ApplicationPreview() {
     return <FaFileAlt className="w-5 h-5 text-gray-500" />;
   };
   
-  // Get status badge styles
+  // Get Status Badge Style
   const getStatusBadge = (status: string) => {
     const baseClasses = "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium";
     
@@ -81,12 +72,11 @@ export default function ApplicationPreview() {
     return statusStyles[status] || `${baseClasses} bg-gray-50 text-gray-600`;
   };
   
-  // Handle back button click
   const handleBack = () => {
     router.back();
   };
 
-  // Fetch application and position data
+  // Fetch Application and Position Data
   useEffect(() => {
     const pid = searchParams.get('pid');
     if (!pid || !account) return;

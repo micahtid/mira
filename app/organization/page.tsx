@@ -6,7 +6,7 @@ import { DocumentData, Timestamp } from 'firebase/firestore';
 import { getAccount } from '@/utils/globalFunctions';
 import { format } from 'date-fns';
 import { FaGlobe, FaInstagram } from 'react-icons/fa';
-import { FiArrowLeft, FiMapPin, FiCalendar, FiInfo, FiTarget } from 'react-icons/fi';
+import { FiArrowLeft, FiCalendar, FiInfo, FiTarget } from 'react-icons/fi';
 
 import Loader from '@/components/common/Loader';
 

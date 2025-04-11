@@ -57,9 +57,7 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
     rescinded: "bg-red-50 text-red-600"
   };
   
-  /**
-   * Returns the appropriate status tag styles based on application status
-   */
+  // Returns Appropriate Status Tag Styles Based on Status
   const getStatusTag = (status: string) => {
     const statusStyles: Record<string, string> = {
       accepted: badgeClasses.accepted,
@@ -69,16 +67,15 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
     return statusStyles[status] || 'bg-gray-50 text-gray-600';
   };
   
-  /**
-   * Format timestamp to readable date
-   */
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const formatDate = (timestamp: any) => {
     if (!timestamp) return '';
     return format(timestamp.toDate(), 'MMM d, yyyy');
   };
 
   /**
-   * Handle user commitment action (accept or withdraw)
+   * Handle User Commitment (Accept / Withdraw)
    */
   const handleCommitment = async (uid: string, isCommitting: boolean) => {
     const action = isCommitting ? 'accept' : 'withdraw from';
@@ -100,9 +97,7 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
     );
   };
   
-  /**
-   * Get appropriate status icon based on application status
-   */
+  // Returns Appropriate Status Icon Based on Application Status
   const getStatusIcon = (status: string, rescinded?: boolean, committed?: boolean) => {
     if (rescinded) return <FiAlertCircle className="w-4 h-4 text-red-500" />;
     
@@ -118,11 +113,9 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
     return <FiFileText className="w-4 h-4 text-gray-500" />;
   };
 
-  /**
-   * Filter applications based on search query and status filter
-   */
+  // Filters Applications Based on Search Query and Status Filter
   const filteredApplications = applications.filter(application => {
-    // Search query filter
+    // Search Query Filter
     const positionTitle = application.positionTitle || '';
     const organizationName = application.organizationName || '';
     const searchString = `${positionTitle} ${organizationName}`.toLowerCase();
@@ -130,15 +123,13 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
     
     if (!matchesSearch) return false;
     
-    // Status filter
+    // Status Filter
     if (!selectedStatus || selectedStatus.value === 'all') return true;
     
     return application.status === selectedStatus.value;
   });
   
-  /**
-   * Render search and filters section
-   */
+  // Renders Search and Filters Section
   const renderFilters = () => {
     return (
       <div className="space-y-4 bg-white rounded-lg border border-gray-100 p-4">
@@ -171,9 +162,7 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
     );
   };
   
-  /**
-   * Render empty state when no applications exist or no matches found
-   */
+  // Renders Empty State When No Applications Exist or No Matches Found
   const renderEmptyState = () => {
     const emptyStateClasses = "text-center py-16 bg-white border border-gray-200 rounded-lg shadow-sm";
     
@@ -197,7 +186,7 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
     );
   };
   
-  // Return empty state if no applications exist
+  // Returns Empty State If No Applications Exist
   if (!applications.length) {
     return (
       <div className="space-y-6 mt-4">
