@@ -176,7 +176,7 @@ const HelpModal = () => {
               Account Settings
             </h3>
             <p className="default-text text-center">
-              Manage your organization's profile information and account details.
+              Manage your organization&apos;s profile information and account details.
             </p>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
