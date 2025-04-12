@@ -2,6 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import DashboardNavBar from "@/components/dashboard/DashboardNavBar";
+import Header from "./components/Header";
 
 import ManagePositions from "./components/ManagePositions";
 import PositionListing from "@/components/dashboard/position-listing/PositionListing";
@@ -23,16 +24,19 @@ const OrganizationDashboard = () => {
   };
 
   return (
-    <div className="default-container w-full flex flex-col gap-6">
-      <DashboardNavBar items={[
-        { label: "Manage Positions", link: "manage-positions" }, 
-        { label: "View Listings", link: "positions" },
-        { label: "Settings", link: "account-settings" }
-      ]} />
-      <div className="default-content">
-        {renderContent()}
+    <>
+      <Header />
+      <div className="default-container w-full flex flex-col gap-6 mb-36">
+        <DashboardNavBar items={[
+          { label: "Manage Positions", link: "manage-positions" }, 
+          { label: "View Listings", link: "positions" },
+          { label: "Settings", link: "account-settings" }
+        ]} />
+        <div className="default-content">
+          {renderContent()}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

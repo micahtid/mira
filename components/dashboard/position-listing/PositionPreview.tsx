@@ -26,7 +26,7 @@ const PositionPreview: React.FC<PositionPreviewProps> = ({ position, allowApply,
       <div className="
       sticky top-6 p-8 
       bg-white rounded-lg border border-gray-100 text-center 
-      default-text text-gray-500">
+      default-text text-base text-gray-500">
         Select a position to view details
       </div>
     );
@@ -81,7 +81,7 @@ const PositionPreview: React.FC<PositionPreviewProps> = ({ position, allowApply,
           {hasApplied ? (
             <button
               disabled
-              className="block w-full default-button 
+              className="block w-full default-button py-3 
               bg-gray-100 text-gray-500 hover:bg-gray-100 
               font-medium cursor-not-allowed"
             >
@@ -91,9 +91,9 @@ const PositionPreview: React.FC<PositionPreviewProps> = ({ position, allowApply,
             <Link
               href={`/applicant-dashboard/apply?pid=${position.pid}`}
               className="
-              block default-button w-full
+              block default-button py-3 w-full
               bg-primary-600 text-white hover:bg-primary-700 
-              font-medium"
+              font-medium text-center"
             >
               Apply Now
             </Link>

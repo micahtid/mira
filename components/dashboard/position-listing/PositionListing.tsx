@@ -30,7 +30,7 @@ export default function PositionListing({
   const handleFiltersChange = (filters: FilterParams) => {
     let filtered = [...positions];
 
-    // Apply search filters...
+    // Apply search filters
     if (filters.search) {
       const searchLower = filters.search.toLowerCase();
       filtered = filtered.filter(position => 
@@ -42,14 +42,14 @@ export default function PositionListing({
       );
     }
 
-    // Apply location type filter...
+    // Apply location type filter
     if (filters.locationType) {
       filtered = filtered.filter(position => 
         position.locationType.toLowerCase() === filters.locationType.toLowerCase()
       );
     }
 
-    // Apply position type filter...
+    // Apply position type filter
     if (filters.positionType) {
       filtered = filtered.filter(position => 
         position.positionType.toLowerCase() === filters.positionType.toLowerCase()
@@ -58,22 +58,20 @@ export default function PositionListing({
 
     setFilteredPositions(filtered);
     
-    // Update selected position if it's no longer in filtered results
+    // Clear selected position if it's no longer in filtered results
     if (selectedPosition && !filtered.find(p => p.pid === selectedPosition.pid)) {
-      setSelectedPosition(filtered[0] || null);
+      setSelectedPosition(null);
     }
   };
 
-  // Fetch positions (on component mount)!
+  // Fetch positions (on component mount)
   useEffect(() => {
     const unsubscribe = getAllPositions((fetchedPositions) => {
       const visiblePositions = fetchedPositions.filter(pos => pos.visible === true);
       setPositions(visiblePositions);
       setFilteredPositions(visiblePositions);
       
-      if (visiblePositions.length > 0 && !selectedPosition) {
-        setSelectedPosition(visiblePositions[0]);
-      }
+      // No position selected by default
     });
 
     return () => unsubscribe();

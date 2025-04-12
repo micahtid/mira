@@ -46,7 +46,7 @@ const PositionFilters: React.FC<PositionFiltersProps> = ({ onFiltersChange }) =>
   };
 
   return (
-    <div className="space-y-4 bg-white rounded-lg border border-gray-100 p-4 shadow-sm">
+    <div className="space-y-4 bg-white rounded-lg border border-gray-100 p-4">
       {/* Search Bar */}
       <div className="relative">
         <HiOutlineSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
