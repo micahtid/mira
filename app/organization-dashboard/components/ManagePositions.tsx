@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { DocumentData } from 'firebase/firestore';
 import { toast } from "react-hot-toast";
-import { FiPlus, FiPackage, FiSearch } from 'react-icons/fi';
+import { FiPlus, FiPackage, FiSearch, FiAlertCircle, FiLock, FiInfo } from 'react-icons/fi';
 
 // Components
 import PositionCard from './PositionCard';
@@ -21,7 +21,7 @@ import { getPositionsByOrg, deletePosition, updateVisibility } from '@/utils/org
 const ManagePositions = () => {
   // Hooks
   const router = useRouter();
-  const { account } = useAccount();
+  const { account, isPremium } = useAccount();
   const { onOpen } = useConfirmationModal();
   
   // State
@@ -29,6 +29,8 @@ const ManagePositions = () => {
   const [deleting, setDeleting] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedStatus, setSelectedStatus] = useState<SelectOption | null>(null);
+  const [activePositions, setActivePositions] = useState<number>(0);
+  const [positionLimitReached, setPositionLimitReached] = useState<boolean>(false);
   
   // Filter Options
   const statusOptions: SelectOption[] = [
@@ -43,10 +45,21 @@ const ManagePositions = () => {
 
     const unsubscribe = getPositionsByOrg(account.uid, (updatedPositions) => {
       setPositions(updatedPositions);
+      
+      // Count active positions (visible and not locked)
+      const activeCount = updatedPositions.filter(
+        (position) => position.visible && !position.locked
+      ).length;
+      
+      setActivePositions(activeCount);
+      
+      // Check if position limit is reached based on premium status
+      const maxPositions = isPremium ? 3 : 1;
+      setPositionLimitReached(activeCount >= maxPositions);
     });
 
     return () => unsubscribe();
-  }, [account?.uid]);
+  }, [account?.uid, isPremium]);
   
   // Filter Positions Based on Queries
   const filteredPositions = positions.filter(position => {
@@ -81,7 +94,6 @@ const ManagePositions = () => {
           router.refresh();
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (_) {
-          toast.error("Failed to delete position. Please try again.");
           setDeleting(null);
         }
       }
@@ -90,18 +102,23 @@ const ManagePositions = () => {
 
   const handleVisibilityChange = async (pid: string, newVisibility: boolean, locked: boolean) => {
     if (locked) {
-      toast.error("Position is complete and locked. No further modifications are allowed.");
       return;
     }
 
     try {
       await updateVisibility(pid, newVisibility);
-      toast.success(`Position is now ${newVisibility ? 'visible' : 'hidden'}.`);
       router.refresh();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (_) {
-      toast.error("Failed to update visibility. Please try again.");
+      // Handle error silently
     }
+  };
+
+  // Plan limits
+  const planLimits = {
+    maxPositions: isPremium ? 3 : 1,
+    maxSlotsPerPosition: isPremium ? 10 : 1,
+    positionsRemaining: isPremium ? Math.max(0, 3 - activePositions) : Math.max(0, 1 - activePositions)
   };
 
   // UI Components
@@ -110,18 +127,40 @@ const ManagePositions = () => {
       <div className="flex flex-col gap-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h2 className="default-subheading text-gray-900 font-poppins">Manage Positions</h2>
+            <div className="flex items-center gap-2">
+              <h2 className="default-subheading text-gray-900 font-poppins">Manage Positions</h2>
+              <div className={`flex items-center gap-1 ${positionLimitReached ? 'text-amber-500 bg-amber-50' : 'text-blue-500 bg-blue-50'} px-2 py-1 rounded-full`}>
+                <FiInfo className="w-4 h-4" />
+                <span className="default-label text-xs">{activePositions}/{planLimits.maxPositions}</span>
+              </div>
+            </div>
             <p className="default-label text-gray-500 mt-1 font-poppins">Review and manage your positions!</p>
           </div>
 
           <button 
             onClick={() => router.push('/organization-dashboard/create-position')}
-            className="outlined-button inline-flex items-center justify-center gap-2 w-full sm:w-auto"
+            disabled={positionLimitReached}
+            className={`outlined-button inline-flex items-center justify-center gap-2 w-full sm:w-auto ${positionLimitReached ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             <FiPlus className="w-4 h-4" />
             <span>Create Position</span>
           </button>
         </div>
+        
+        {/* Plan Limitation Notice */}
+        {positionLimitReached && (
+          <div className="p-4 bg-amber-50 border border-amber-100 rounded-lg flex items-start gap-3">
+            <FiLock className="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" />
+            <div>
+              <p className="default-label text-amber-600">
+                You've reached the maximum active positions for your plan.
+                {!isPremium && (
+                  <span> <a href="/organization-dashboard/upgrade" className="text-primary-600 hover:underline">Upgrade to Pro</a> for more.</span>
+                )}
+              </p>
+            </div>
+          </div>
+        )}
         
         {/* Search and Filters */}
         <div className="space-y-4 bg-white rounded-lg border border-gray-100 p-4">

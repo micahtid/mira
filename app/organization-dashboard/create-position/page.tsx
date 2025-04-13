@@ -1,20 +1,20 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from "react-hot-toast";
 import { v4 as uuidv4 } from 'uuid';
 
 // Icons
-import { FiPlus, FiArrowLeft, FiHelpCircle, FiTrash2 } from 'react-icons/fi';
+import { FiPlus, FiArrowLeft, FiHelpCircle, FiTrash2, FiInfo, FiAlertCircle, FiLock } from 'react-icons/fi';
 
 // Data & Types
 import { Position, SelectOption } from '@/data/types';
 import { positionFields, positionTypeOptions, locationTypeOptions } from '@/data';
 
 // Utils & Functions
-import { addPosition } from '@/utils/organizationFunctions';
+import { addPosition, getPositionsByOrg } from '@/utils/organizationFunctions';
 
 // Hooks & Context
 import { useAccount } from '@/providers/AccountProvider';
@@ -35,8 +35,18 @@ type FormData = {
 const CreatePosition = () => {
     // Hooks
     const router = useRouter();
-    const { account, accountData } = useAccount();
+    const { account, accountData, isPremium } = useAccount();
     const { register, handleSubmit: handleFormSubmit } = useForm<FormData>();
+    
+    // Position Limit States
+    const [activePositions, setActivePositions] = useState<number>(0);
+    const [positionLimitReached, setPositionLimitReached] = useState<boolean>(false);
+    
+    // Plan Limits
+    const planLimits = {
+        maxPositions: isPremium ? 3 : 1,
+        maxSlotsPerPosition: isPremium ? 10 : 1
+    };
     
     // Form States
     const [positionType, setPositionType] = useState<SelectOption | null>(null);
@@ -45,10 +55,36 @@ const CreatePosition = () => {
     const [newQuestion, setNewQuestion] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     
-    // Handle back button click
+    // Check Position Limits On Mount
+    useEffect(() => {
+        if (!account?.uid) return;
+
+        const unsubscribe = getPositionsByOrg(account.uid, (positions) => {
+            // Count Active Positions (Visible and Not Locked)
+            const activeCount = positions.filter(
+                (position) => position.visible && !position.locked
+            ).length;
+            
+            setActivePositions(activeCount);
+            
+            // Check If Position Limit Is Reached Based On Premium Status
+            const maxPositions = isPremium ? 3 : 1;
+            setPositionLimitReached(activeCount >= maxPositions);
+        });
+
+        return () => unsubscribe();
+    }, [account?.uid, isPremium]);
+    
     const handleBack = () => {
         router.back();
     };
+    
+    // Redirect If Position Limit Is Reached!
+    useEffect(() => {
+        if (positionLimitReached) {
+            router.push('/organization-dashboard?page=manage-positions');
+        }
+    }, [positionLimitReached, router]);
     
 
 
@@ -87,6 +123,12 @@ const CreatePosition = () => {
                 return;
             }
 
+            // Enforce slot limit based on plan
+            let slots = Number(formData.openSlots);
+            if (slots > planLimits.maxSlotsPerPosition) {
+                slots = planLimits.maxSlotsPerPosition;
+            }
+            
             // Create position object
             const position: Position = {
                 pid: uuidv4(),
@@ -107,15 +149,15 @@ const CreatePosition = () => {
                 visible: true,
                 locked: false,
                 // Slot Management
-                totalSlots: Number(formData.openSlots),
-                openSlots: Number(formData.openSlots),
+                totalSlots: slots,
+                openSlots: slots,
                 committedApplicants: 0,
                 totalApplicants: 0
             };
 
             await addPosition(position);
             toast.success('Position created successfully!');
-            router.push('/organization-dashboard');
+            router.push('/organization-dashboard?page=manage-positions');
         } catch (error) {
             console.error('Error creating position:', error);
             toast.error('Failed to create position. Please try again.');
@@ -143,6 +185,8 @@ const CreatePosition = () => {
                 <p className="text-gray-500 font-poppins mt-1">Fill out the form below to create a new volunteer position</p>
             </div>
             
+
+            
             <form onSubmit={handleFormSubmit(handleSubmit)} className="space-y-10">
                 {/* Position Details Section */}
                 <div className="bg-white rounded-lg border border-gray-200 p-8 space-y-6">
@@ -165,15 +209,53 @@ const CreatePosition = () => {
                         />
 
                         {/* Basic Form Fields */}
-                        {positionFields.map((field) => (
-                            (field.name !== 'location' || locationType.value === 'on-site') && (
-                                <EntryField
-                                    key={field.name}
-                                    field={field}
-                                    register={register}
-                                />
-                            )
-                        ))}
+                        {positionFields.map((field) => {
+                            // For all fields except openSlots
+                            if (field.name !== 'openSlots' && (field.name !== 'location' || locationType.value === 'on-site')) {
+                                return (
+                                    <EntryField
+                                        key={field.name}
+                                        field={field}
+                                        register={register}
+                                    />
+                                );
+                            }
+                            
+                            // Special handling for openSlots field
+                            if (field.name === 'openSlots') {
+                                return (
+                                    <div key={field.name} className="relative">
+                                        <div className="mb-4">
+                                            <label className="block text-sm font-medium text-gray-700 mb-1 font-poppins">
+                                                Available Slots
+                                            </label>
+                                            <input
+                                                type="number"
+                                                {...register('openSlots', {
+                                                    required: true,
+                                                    max: planLimits.maxSlotsPerPosition,
+                                                    min: 1
+                                                })}
+                                                className="default-field font-poppins w-full"
+                                                placeholder="Number of available positions"
+                                                max={planLimits.maxSlotsPerPosition}
+                                                min={1}
+                                                defaultValue={!isPremium ? 1 : undefined}
+                                                readOnly={!isPremium}
+                                            />
+                                        </div>
+                                        {!isPremium && (
+                                            <div className="mt-1 flex items-center gap-1 text-amber-500">
+                                                <FiInfo className="w-4 h-4" />
+                                                <span className="default-label text-xs">Basic Plan: Limited to 1 Slot</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            }
+                            
+                            return null;
+                        })}
 
                         {/* Location Type Select */}
                         <SelectField
