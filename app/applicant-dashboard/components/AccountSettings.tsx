@@ -113,9 +113,9 @@ const AccountSettings = () => {
   ];
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 w-full max-w-full overflow-hidden">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <div>
           <h2 className="default-subheading">Account Settings</h2>
           <p className="default-text text-gray-600 mt-1">
@@ -126,16 +126,16 @@ const AccountSettings = () => {
         {!isEditing ? (
           <button
             onClick={() => setIsEditing(true)}
-            className="outlined-button flex items-center gap-3 text-primary-500 border-primary-200 hover:bg-primary-50"
+            className="outlined-button flex items-center justify-center gap-3 text-primary-500 border-primary-200 hover:bg-primary-50 w-full sm:w-auto"
           >
             <Edit2 size={18} />
             Edit Profile
           </button>
         ) : (
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
             <button
               onClick={cancelEdit}
-              className="outlined-button flex items-center gap-2"
+              className="outlined-button flex items-center justify-center gap-2 w-full sm:w-auto"
               disabled={loading}
             >
               <X size={18} />
@@ -143,7 +143,7 @@ const AccountSettings = () => {
             </button>
             <button
               onClick={handleSubmit(onSubmit)}
-              className="default-button flex items-center gap-3"
+              className="default-button flex items-center justify-center gap-3 w-full sm:w-auto"
               disabled={loading || !isDirty}
             >
               <Save size={18} />
@@ -162,18 +162,18 @@ const AccountSettings = () => {
           </h3>
         </div>
         
-        <div className="p-6">
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-100">
+        <div className="p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
+            <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-100 flex-shrink-0">
               <img
                 src={accountData?.profile}
                 alt="Profile" 
                 className="w-full h-full object-cover"
               />
             </div>
-            <div>
+            <div className="text-center sm:text-left">
               <p className="font-medium text-gray-800 font-poppins">{accountData?.fullName || "Not provided"}</p>
-              <p className="text-sm text-gray-600 font-poppins">{accountData?.email || "No email provided"}</p>
+              <p className="text-sm text-gray-600 font-poppins break-all">{accountData?.email || "No email provided"}</p>
             </div>
           </div>
         </div>
@@ -188,9 +188,9 @@ const AccountSettings = () => {
           </h3>
         </div>
         
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {isEditing ? (
-            <form className="space-y-5">
+            <form className="space-y-5 w-full">
               {fields.map((field) => (
                 <EntryField
                   key={field.name}
@@ -232,7 +232,7 @@ const AccountSettings = () => {
                 <label className="text-sm font-poppins font-medium text-gray-700 mb-1">
                   Resume Link
                 </label>
-                <p className="default-text text-gray-800">
+                <p className="default-text text-gray-800 break-all">
                   {accountData?.resumeLink ? (
                     <a 
                       href={accountData.resumeLink} 
@@ -252,7 +252,7 @@ const AccountSettings = () => {
                 <label className="text-sm font-poppins font-medium text-gray-700 mb-1">
                   Portfolio Link
                 </label>
-                <p className="default-text text-gray-800">
+                <p className="default-text text-gray-800 break-all">
                   {accountData?.portfolioLink ? (
                     <a 
                       href={accountData.portfolioLink} 

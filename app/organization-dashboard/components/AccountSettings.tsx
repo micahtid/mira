@@ -22,7 +22,7 @@ const AccountSettings = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   
-  // Use react-hook-form for form handling
+  // Use React-Hook-Form for Form Handling
   const { register, handleSubmit, reset, formState: { isDirty } } = useForm<FormData>({
     defaultValues: {
       organizationName: accountData?.organizationName || '',
@@ -33,7 +33,7 @@ const AccountSettings = () => {
     }
   });
 
-  // Form fields configuration
+  // Form Fields Configuration
   const fields: FormField[] = [
     {
       name: 'organizationName',
@@ -91,7 +91,7 @@ const AccountSettings = () => {
       
       toast.success("Organization profile updated successfully!");
       setIsEditing(false);
-      // Reset form with new values to update dirty state
+      // Reset Form With New Values To Update Dirty State
       reset(data, { keepDirty: false });
     } catch (error) {
       console.error("Error updating organization profile:", error);
@@ -102,7 +102,7 @@ const AccountSettings = () => {
   };
 
   const cancelEdit = () => {
-    // Reset form to current account values
+    // Reset Form To Current Account Values
     reset({
       organizationName: accountData?.organizationName || '',
       organizationDescription: accountData?.organizationDescription || '',
@@ -114,9 +114,9 @@ const AccountSettings = () => {
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 w-full max-w-full overflow-hidden">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <div>
           <h2 className="default-subheading">Account Settings</h2>
           <p className="default-text text-gray-600 mt-1">
@@ -127,16 +127,16 @@ const AccountSettings = () => {
         {!isEditing ? (
           <button
             onClick={() => setIsEditing(true)}
-            className="outlined-button flex items-center gap-3 text-primary-500 border-primary-200 hover:bg-primary-50"
+            className="outlined-button flex items-center justify-center gap-3 text-primary-500 border-primary-200 hover:bg-primary-50 w-full sm:w-auto"
           >
             <Edit2 size={18} />
             Edit Profile
           </button>
         ) : (
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
             <button
               onClick={cancelEdit}
-              className="outlined-button flex items-center gap-2"
+              className="outlined-button flex items-center justify-center gap-2 w-full sm:w-auto"
               disabled={loading}
             >
               <X size={18} />
@@ -144,7 +144,7 @@ const AccountSettings = () => {
             </button>
             <button
               onClick={handleSubmit(onSubmit)}
-              className="default-button flex items-center gap-3"
+              className="default-button flex items-center justify-center gap-3 w-full sm:w-auto"
               disabled={loading || !isDirty}
             >
               <Save size={18} />
@@ -163,13 +163,13 @@ const AccountSettings = () => {
           </h3>
         </div>
         
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           <div className="space-y-6">
             <div>
               <label className="text-sm font-poppins font-medium text-gray-700 mb-1">
                 Account Email
               </label>
-              <div className="flex items-center gap-3 mt-2">
+              <div className="flex flex-wrap items-center gap-3 mt-2">
                 {/* Small profile picture */}
                 <div className="w-10 h-10 rounded-full bg-gray-100 overflow-hidden border-2 border-white shadow-sm flex-shrink-0">
                   <img 
@@ -178,7 +178,7 @@ const AccountSettings = () => {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <p className="default-text text-gray-800">
+                <p className="default-text text-gray-800 break-all">
                   {accountData?.email || "No email provided"}
                 </p>
               </div>
@@ -199,7 +199,7 @@ const AccountSettings = () => {
           </h3>
         </div>
         
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {isEditing ? (
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               {fields.map((field) => (
@@ -243,7 +243,7 @@ const AccountSettings = () => {
                 <label className="text-sm font-poppins font-medium text-gray-700 mb-1">
                   Website
                 </label>
-                <p className="default-text text-gray-800">
+                <p className="default-text text-gray-800 break-all">
                   {accountData?.organizationWebsite ? (
                     <a 
                       href={accountData.organizationWebsite} 
@@ -263,7 +263,7 @@ const AccountSettings = () => {
                 <label className="text-sm font-poppins font-medium text-gray-700 mb-1">
                   Instagram
                 </label>
-                <p className="default-text text-gray-800">
+                <p className="default-text text-gray-800 break-all">
                   {accountData?.organizationInstagram ? (
                     <a 
                       href={`https://instagram.com/${accountData.organizationInstagram.replace('@', '')}`} 

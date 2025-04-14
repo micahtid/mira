@@ -110,7 +110,7 @@ const ReviewPosition = () => {
                 ) : (
                   <div className="h-64 lg:h-full flex flex-col items-center justify-center p-6">
                     <FaUsers className="w-12 h-12 text-gray-300 mb-4" />
-                    <p className="default-label text-center">Select an applicant to view their details</p>
+                    <p className="text-gray-500 default-text text-center">Select an applicant to view their details</p>
                   </div>
                 )}
               </div>

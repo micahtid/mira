@@ -30,7 +30,7 @@ const DashboardNavBar = ({ items }: DashboardNavBarProps) => {
   };
 
   return (
-    <nav className="relative bg-white border-b border-gray-100">
+    <nav className="relative border-b border-gray-200">
       {/* Desktop Navigation */}
       <div className="hidden md:flex items-center gap-6 py-4">
         <h1 className="text-base font-poppins font-semibold text-gray-900">

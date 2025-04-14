@@ -20,9 +20,9 @@ const HelpModal = () => {
   // Card Styles
   const cardStyles = {
     container: "default-card flex flex-col items-center text-center p-4",
-    icon: "text-gray-700 mb-3", // Changed from text-primary-500 to reduce purple
+    icon: "text-primary-600 mb-3", // Changed from text-primary-500 to reduce purple
     title: "default-text font-semibold",
-    description: "default-text text-sm text-gray-600 mt-1"
+    description: "default-text text-sm text-gray-600"
   };
   
   // Card Data (STEP 1)
@@ -53,7 +53,7 @@ const HelpModal = () => {
     },
     {
       icon: Users,
-      title: "Preview Appearance",
+      title: "Preview",
       description: "See how your positions appear to potential applicants"
     },
     {
@@ -67,12 +67,12 @@ const HelpModal = () => {
   const accountSettingsCards: CardItem[] = [
     {
       icon: User,
-      title: "Account Info",
+      title: "View Info",
       description: "Manage your account details and login information"
     },
     {
       icon: Building,
-      title: "Organization Profile",
+      title: "Edit Profile",
       description: "Update your organization's name, description, and mission"
     },
     {
@@ -116,10 +116,10 @@ const HelpModal = () => {
         return (
           <div className="flex flex-col gap-y-6">
             <h3 className="default-subheading text-center text-gray-800 flex items-center justify-center gap-4">
-              <ClipboardList size={28} className="text-gray-700" />
+              <ClipboardList size={28} className="text-primary-600" />
               Manage Positions
             </h3>
-            <p className="default-text text-center">
+            <p className="default-text text-center -mt-3">
               This section is where you create, manage, and review your available positions.
             </p>
             
@@ -144,10 +144,10 @@ const HelpModal = () => {
         return (
           <div className="flex flex-col gap-y-6">
             <h3 className="default-subheading text-center text-gray-800 flex items-center justify-center gap-4">
-              <Users size={28} className="text-gray-700" />
+              <Users size={28} className="text-primary-600" />
               View Listings
             </h3>
-            <p className="default-text text-center">
+            <p className="default-text text-center -mt-3">
               Browse all available positions and see how your positions appear to potential applicants.
             </p>
             
@@ -172,10 +172,10 @@ const HelpModal = () => {
         return (
           <div className="flex flex-col gap-y-6">
             <h3 className="default-subheading text-center text-gray-800 flex items-center justify-center gap-4">
-              <Settings size={28} className="text-gray-700" />
+              <Settings size={28} className="text-primary-600" />
               Account Settings
             </h3>
-            <p className="default-text text-center">
+            <p className="default-text text-center -mt-3">
               Manage your organization&apos;s profile information and account details.
             </p>
             
