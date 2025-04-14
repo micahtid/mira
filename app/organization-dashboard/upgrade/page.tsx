@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { FiArrowRight, FiArrowLeft, FiAward, FiGlobe, FiCheck, FiPackage, FiStar, FiZap, FiTrendingUp, FiUsers } from "react-icons/fi";
+import { FiArrowRight, FiArrowLeft, FiAward, FiGlobe, FiStar, FiZap, FiTrendingUp, FiUsers } from "react-icons/fi";
 import { getCheckoutUrl } from '@/utils/stripeFunctions';
 import { useRouter } from 'next/navigation';
 import { useAccount } from '@/providers/AccountProvider';
@@ -11,7 +11,7 @@ const Upgrade = () => {
   const { isPremium } = useAccount();
   const [isLoading, setIsLoading] = useState(false);
 
-  // Handle back button click
+  // Handle Back Button Click
   const handleBack = () => {
     router.back();
   };
@@ -19,7 +19,7 @@ const Upgrade = () => {
   const upgradeToPremium = async () => {
     try {
       setIsLoading(true);
-      const productId = "price_1R40FPFwEZHzHvCUVeb7cTWR"; // Use the same product ID as in plans/page.tsx
+      const productId = "price_1R40FPFwEZHzHvCUVeb7cTWR"; // Use Your Own Product ID
       const checkoutUrl = await getCheckoutUrl(productId);
       router.push(checkoutUrl);
     } catch (error) {
@@ -28,7 +28,7 @@ const Upgrade = () => {
     }
   };
 
-  // Premium features with detailed descriptions
+  // Premium Features With Detailed Descriptions
   const premiumFeatures = [
     {
       title: "Multiple Active Positions",
@@ -67,7 +67,7 @@ const Upgrade = () => {
     }
   ];
   
-  // Plan summary for header section
+  // Plan Summary For Header Section
   const plans = [
     {
       title: "Basic",

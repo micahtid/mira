@@ -3,8 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { DocumentData } from 'firebase/firestore';
-import { toast } from "react-hot-toast";
-import { FiPlus, FiPackage, FiSearch, FiAlertCircle, FiLock, FiInfo } from 'react-icons/fi';
+import { FiPlus, FiPackage, FiSearch, FiLock, FiInfo } from 'react-icons/fi';
 
 // Components
 import PositionCard from './PositionCard';
@@ -153,7 +152,7 @@ const ManagePositions = () => {
             <FiLock className="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" />
             <div>
               <p className="default-label text-amber-600">
-                You've reached the maximum active positions for your plan.
+                You&apos;ve reached the maximum active positions for your plan.
                 {!isPremium && (
                   <span> <a href="/organization-dashboard/upgrade" className="text-primary-600 hover:underline">Upgrade to Pro</a> for more.</span>
                 )}

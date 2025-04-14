@@ -7,7 +7,7 @@ import { toast } from "react-hot-toast";
 import { v4 as uuidv4 } from 'uuid';
 
 // Icons
-import { FiPlus, FiArrowLeft, FiHelpCircle, FiTrash2, FiInfo, FiAlertCircle, FiLock } from 'react-icons/fi';
+import { FiPlus, FiArrowLeft, FiHelpCircle, FiTrash2, FiInfo } from 'react-icons/fi';
 
 // Data & Types
 import { Position, SelectOption } from '@/data/types';
@@ -39,7 +39,6 @@ const CreatePosition = () => {
     const { register, handleSubmit: handleFormSubmit } = useForm<FormData>();
     
     // Position Limit States
-    const [activePositions, setActivePositions] = useState<number>(0);
     const [positionLimitReached, setPositionLimitReached] = useState<boolean>(false);
     
     // Plan Limits
@@ -64,8 +63,6 @@ const CreatePosition = () => {
             const activeCount = positions.filter(
                 (position) => position.visible && !position.locked
             ).length;
-            
-            setActivePositions(activeCount);
             
             // Check If Position Limit Is Reached Based On Premium Status
             const maxPositions = isPremium ? 3 : 1;
