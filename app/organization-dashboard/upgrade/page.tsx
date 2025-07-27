@@ -19,7 +19,7 @@ const Upgrade = () => {
   const upgradeToPremium = async () => {
     try {
       setIsLoading(true);
-      const productId = "price_1R40FPFwEZHzHvCUVeb7cTWR"; // Use Your Own Product ID
+      const productId = "price_1R40FPFwEZHzHvCUVeb7cTWR"; 
       const checkoutUrl = await getCheckoutUrl(productId);
       router.push(checkoutUrl);
     } catch (error) {

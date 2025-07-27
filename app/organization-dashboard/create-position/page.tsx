@@ -120,7 +120,7 @@ const CreatePosition = () => {
                 return;
             }
 
-            // Enforce slot limit based on plan
+            // Enforce slot limit based on plan (!)
             let slots = Number(formData.openSlots);
             if (slots > planLimits.maxSlotsPerPosition) {
                 slots = planLimits.maxSlotsPerPosition;
@@ -224,7 +224,7 @@ const CreatePosition = () => {
                                     <div key={field.name} className="relative">
                                         <div className="mb-4">
                                             <label className="block text-sm font-medium text-gray-700 mb-1 font-poppins">
-                                                Available Slots
+                                                Available Slots (1-10) <span className="text-red-500 text-xs">*</span>
                                             </label>
                                             <input
                                                 type="number"
