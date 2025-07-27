@@ -112,7 +112,7 @@ const Apply = () => {
 
       // 4. Success and redirect
       toast.success('Application submitted successfully!');
-      router.push('/applicant-dashboard');
+      router.push('/applicant-dashboard?page=positions');
 
     } catch (error) {
       console.error('Error submitting application:', error);
