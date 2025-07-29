@@ -153,7 +153,7 @@ const VideoDemo = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center w-full sm:w-auto">
             <div className="w-full sm:w-auto">
               <Link 
-                href="/documentation"
+                href="javascript:void(0);"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white border-2 border-primary-500 text-primary-500 hover:bg-primary-50 hover:-translate-y-[2px] active:translate-y-0 transition-all duration-300 font-medium w-full sm:w-auto group"
               >
                 <FiCheck className="w-5 h-5" />

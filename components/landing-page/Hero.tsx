@@ -97,58 +97,38 @@ const Hero = () => {
                   key={i}
                   className="w-10 h-10 rounded-full border-2 border-white bg-gradient-to-br from-primary-100 to-primary-50 shadow-sm relative overflow-hidden"
                 >
+                  <img
+                    src={`/profile-dummy-${i+1}.jpg`}
+                    alt={`Profile ${i+1}`}
+                    className="w-full h-full object-cover"
+                  />
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.2),transparent_70%)]" />
                 </div>
               ))}
             </div>
             <p className="font-poppins text-gray-600 font-medium">
-              <span className="font-semibold text-gray-900">000+</span> nonprofits &
-              <span className="font-semibold text-gray-900"> 0,000+</span> students
+              <span className="font-semibold text-gray-900">10+</span> nonprofits &
+              <span className="font-semibold text-gray-900"> 50+</span> students
             </p>
           </motion.div>
         </div>
         
-        {/* Image Gallery - Below Header */}
+        {/* Hero Image Section */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="relative max-w-4xl mx-auto px-2 sm:px-4"
+          className="relative max-w-6xl mx-auto px-2 sm:px-4"
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
-            {/* Three Images Side by Side */}
-            <motion.div 
-              initial={{ y: 20 }}
-              animate={{ y: 0 }}
-              transition={{ duration: 1, delay: 0.2 }}
-              className="relative rounded-xl sm:rounded-2xl overflow-hidden shadow-xl aspect-[4/3]"
-            >
-              <div className="absolute inset-0 bg-black/80 rounded-2xl" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
-            </motion.div>
-            
-            <motion.div 
-              initial={{ y: 20 }}
-              animate={{ y: 0 }}
-              transition={{ duration: 1, delay: 0.4 }}
-              className="relative rounded-xl sm:rounded-2xl overflow-hidden shadow-lg aspect-[4/3]"
-            >
-              <div className="absolute inset-0 bg-black/80 rounded-2xl" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
-            </motion.div>
-            
-            <motion.div 
-              initial={{ y: 20 }}
-              animate={{ y: 0 }}
-              transition={{ duration: 1, delay: 0.6 }}
-              className="relative rounded-xl sm:rounded-2xl overflow-hidden shadow-lg aspect-[4/3]"
-            >
-              <div className="absolute inset-0 bg-black/80 rounded-2xl" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
-            </motion.div>
+          <div className="w-full flex justify-center">
+            <img
+              src="/hero_display.jpg"
+              alt="Hero Display"
+              className="rounded-2xl shadow-xl w-full h-auto object-contain"
+              style={{ aspectRatio: 'auto' }}
+            />
           </div>
-          
-          {/* Decorative Elements */}
+          {/* Decorative blurred background elements */}
           <div className="absolute -bottom-6 -left-6 w-24 h-24 rounded-full bg-primary-100/50 blur-xl" />
           <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-primary-200/30 blur-xl" />
           <div className="absolute top-1/2 -right-4 w-8 h-8 rounded-full bg-primary-300/40" />

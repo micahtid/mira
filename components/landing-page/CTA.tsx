@@ -97,22 +97,22 @@ const CTA = () => {
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8 mb-16">
                 {[
                   {
-                    quote: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
-                    author: "John Doe",
-                    role: "Non Profit Board Member",
-                    impact: "Restoring Rainbows"
+                    quote: "Mira made it so easy to find passionate student volunteers for our annual food drive. The process was seamless and we filled all our slots in just a few days!",
+                    author: "Sarah Kim",
+                    role: "Volunteer Coordinator",
+                    impact: "Bay Area Food Bank"
                   },
                   {
-                    quote: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
-                    author: "John Doe",
-                    role: "Non Profit Board Member",
-                    impact: "Restoring Rainbows"
+                    quote: "As a high school student, Mira helped me discover causes I care about and build real-world skills. I landed my first leadership role thanks to the platform.",
+                    author: "Miguel Hernandez",
+                    role: "Student Volunteer",
+                    impact: "Mission High School"
                   },
                   {
-                    quote: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
-                    author: "John Doe",
-                    role: "Non Profit Board Member",
-                    impact: "Restoring Rainbows"
+                    quote: "We grew our non-profit’s reach by 40% this year, thanks to the dedicated volunteers we found through Mira. It’s a game changer for youth organizations.",
+                    author: "Priya Patel",
+                    role: "Executive Director",
+                    impact: "STEM for All"
                   }
                 ].map((testimonial, index) => (
                   <motion.div

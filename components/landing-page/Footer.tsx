@@ -23,9 +23,9 @@ const Footer = () => {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(var(--primary-50),0.3),transparent_70%)]" />
       <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(var(--primary-50),0.05)_1px,transparent_1px),linear-gradient(-45deg,rgba(var(--primary-50),0.05)_1px,transparent_1px)] bg-[size:20px_20px]" />
       
-      <div className="relative mx-auto max-w-7xl px-3 sm:px-4 md:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Logo and Social Links */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-8 sm:mb-10 md:mb-12 gap-6 md:gap-8">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-8 md:gap-12 lg:gap-16 px-2 sm:px-4">
           <div className="flex items-center gap-3">
             <Image
               src="/logo.png"
@@ -35,7 +35,7 @@ const Footer = () => {
               className="rounded-xl"
             />
           </div>
-          <div className="flex items-center gap-4 sm:gap-6">
+          <div className="flex items-center gap-4 sm:gap-6 md:gap-8">
             {[
               { icon: FiGlobe, href: "#", label: "Website" },
               { icon: FiMail, href: "mailto:contact@mira.com", label: "Email" },
@@ -64,7 +64,7 @@ const Footer = () => {
         </div>
 
         {/* Navigation Links */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 sm:gap-8 mb-8 sm:mb-10 md:mb-12">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8 sm:gap-10 md:gap-14 mb-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -189,7 +189,7 @@ const Footer = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative rounded-2xl bg-primary-50/50 p-8 mb-12 overflow-hidden max-lg:hidden"
+          className="relative rounded-2xl bg-primary-50/50 p-6 sm:p-8 mb-12 overflow-hidden max-lg:hidden"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(var(--primary-100),0.3),transparent_70%)]" />
           <div className="relative">
@@ -209,13 +209,13 @@ const Footer = () => {
         </motion.div>
 
         {/* Bottom Section */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-8 border-t border-primary-100/20">
-          <p className="font-poppins text-sm text-gray-600">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-10 border-t border-primary-100/20 pb-24 sm:pb-10">
+          <p className="font-poppins text-sm text-gray-600 text-center md:text-left">
             2025 All rights reserved.
           </p>
-          <div className="flex items-center gap-6">
-            <Link href="tel:+6281235766940" className="font-poppins text-sm text-gray-600 hover:text-primary-500 transition-colors duration-200">
-              Support: +62 812 3576 6940
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6 justify-center md:justify-end">
+            <Link href="tel:+62812357661234" className="font-poppins text-sm text-gray-600 hover:text-primary-500 transition-colors duration-200">
+              Support: +62 812 3576 1234
             </Link>
             <Link href="/terms-and-policy" className="font-poppins text-sm text-gray-600 hover:text-primary-500 transition-colors duration-200">
               Terms
