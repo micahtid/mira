@@ -4,13 +4,13 @@ import { getFirestore } from "firebase/firestore";
 
 export const initializeFirebase = () => {
   const firebaseConfig = {
-    apiKey: "AIzaSyDOrCxSMFcarGTAKYeJ-ybD6ZlK5RUHzc4",
-    authDomain: "mira-5e906.firebaseapp.com",
-    projectId: "mira-5e906",
-    storageBucket: "mira-5e906.firebasestorage.app",
-    messagingSenderId: "544535327669",
-    appId: "1:544535327669:web:6e5d6be5542145c4f45ffc",
-    measurementId: "G-ETVCK1SHMM"
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY!,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN!,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID!,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET!,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID!,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID!,
+    measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID!
   };
 
   const app = initializeApp(firebaseConfig);
