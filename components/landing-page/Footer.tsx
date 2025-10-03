@@ -37,23 +37,27 @@ const Footer = () => {
           </div>
           <div className="flex items-center gap-4 sm:gap-6 md:gap-8">
             {[
-              { icon: FiGlobe, href: "#", label: "Website" },
+              { icon: FiGlobe, label: "Website" },
               { icon: FiMail, href: "mailto:contact@mira.com", label: "Email" },
               { icon: FiPhone, onClick: copyPhoneNumber, label: "Phone" },
               { icon: FiHeart, href: "https://www.instagram.com/mira.app.official/", label: "Instagram" }
             ].map((item, i) => {
               const Icon = item.icon;
+              const hasAction = item.href || item.onClick;
+
               return (
                 <a
                   key={i}
-                  href={item.href || "#"}
+                  href={item.href || undefined}
                   onClick={(e) => {
                     if (item.onClick) {
                       e.preventDefault();
                       item.onClick();
+                    } else if (!item.href) {
+                      e.preventDefault();
                     }
                   }}
-                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary-50 text-primary-500 flex items-center justify-center hover:bg-primary-100 hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer"
+                  className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary-50 text-primary-500 flex items-center justify-center ${hasAction ? 'hover:bg-primary-100 hover:scale-110 active:scale-95 cursor-pointer' : 'cursor-default'} transition-all duration-200`}
                   aria-label={item.label}
                 >
                   <Icon size={18} className="sm:text-[20px]" />
@@ -71,7 +75,7 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            <h4 className="font-poppins text-sm font-semibold text-gray-900 mb-4">Platform</h4>
+            <h4 className="default-label font-semibold text-gray-900 mb-4">Platform</h4>
             <ul className="space-y-3">
               {[
                 { name: "Browse Positions", href: "#home", onClick: signIn },
@@ -90,7 +94,7 @@ const Footer = () => {
                         item.onClick();
                       }
                     }}
-                    className="font-poppins text-sm text-gray-600 hover:text-primary-500 transition-colors duration-200 flex items-center gap-2 group"
+                    className="default-label text-gray-600 hover:text-primary-500 transition-colors duration-200 flex items-center gap-2 group"
                   >
                     {item.name}
                     <FiArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
@@ -106,7 +110,7 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            <h4 className="font-poppins text-sm font-semibold text-gray-900 mb-4">Resources</h4>
+            <h4 className="default-label font-semibold text-gray-900 mb-4">Resources</h4>
             <ul className="space-y-3">
               {[
                 { name: "For Students", href: "#platform" },
@@ -118,7 +122,7 @@ const Footer = () => {
                 >
                   <Link
                     href={item.href}
-                    className="font-poppins text-sm text-gray-600 hover:text-primary-500 transition-colors duration-200 flex items-center gap-2 group"
+                    className="default-label text-gray-600 hover:text-primary-500 transition-colors duration-200 flex items-center gap-2 group"
                   >
                     {item.name}
                     <FiArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
@@ -134,7 +138,7 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
           >
-            <h4 className="font-poppins text-sm font-semibold text-gray-900 mb-4">Company</h4>
+            <h4 className="default-label font-semibold text-gray-900 mb-4">Company</h4>
             <ul className="space-y-3">
               {[
                 { name: "About Us", href: "#about" }
@@ -145,7 +149,7 @@ const Footer = () => {
                 >
                   <Link
                     href={item.href}
-                    className="font-poppins text-sm text-gray-600 hover:text-primary-500 transition-colors duration-200 flex items-center gap-2 group"
+                    className="default-label text-gray-600 hover:text-primary-500 transition-colors duration-200 flex items-center gap-2 group"
                   >
                     {item.name}
                     <FiArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
@@ -161,7 +165,7 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.4 }}
           >
-            <h4 className="font-poppins text-sm font-semibold text-gray-900 mb-4">Legal</h4>
+            <h4 className="default-label font-semibold text-gray-900 mb-4">Legal</h4>
             <ul className="space-y-3">
               {[
                 { name: "Privacy Policy", href: "/terms-and-policy#privacy-policy" },
@@ -173,7 +177,7 @@ const Footer = () => {
                 >
                   <Link
                     href={item.href}
-                    className="font-poppins text-sm text-gray-600 hover:text-primary-500 transition-colors duration-200 flex items-center gap-2 group"
+                    className="default-label text-gray-600 hover:text-primary-500 transition-colors duration-200 flex items-center gap-2 group"
                   >
                     {item.name}
                     <FiArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
@@ -193,15 +197,15 @@ const Footer = () => {
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(var(--primary-100),0.3),transparent_70%)]" />
           <div className="relative">
-            <h4 className="font-poppins text-lg font-semibold text-gray-900 mb-2">Stay Updated</h4>
-            <p className="font-poppins text-sm text-gray-600 mb-4">Get the latest volunteer opportunities and nonprofit news.</p>
+            <h4 className="default-text font-semibold text-gray-900 mb-2">Stay Updated</h4>
+            <p className="default-label text-gray-600 mb-4">Get the latest volunteer opportunities and nonprofit news.</p>
             <div className="flex gap-3">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 px-4 py-2 rounded-lg bg-white border border-primary-100 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none font-poppins text-sm"
+                className="flex-1 px-4 py-2 rounded-lg bg-white border border-primary-100 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none default-label"
               />
-              <button className="px-6 py-2 bg-primary-500 text-white rounded-lg font-poppins text-sm font-medium hover:bg-primary-600 hover:-translate-y-[2px] active:translate-y-0 transition-all duration-200">
+              <button className="px-6 py-2 bg-primary-500 text-white rounded-lg default-label font-medium hover:bg-primary-600 hover:-translate-y-[2px] active:translate-y-0 transition-all duration-200">
                 Subscribe
               </button>
             </div>
@@ -210,18 +214,18 @@ const Footer = () => {
 
         {/* Bottom Section */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-10 border-t border-primary-100/20 pb-24 sm:pb-10">
-          <p className="font-poppins text-sm text-gray-600 text-center md:text-left">
+          <p className="default-label text-gray-600 text-center md:text-left">
             2025 All rights reserved.
           </p>
           <div className="flex flex-wrap items-center gap-4 sm:gap-6 justify-center md:justify-end">
-            <Link href="tel:+62812357661234" className="font-poppins text-sm text-gray-600 hover:text-primary-500 transition-colors duration-200">
+            <Link href="tel:+62812357661234" className="default-label text-gray-600 hover:text-primary-500 transition-colors duration-200">
               Support: +62 812 3576 1234
             </Link>
-            <Link href="/terms-and-policy" className="font-poppins text-sm text-gray-600 hover:text-primary-500 transition-colors duration-200">
+            <Link href="/terms-and-policy" className="default-label text-gray-600 hover:text-primary-500 transition-colors duration-200">
               Terms
             </Link>
             <span className="text-gray-300">•</span>
-            <Link href="/terms-and-policy" className="font-poppins text-sm text-gray-600 hover:text-primary-500 transition-colors duration-200">
+            <Link href="/terms-and-policy" className="default-label text-gray-600 hover:text-primary-500 transition-colors duration-200">
               Privacy
             </Link>
           </div>

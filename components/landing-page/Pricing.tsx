@@ -54,13 +54,13 @@ const Pricing = () => {
       
       <div className="relative max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 z-10">
         <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8 md:mb-16">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-primary-50 text-primary-500 text-sm font-medium mb-3 sm:mb-4">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-primary-50 text-primary-500 default-label mb-3 sm:mb-4">
             Pricing Plans
           </span>
-          <h2 className="font-poppins text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight text-gray-900 mb-3 sm:mb-4">
+          <h2 className="default-heading text-gray-900 leading-tight mb-3 sm:mb-4">
             Simple, Transparent Pricing
           </h2>
-          <p className="font-poppins text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="default-text text-gray-600 max-w-2xl mx-auto">
             Choose the plan that works best for your organization or join as a student for free.
           </p>
         </div>
@@ -80,8 +80,8 @@ const Pricing = () => {
                   {plan.icon}
                 </div>
                 <div>
-                  <h3 className="font-poppins text-xl font-semibold text-black">{plan.title}</h3>
-                  <p className="font-poppins text-sm text-black/70">{plan.description}</p>
+                  <h3 className="default-subheading text-black">{plan.title}</h3>
+                  <p className="default-label text-black/70">{plan.description}</p>
                 </div>
               </div>
               <div className="mb-6">
@@ -99,7 +99,7 @@ const Pricing = () => {
                     <div className="w-5 h-5 rounded-full bg-primary-50 flex items-center justify-center">
                       <FiCheck className="w-3 h-3 text-primary-500" />
                     </div>
-                    <span className="font-poppins text-base text-black/80">{feature}</span>
+                    <span className="default-label text-black/80">{feature}</span>
                   </li>
                 ))}
               </ul>

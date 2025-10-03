@@ -5,7 +5,7 @@ import { FiArrowRight } from "react-icons/fi";
 import { signIn } from "@/utils/firebaseFunctions";
 
 const sharedClasses = {
-  buttonBase: "group relative w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 rounded-xl text-base md:text-lg font-medium overflow-hidden inline-flex items-center justify-center hover:-translate-y-[2px] active:translate-y-0 transition-all duration-300",
+  buttonBase: "group relative w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 rounded-xl default-text font-medium overflow-hidden inline-flex items-center justify-center hover:-translate-y-[2px] active:translate-y-0 transition-all duration-300",
 };
 
 const Hero = () => {
@@ -23,11 +23,11 @@ const Hero = () => {
         <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16 px-2">
           {/* Main Heading */}
           <div className="space-y-4 md:space-y-6">
-            <motion.h1 
+            <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="font-poppins text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-gray-900"
+              className="font-poppins text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight tracking-tight"
             >
               Find The Perfect
               <motion.span
@@ -48,12 +48,12 @@ const Hero = () => {
                 <div className="absolute inset-0 bg-primary-100/20 blur-3xl rounded-full transform scale-150 opacity-50 pointer-events-none" />
               </motion.span>
             </motion.h1>
-            
-            <motion.p 
+
+            <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="font-poppins text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto px-2"
+              className="default-text text-gray-600 max-w-2xl mx-auto px-2"
             >
               The platform that connects students with meaningful youth-led volunteer opportunities.
             </motion.p>
@@ -106,7 +106,7 @@ const Hero = () => {
                 </div>
               ))}
             </div>
-            <p className="font-poppins text-gray-600 font-medium">
+            <p className="default-text text-gray-600">
               <span className="font-semibold text-gray-900">10+</span> nonprofits &
               <span className="font-semibold text-gray-900"> 50+</span> students
             </p>

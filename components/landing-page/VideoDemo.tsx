@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { FiPlay, FiCheck } from "react-icons/fi";
-import Link from "next/link";
 
 const steps = [
   {
@@ -43,10 +42,10 @@ const VideoDemo = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-6 sm:mb-8 md:mb-16"
         >
-          <span className="inline-block px-4 py-1.5 rounded-full bg-primary-50 text-primary-500 text-sm font-medium mb-3 sm:mb-4">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-primary-50 text-primary-500 default-label mb-3 sm:mb-4">
             Platform Demo
           </span>
-          <h2 className="font-poppins text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight text-gray-900 mb-3 sm:mb-4">
+          <h2 className="default-heading text-gray-900 leading-tight mb-3 sm:mb-4">
             <span className="relative inline-block">
               See How It Works
               <motion.svg
@@ -71,7 +70,7 @@ const VideoDemo = () => {
               </motion.svg>
             </span>
           </h2>
-          <p className="font-poppins text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="default-text text-gray-600 max-w-2xl mx-auto">
             Watch our quick tutorial to learn how to find and apply for volunteer positions.
           </p>
         </motion.div>
@@ -94,8 +93,8 @@ const VideoDemo = () => {
                     {step.number}
                   </span>
                 </div>
-                <h3 className="font-poppins text-lg md:text-xl font-semibold text-gray-900 mb-2">{step.title}</h3>
-                <p className="font-poppins text-sm text-gray-600 line-clamp-2 md:line-clamp-none">{step.description}</p>
+                <h3 className="default-subheading text-gray-900 mb-2">{step.title}</h3>
+                <p className="default-label text-gray-600 line-clamp-2 md:line-clamp-none">{step.description}</p>
               </div>
             </motion.div>
           ))}
@@ -147,18 +146,18 @@ const VideoDemo = () => {
           transition={{ delay: 0.4, duration: 0.5 }}
           className="mt-8 md:mt-12 flex flex-col items-center"
         >
-          <p className="font-poppins text-base sm:text-lg text-gray-600 mb-4">
+          <p className="default-text text-gray-600 mb-4">
             Want to learn more about our platform?
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center w-full sm:w-auto">
             <div className="w-full sm:w-auto">
-              <Link 
-                href="javascript:void(0);"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white border-2 border-primary-500 text-primary-500 hover:bg-primary-50 hover:-translate-y-[2px] active:translate-y-0 transition-all duration-300 font-medium w-full sm:w-auto group"
+              <button
+                onClick={(e) => e.preventDefault()}
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white border-2 border-primary-500 text-primary-500 cursor-default transition-all duration-300 font-medium w-full sm:w-auto group opacity-50"
               >
                 <FiCheck className="w-5 h-5" />
                 View Documentation
-              </Link>
+              </button>
             </div>
           </div>
         </motion.div>

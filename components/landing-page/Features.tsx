@@ -56,9 +56,9 @@ interface Props extends Omit<BentoGridProps, 'children'> {
 // Shared className constants
 const sharedClasses = {
   sectionBase: "relative overflow-hidden z-10",
-  motionText: "font-poppins text-base md:text-lg text-gray-600 mb-6 sm:mb-8 md:mb-12",
-  badgeBase: "inline-block px-4 py-1.5 rounded-full bg-primary-50 text-primary-500 text-sm font-medium mb-3 sm:mb-4",
-  heading: "font-poppins text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight mb-3 sm:mb-4 text-black",
+  motionText: "default-text text-gray-600 mb-6 sm:mb-8 md:mb-12",
+  badgeBase: "inline-block px-4 py-1.5 rounded-full bg-primary-50 text-primary-500 default-label mb-3 sm:mb-4",
+  heading: "default-heading text-black leading-tight mb-3 sm:mb-4",
 };
 
 const Features = () => {

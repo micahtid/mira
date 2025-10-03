@@ -53,7 +53,7 @@ const CTA = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5 }}
-                  className="inline-block px-4 py-1.5 rounded-full bg-primary-50 text-primary-500 text-sm font-medium mb-4"
+                  className="inline-block px-4 py-1.5 rounded-full bg-primary-50 text-primary-500 default-label mb-4"
                 >
                   Success Stories
                 </motion.span>
@@ -62,7 +62,7 @@ const CTA = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.1 }}
-                  className="font-poppins text-4xl lg:text-5xl font-semibold leading-tight text-gray-900 mb-4"
+                  className="default-heading text-gray-900 leading-tight mb-4"
                 >
                   Join Our Growing{' '}
                   <span className="relative">
@@ -130,12 +130,13 @@ const CTA = () => {
                           <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                         </svg>
                       </div>
-                      <p className="font-poppins text-gray-600 mb-6">{testimonial.quote}</p>
+                      <p className="default-text text-gray-600 mb-6">{testimonial.quote}</p>
                       <div className="space-y-1">
-                        <h4 className="font-poppins font-semibold text-gray-900">{testimonial.author}
+                        <h4 className="default-subheading text-gray-900">
+                          {testimonial.author}
                         </h4>
-                        <p className="font-poppins text-sm text-gray-500">{testimonial.role}</p>
-                        <p className="font-poppins text-sm font-medium text-primary-500">{testimonial.impact}</p>
+                        <p className="default-label text-gray-500">{testimonial.role}</p>
+                        <p className="default-label text-primary-500">{testimonial.impact}</p>
                       </div>
                     </div>
                   </motion.div>
@@ -147,7 +148,7 @@ const CTA = () => {
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   onClick={signIn}
-                  className="group relative px-4 sm:px-8 py-3 sm:py-4 bg-primary-500 text-white rounded-xl text-base sm:text-lg font-medium overflow-hidden hover:bg-primary-600 transition-all duration-300"
+                  className="group relative px-4 sm:px-8 py-3 sm:py-4 bg-primary-500 text-white rounded-xl default-text font-medium overflow-hidden hover:bg-primary-600 transition-all duration-300"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.1),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -159,7 +160,7 @@ const CTA = () => {
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   onClick={() => window.location.href = "mailto:contact@mira.com"}
-                  className="group relative px-4 sm:px-8 py-3 sm:py-4 bg-white text-primary-500 border-2 border-primary-500 rounded-xl text-base sm:text-lg font-medium overflow-hidden hover:bg-primary-100 transition-all duration-300"
+                  className="group relative px-4 sm:px-8 py-3 sm:py-4 bg-white text-primary-500 border-2 border-primary-500 rounded-xl default-text font-medium overflow-hidden hover:bg-primary-100 transition-all duration-300"
                 >
                   <div className="absolute inset-0 bg-primary-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(var(--primary-100),0.1),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

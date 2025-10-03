@@ -34,7 +34,7 @@ const FAQItem = memo(({
       onClick={onClick}
       className="w-full flex items-center justify-between py-4 text-left"
     >
-      <span className="font-poppins text-lg text-gray-900">{question}</span>
+      <span className="default-text text-gray-900">{question}</span>
       <span className="ml-4 flex-shrink-0">
         {isOpen ? (
           <FiMinus className="w-5 h-5 text-primary-500" />
@@ -52,7 +52,7 @@ const FAQItem = memo(({
           exit="exit"
         >
           <div className="pb-4">
-            <p className="font-poppins text-gray-600">{answer}</p>
+            <p className="default-label text-gray-600">{answer}</p>
           </div>
         </motion.div>
       )}
@@ -108,10 +108,10 @@ const FAQ = () => {
         className="max-w-3xl mx-auto px-3 sm:px-4 md:px-6"
       >
         <div className="text-center mb-8 sm:mb-10 md:mb-12">
-          <h2 className="font-poppins text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-900 mb-3 sm:mb-4">
+          <h2 className="default-heading text-gray-900 mb-3 sm:mb-4">
             Frequently Asked Questions
           </h2>
-          <p className="font-poppins text-base sm:text-lg text-gray-600">
+          <p className="default-text text-gray-600">
             Everything you need to know about Mira!
           </p>
         </div>

@@ -31,7 +31,7 @@ const HomePage = () => {
     { name: "Home", url: "/#home", icon: HomeIcon },
     { name: "Platform", url: "#platform", icon: Book },
     { name: "Contact", url: "#contact", icon: MessageCircle },
-    { name: "Sign In", url: "#", icon: LogIn, onClick: signIn },
+    { name: "Sign In", url: "", icon: LogIn, onClick: signIn },
   ];
 
   return (
@@ -62,7 +62,7 @@ const HomePage = () => {
                   )}
                 >
                   <span className="hidden md:inline font-poppins">{item.name}</span>
-                  <span className="md:hidden">
+                  <span className="md:hidden flex items-center justify-center">
                     <Icon size={18} strokeWidth={2.5} />
                   </span>
                   {isActive && (

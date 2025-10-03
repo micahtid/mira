@@ -49,16 +49,16 @@ const BentoCard = memo(({
             <Icon className="h-5 w-5 text-white" />
           </div>
         )}
-        <h3 className="font-poppins text-xl font-semibold text-gray-900">{name}</h3>
+        <h3 className="default-subheading text-gray-900">{name}</h3>
         {description && (
-          <p className="mt-2 font-poppins text-gray-600 max-w-prose">{description}</p>
+          <p className="mt-2 default-text text-gray-600 max-w-prose">{description}</p>
         )}
         {features && (
           <ul className="mt-4 space-y-2">
             {features.map((feature) => (
               <li key={feature} className="flex items-center gap-4 text-gray-600">
                 <FaArrowRight size={16} className="text-primary-400" />
-                <span className="font-poppins">{feature}</span>
+                <span className="default-label">{feature}</span>
               </li>
             ))}
           </ul>
@@ -67,7 +67,7 @@ const BentoCard = memo(({
       {href && (
         <Link
           href={href}
-          className="font-medium text-primary-500 hover:text-primary-600 transition-colors"
+          className="default-label font-medium text-primary-500 hover:text-primary-600 transition-colors"
         >
           {cta}
         </Link>
