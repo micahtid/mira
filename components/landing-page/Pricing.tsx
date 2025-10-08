@@ -20,7 +20,7 @@ const Pricing = () => {
       description: "For Growing Organizations",
       price: "$29.99",
       duration: "/year",
-      features: ["3 active positions", "1-10 slots per position", "Boosted listings", "Priority support"],
+      features: ["3 active positions", "1-10 slots per position", "Priority support"],
       icon: <FiAward className="w-5 h-5 text-primary-500" />, 
       buttonText: "Purchase",
       buttonAction: signIn,

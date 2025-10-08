@@ -66,9 +66,7 @@ const CTA = () => {
                 >
                   Join Our Growing{' '}
                   <span className="relative">
-                    <span className="relative z-10 bg-gradient-to-r from-primary-500 to-primary-600 bg-clip-text text-transparent">
-                      Community
-                    </span>
+                    Community
                     <motion.svg
                       width="100%"
                       height="8"
@@ -132,7 +130,7 @@ const CTA = () => {
                       </div>
                       <p className="default-text text-gray-600 mb-6">{testimonial.quote}</p>
                       <div className="space-y-1">
-                        <h4 className="default-subheading text-gray-900">
+                        <h4 className="default-text font-semibold text-gray-900">
                           {testimonial.author}
                         </h4>
                         <p className="default-label text-gray-500">{testimonial.role}</p>
