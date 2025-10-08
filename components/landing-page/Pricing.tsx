@@ -4,7 +4,7 @@ import { signIn } from "@/utils/firebaseFunctions";
 const Pricing = () => {
   const plans = [
     {
-      title: "Organization Free",
+      title: "Org Free",
       description: "For All Organizations",
       price: "Free",
       duration: "Lifetime",
@@ -16,7 +16,7 @@ const Pricing = () => {
       highlighted: false
     },
     {
-      title: "Organization Pro",
+      title: "Org Pro",
       description: "For Growing Organizations",
       price: "$29.99",
       duration: "/year",

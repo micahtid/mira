@@ -1,5 +1,5 @@
 Firestore
--- Redundant user info in applications
+-- Redundant user info in applications...
 
 Arbitrary Values
 -- PositionFilters.tsx: (button) y-padding 
