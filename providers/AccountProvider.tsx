@@ -39,7 +39,7 @@ export const AccountContextProvider = (props: Props) => {
         setAccount(firebaseUser);
         setAccountData(userDoc);
         
-        // Check Premium Status For Organizations
+        // Check premium status for organizations
         if (userDoc && (userDoc as DocumentData).type === "organization") {
           try {
             const premiumStatus = await getPremiumStatus();
@@ -52,7 +52,7 @@ export const AccountContextProvider = (props: Props) => {
           setIsPremium(false);
         }
       } else {
-        // Update all states during lougout...
+        // Update all states during logout...
         setAccount(null);
         setAccountData(null);
         setIsPremium(false);

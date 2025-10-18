@@ -56,8 +56,8 @@ interface Props extends Omit<BentoGridProps, 'children'> {
 // Shared className constants
 const sharedClasses = {
   sectionBase: "relative overflow-hidden z-10",
-  motionText: "default-text text-gray-600 mb-6 sm:mb-8 md:mb-12",
-  badgeBase: "inline-block px-4 py-1.5 rounded-full bg-primary-50 text-primary-500 default-label mb-3 sm:mb-4",
+  motionText: "default-text text-gray-600 mb-6 sm:mb-8 md:mb-12 leading-relaxed",
+  badgeBase: "inline-block px-4 py-2 rounded-xl bg-primary-50 text-primary-500 default-label font-semibold mb-3 sm:mb-4",
   heading: "default-heading text-black leading-tight mb-3 sm:mb-4",
 };
 
@@ -68,14 +68,14 @@ const Features = () => {
   };
 
   return (
-    <section 
+    <section
     id="platform"
     className={`${sharedClasses.sectionBase} py-10 sm:py-12 md:py-20 lg:py-28`}>
-      <div className="absolute inset-0 bg-gradient-to-b from-white via-gray-50 to-gray-50 z-0" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(var(--primary-50),0.05),transparent_50%)] z-0" />
-      <div className="absolute inset-0 opacity-[0.02] bg-[linear-gradient(45deg,#000_1px,transparent_1px),linear-gradient(-45deg,#000_1px,transparent_1px)] bg-[size:3rem_3rem] z-0" />
+      <div className="absolute inset-0 bg-gradient-to-b from-white via-gray-50 to-white z-0" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(81,138,251,0.03),transparent_60%)] z-0" />
+      <div className="absolute inset-0 opacity-[0.015] bg-[linear-gradient(45deg,#000_1px,transparent_1px),linear-gradient(-45deg,#000_1px,transparent_1px)] bg-[size:3rem_3rem] z-0" />
       
-      <div className="relative max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 z-10">
+      <div className="relative max-w-7xl mx-auto px-6 sm:px-8 md:px-10 lg:px-12 z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -86,7 +86,7 @@ const Features = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className={sharedClasses.badgeBase}
+            className="inline-block px-4 py-2 rounded-xl bg-primary-50 text-primary-500 default-label font-semibold mb-3 sm:mb-4"
           >
             Platform Features
           </motion.span>
@@ -111,7 +111,7 @@ const Features = () => {
                 <motion.path
                   d="M1 5.5C20 3.5 40 3.5 60 5.5C80 7.5 99 7.5 99 5.5"
                   stroke="rgb(109, 81, 251)"
-                  strokeWidth="2"
+                  strokeWidth="3"
                   strokeLinecap="round"
                   initial={{ pathLength: 0, opacity: 0 }}
                   whileInView={{ pathLength: 1, opacity: 1 }}

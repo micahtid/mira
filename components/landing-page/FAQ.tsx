@@ -18,23 +18,23 @@ const itemVariants = {
 };
 
 // Memoized FAQ Item component
-const FAQItem = memo(({ 
-  question, 
-  answer, 
-  isOpen, 
-  onClick 
-}: { 
-  question: string; 
-  answer: string; 
-  isOpen: boolean; 
+const FAQItem = memo(({
+  question,
+  answer,
+  isOpen,
+  onClick
+}: {
+  question: string;
+  answer: string;
+  isOpen: boolean;
   onClick: () => void;
 }) => (
-  <div className="border-b border-primary-100/20">
+  <div className="border-b border-primary-100/20 rounded-lg hover:bg-primary-50/30 transition-colors duration-200">
     <button
       onClick={onClick}
-      className="w-full flex items-center justify-between py-4 text-left"
+      className="w-full flex items-center justify-between py-4 px-4 text-left"
     >
-      <span className="default-text text-gray-900">{question}</span>
+      <span className="default-text text-gray-900 font-semibold">{question}</span>
       <span className="ml-4 flex-shrink-0">
         {isOpen ? (
           <FiMinus className="w-5 h-5 text-primary-500" />
@@ -51,8 +51,8 @@ const FAQItem = memo(({
           animate="animate"
           exit="exit"
         >
-          <div className="pb-4">
-            <p className="default-label text-gray-600">{answer}</p>
+          <div className="pb-4 px-4">
+            <p className="default-label text-gray-600 leading-relaxed">{answer}</p>
           </div>
         </motion.div>
       )}
@@ -96,7 +96,7 @@ const FAQ = () => {
   
 
   return (
-    <section id="faq" className="relative py-12 sm:py-16 md:py-24 lg:py-32 overflow-hidden">
+    <section id="faq" className="relative py-8 sm:py-16 md:py-24 lg:py-32 overflow-hidden">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ 
@@ -105,13 +105,13 @@ const FAQ = () => {
           transition: { duration: 0.4 } // Adjusted for smoother animation
         }}
         viewport={{ once: true }}
-        className="max-w-3xl mx-auto px-3 sm:px-4 md:px-6"
+        className="max-w-3xl mx-auto px-6 sm:px-8 md:px-10"
       >
         <div className="text-center mb-8 sm:mb-10 md:mb-12">
           <h2 className="default-heading text-gray-900 mb-3 sm:mb-4">
             Frequently Asked Questions
           </h2>
-          <p className="default-text text-gray-600">
+          <p className="default-text text-gray-600 leading-relaxed">
             Everything you need to know about Mira!
           </p>
         </div>

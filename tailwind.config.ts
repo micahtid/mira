@@ -47,14 +47,28 @@ const config: Config = {
         },
       },
       fontFamily: {
-        poppins: ['Poppins', 'sans-serif']
+        poppins: ['Poppins', 'sans-serif'],
+        sora: ['Sora', 'system-ui', 'sans-serif']
       },
       maxWidth: {
         'standard': '1500px',
       },
       spacing: {
         'standard': '20px',
-      }
+      },
+      borderRadius: {
+        'sm': '8px',
+        'DEFAULT': '10px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '20px',
+        '2xl': '25px',
+        '3xl': '31px',
+      },
+      boxShadow: {
+        'phone': '0px 4px 57.3px 0px rgba(0, 0, 0, 0.25)',
+        'phone-dark': '0px 4px 57.3px 0px rgba(255, 255, 255, 0.15)',
+      },
     },
   },
 };

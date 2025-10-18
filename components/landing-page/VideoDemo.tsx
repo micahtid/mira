@@ -32,9 +32,9 @@ const steps = [
 const VideoDemo = () => {
   return (
     <section id="how-it-works" className="relative py-12 sm:py-16 md:py-24 lg:py-32 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-white via-primary-50/20 to-white" />
+      <div className="absolute inset-0 bg-gradient-to-b from-white via-accent-50/20 to-white" />
       
-      <div className="relative max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+      <div className="relative max-w-7xl mx-auto px-6 sm:px-8 md:px-10 lg:px-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -42,7 +42,7 @@ const VideoDemo = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-6 sm:mb-8 md:mb-16"
         >
-          <span className="inline-block px-4 py-1.5 rounded-full bg-primary-50 text-primary-500 default-label mb-3 sm:mb-4">
+          <span className="inline-block px-4 py-2 rounded-xl bg-primary-50 text-primary-500 default-label font-semibold mb-3 sm:mb-4">
             Platform Demo
           </span>
           <h2 className="default-heading text-gray-900 leading-tight mb-3 sm:mb-4">
@@ -60,7 +60,7 @@ const VideoDemo = () => {
                 <motion.path
                   d="M1 5.5C20 3.5 40 3.5 60 5.5C80 7.5 99 7.5 99 5.5"
                   stroke="rgb(109, 81, 251)"
-                  strokeWidth="2"
+                  strokeWidth="3"
                   strokeLinecap="round"
                   initial={{ pathLength: 0, opacity: 0 }}
                   whileInView={{ pathLength: 1, opacity: 1 }}
@@ -70,7 +70,7 @@ const VideoDemo = () => {
               </motion.svg>
             </span>
           </h2>
-          <p className="default-text text-gray-600 max-w-2xl mx-auto">
+          <p className="default-text text-gray-600 max-w-2xl mx-auto leading-relaxed">
             Watch our quick tutorial to learn how to find and apply for volunteer positions.
           </p>
         </motion.div>
@@ -86,15 +86,15 @@ const VideoDemo = () => {
               transition={{ delay: index * 0.1, duration: 0.5 }}
               className="relative group"
             >
-              <div className={`absolute inset-0 bg-gradient-to-br ${step.color} rounded-2xl opacity-50 group-hover:opacity-100 transition-opacity duration-300`} />
+              <div className={`absolute inset-0 bg-gradient-to-br ${step.color} rounded-2xl opacity-60 group-hover:opacity-100 transition-opacity duration-300`} />
               <div className="relative p-4 md:p-6 text-center">
                 <div className="mb-3 md:mb-4">
-                  <span className="inline-block font-poppins text-3xl md:text-4xl font-bold text-primary-500/50 group-hover:text-primary-500 transition-colors duration-300">
+                  <span className="inline-block font-sora text-3xl md:text-4xl font-extrabold text-primary-500/60 group-hover:text-primary-500 transition-colors duration-300">
                     {step.number}
                   </span>
                 </div>
                 <h3 className="default-subheading text-gray-900 mb-2">{step.title}</h3>
-                <p className="default-label text-gray-600 line-clamp-2 md:line-clamp-none">{step.description}</p>
+                <p className="default-label text-gray-600 line-clamp-2 md:line-clamp-none leading-relaxed">{step.description}</p>
               </div>
             </motion.div>
           ))}
