@@ -1,0 +1,326 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "name": "Design System Configuration",
+  "version": "1.0.0",
+  "description": "Reusable design system - change tokens and apply everywhere",
+
+  "___GETTING_STARTED___": {
+    "instructions": [
+      "1. Update 'tokens' section with your brand values",
+      "2. The 'design' section references tokens automatically",
+      "3. Export as CSS variables, Tailwind config, or use directly in components",
+      "4. Token references use format: $tokens.category.key"
+    ],
+    "quickStart": {
+      "step1": "Change primary brand color in tokens.colors.brand.primary",
+      "step2": "Update font family in tokens.typography.fontFamily.primary",
+      "step3": "Adjust spacing scale in tokens.spacing.base",
+      "step4": "All components will inherit these values automatically"
+    },
+    "usage": {
+      "cssVariables": "Use tokens to generate CSS custom properties in globals.css",
+      "tailwind": "Reference tokens in tailwind.config to extend theme",
+      "components": "Import design.json in components and access token values",
+      "documentation": "Share this file with designers and developers for consistency"
+    }
+  },
+
+  "___DESIGN_PRINCIPLES___": {
+    "mobileFirst": {
+      "whitespace": "Prioritize generous white space on mobile for better readability",
+      "typography": "Use smaller text sizes on mobile, scale up for larger screens",
+      "padding": "Progressive horizontal padding: mobile (smaller) → desktop (larger)"
+    },
+    "animations": {
+      "hover": "No translation effects - use only color, opacity, and scale transitions",
+      "duration": "Keep transitions smooth and fast (200ms standard)"
+    },
+    "shadows": {
+      "buttons": "No shadows on buttons - use solid backgrounds only",
+      "cards": "Minimal shadows (sm/md) - avoid overwhelming shadow effects",
+      "principle": "Flat, modern aesthetic with subtle depth"
+    },
+    "consistency": {
+      "spacing": "Consistent horizontal padding across sections",
+      "typography": "Use design system classes (default-text, default-label, etc.)",
+      "responsive": "All text and spacing should scale responsively"
+    }
+  },
+
+  "tokens": {
+    "colors": {
+      "brand": {
+        "primary": "#ef4444",
+        "primaryHover": "#dc2626",
+        "primaryAccent": "#7f1d1d",
+        "secondary": "#3b82f6",
+        "tertiary": "#f59e0b"
+      },
+      "accent": {
+        "blue": "#3b82f6",
+        "orange": "#f59e0b",
+        "purple": "#a855f7",
+        "green": "#22c55e"
+      },
+      "neutral": {
+        "white": "#ffffff",
+        "gray50": "#f9fafb",
+        "gray100": "#f3f4f6",
+        "gray200": "#e5e7eb",
+        "gray300": "#d1d5db",
+        "gray400": "#9ca3af",
+        "gray500": "#6b7280",
+        "gray600": "#4b5563",
+        "gray700": "#374151",
+        "gray800": "#1f2937",
+        "gray900": "#111827",
+        "black": "#000000"
+      },
+      "semantic": {
+        "success": "#22c55e",
+        "warning": "#f59e0b",
+        "error": "#ef4444",
+        "info": "#3b82f6"
+      }
+    },
+
+    "typography": {
+      "fontFamily": {
+        "primary": "Sora",
+        "secondary": "system-ui",
+        "mono": "monospace"
+      },
+      "fontWeight": {
+        "regular": 400,
+        "medium": 500,
+        "semibold": 600,
+        "bold": 700,
+        "extrabold": 800
+      },
+      "fontSize": {
+        "xs": "12px",
+        "sm": "14px",
+        "base": "16px",
+        "lg": "18px",
+        "xl": "20px",
+        "2xl": "24px",
+        "3xl": "30px",
+        "4xl": "32px",
+        "5xl": "40px",
+        "6xl": "48px",
+        "7xl": "56px",
+        "8xl": "60px",
+        "9xl": "80px"
+      },
+      "responsiveTextClasses": {
+        "default-heading": "font-bold text-3xl lg:text-5xl tracking-tight",
+        "default-subheading": "font-semibold text-2xl lg:text-3xl tracking-tight",
+        "default-text": "text-sm sm:text-base lg:text-lg",
+        "default-label": "text-xs sm:text-sm lg:text-base",
+        "note": "All text scales from mobile (smaller) → tablet → desktop (larger)"
+      },
+      "lineHeight": {
+        "none": 1,
+        "tight": 1.25,
+        "snug": 1.375,
+        "normal": 1.5,
+        "relaxed": 1.625,
+        "loose": 2
+      },
+      "letterSpacing": {
+        "tighter": "-0.05em",
+        "tight": "-0.025em",
+        "normal": "0",
+        "wide": "0.025em",
+        "wider": "0.05em",
+        "widest": "0.15em"
+      }
+    },
+
+    "spacing": {
+      "base": 4,
+      "_multipliers": {
+        "0": 0,
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4,
+        "5": 5,
+        "6": 6,
+        "8": 8,
+        "10": 10,
+        "12": 12,
+        "16": 16,
+        "20": 20,
+        "24": 24,
+        "32": 32,
+        "40": 40,
+        "48": 48,
+        "64": 64,
+        "80": 80,
+        "96": 96,
+        "128": 128
+      },
+      "_calculated": {
+        "1": "4px",
+        "2": "8px",
+        "3": "12px",
+        "4": "16px",
+        "5": "20px",
+        "6": "24px",
+        "8": "32px",
+        "10": "40px",
+        "12": "48px",
+        "16": "64px",
+        "20": "80px",
+        "24": "96px",
+        "32": "128px"
+      },
+      "responsivePaddingPatterns": {
+        "sectionDefault": "px-6 sm:px-8 md:px-10 lg:px-12",
+        "sectionTight": "px-4 sm:px-6 md:px-8 lg:px-10",
+        "sectionWide": "px-8 sm:px-10 md:px-12 lg:px-16",
+        "contentBlock": "px-6 sm:px-8 md:px-10",
+        "testimonialCard": "px-3 py-6 xs:px-4 xs:py-8 sm:p-6",
+        "note": "Progressive padding: more white space on larger screens"
+      },
+      "sectionVerticalSpacing": {
+        "hero": "pt-40 md:pt-48 pb-16 md:pb-24",
+        "standard": "py-12 sm:py-16 md:py-24 lg:py-32",
+        "compact": "py-8 sm:py-16 md:py-24 lg:py-32",
+        "tight": "py-12 sm:py-20 md:py-32",
+        "note": "Reduced spacing on mobile for better content density"
+      }
+    },
+
+    "borderRadius": {
+      "none": "0",
+      "sm": "8px",
+      "base": "10px",
+      "md": "12px",
+      "lg": "16px",
+      "xl": "20px",
+      "2xl": "25px",
+      "3xl": "31px",
+      "full": "9999px"
+    },
+
+    "borderWidth": {
+      "none": "0",
+      "thin": "1px",
+      "base": "2px",
+      "thick": "3px",
+      "heavy": "4px"
+    },
+
+    "shadows": {
+      "sm": "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+      "base": "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
+      "md": "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+      "lg": "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+      "xl": "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+      "phone": "0px 4px 57.3px 0px rgba(0, 0, 0, 0.25)",
+      "phoneDark": "0px 4px 57.3px 0px rgba(255, 255, 255, 0.15)",
+      "_usage": {
+        "buttons": "NO SHADOWS - buttons use solid backgrounds only",
+        "cards": "Use 'sm' or 'md' only - avoid xl shadows for flat, modern look",
+        "principle": "Minimal shadows throughout - prefer flat design with subtle depth"
+      }
+    },
+
+    "transitions": {
+      "fast": "100ms",
+      "base": "200ms",
+      "normal": "300ms",
+      "slow": "500ms",
+      "slower": "700ms",
+      "_guidelines": {
+        "hover": "Use color, opacity, background changes - NO translate/transform",
+        "scale": "Subtle scale (1.03 max) acceptable for cards on hover",
+        "duration": "Keep most transitions at 200ms for snappy feel",
+        "forbidden": "No -translate-y, translate-x, or vertical movement on hover"
+      }
+    },
+
+    "zIndex": {
+      "hide": -1,
+      "base": 0,
+      "dropdown": 10,
+      "sticky": 20,
+      "overlay": 30,
+      "modal": 40,
+      "popover": 50,
+      "tooltip": 60
+    },
+
+    "breakpoints": {
+      "mobile": "0px",
+      "tablet": "768px",
+      "desktop": "1024px",
+      "wide": "1280px",
+      "ultrawide": "1536px"
+    },
+
+    "opacity": {
+      "0": 0,
+      "10": 0.1,
+      "20": 0.2,
+      "30": 0.3,
+      "40": 0.4,
+      "50": 0.5,
+      "60": 0.6,
+      "70": 0.7,
+      "80": 0.8,
+      "90": 0.9,
+      "100": 1
+    }
+  },
+
+  "___IMPLEMENTATION_SUMMARY___": {
+    "typography": {
+      "approach": "Mobile-first responsive scaling",
+      "classes": {
+        "default-heading": "text-3xl on mobile → text-5xl on desktop",
+        "default-text": "text-sm on mobile → text-lg on desktop",
+        "default-label": "text-xs on mobile → text-base on desktop"
+      },
+      "result": "Better readability on mobile with meaningful white space"
+    },
+    "spacing": {
+      "horizontal": {
+        "mostSections": "px-6 sm:px-8 md:px-10 lg:px-12",
+        "testimonials": "px-4 sm:px-6 md:px-8 lg:px-10 (tighter)",
+        "footer": "px-8 sm:px-10 md:px-12 lg:px-16 (wider)"
+      },
+      "vertical": {
+        "hero": "pt-40 md:pt-48 (extends behind navbar)",
+        "faq": "py-8 on mobile (reduced from py-12)",
+        "cta": "py-12 sm:py-20 md:py-32 (progressive)"
+      },
+      "principle": "More padding on larger screens for generous white space"
+    },
+    "shadows": {
+      "buttons": "REMOVED - no shadows on any buttons",
+      "cards": "Reduced to sm/md only (was xl/2xl)",
+      "navbar": "Changed from shadow-xl to shadow-sm",
+      "result": "Flat, modern aesthetic with subtle depth"
+    },
+    "animations": {
+      "removed": "All translate effects on hover",
+      "kept": "Color transitions, opacity changes, subtle scale (max 1.03)",
+      "duration": "200ms standard for snappy interactions"
+    },
+    "colorUsage": {
+      "primary": "Purple (#6d51fb) - maintained from original design",
+      "intensity": "Reduced purple opacity significantly (0.06 vs 0.1)",
+      "variety": "Added secondary (blue) and accent (pink) for diversity",
+      "badges": "All use consistent primary-50/primary-500"
+    },
+    "components": {
+      "testimonials": "Reduced from 3 to 2 cards",
+      "grid": "Changed from lg:grid-cols-3 to lg:grid-cols-2",
+      "footer": "Enhanced responsive design with 2-col mobile grid",
+      "pricing": "Uses consistent design system text classes"
+    }
+  }
+}

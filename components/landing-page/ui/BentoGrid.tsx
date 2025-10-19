@@ -36,7 +36,7 @@ const BentoCard = memo(({
 }: BentoCardProps) => (
   <div
     className={twMerge(
-      "group relative overflow-hidden rounded-xl border border-primary-100/80 bg-gradient-to-b p-6 hover:-translate-y-[5px] transition-all duration-300",
+      "group relative overflow-hidden rounded-xl border border-primary-100/80 bg-gradient-to-b p-6 transition-all duration-300",
       background ? `bg-gradient-to-b ${background}` : "",
       className
     )}

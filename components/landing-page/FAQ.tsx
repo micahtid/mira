@@ -18,23 +18,23 @@ const itemVariants = {
 };
 
 // Memoized FAQ Item component
-const FAQItem = memo(({ 
-  question, 
-  answer, 
-  isOpen, 
-  onClick 
-}: { 
-  question: string; 
-  answer: string; 
-  isOpen: boolean; 
+const FAQItem = memo(({
+  question,
+  answer,
+  isOpen,
+  onClick
+}: {
+  question: string;
+  answer: string;
+  isOpen: boolean;
   onClick: () => void;
 }) => (
-  <div className="border-b border-primary-100/20">
+  <div className="border-b border-primary-100/20 rounded-lg hover:bg-primary-50/30 transition-colors duration-200">
     <button
       onClick={onClick}
-      className="w-full flex items-center justify-between py-4 text-left"
+      className="w-full flex items-center justify-between py-4 px-4 text-left"
     >
-      <span className="default-text text-gray-900">{question}</span>
+      <span className="default-text text-gray-900 font-semibold">{question}</span>
       <span className="ml-4 flex-shrink-0">
         {isOpen ? (
           <FiMinus className="w-5 h-5 text-primary-500" />
@@ -51,8 +51,8 @@ const FAQItem = memo(({
           animate="animate"
           exit="exit"
         >
-          <div className="pb-4">
-            <p className="default-label text-gray-600">{answer}</p>
+          <div className="pb-4 px-4">
+            <p className="default-label text-gray-600 leading-relaxed">{answer}</p>
           </div>
         </motion.div>
       )}
@@ -73,22 +73,22 @@ const FAQ = () => {
         "Mira is a platform that connects youth-led organizations with high school students, making it easier to find and manage volunteers. We streamline the volunteer process, helping organizations grow while providing students with meaningful opportunities to make an impact.",
     },
     {
-      question: "[For Students] How does the application process work?",
+      question: "Students: How does the application process work?",
       answer:
       "After finding a position, simply answer the organization's application questions and submit your application. You will receive an email within a few days regarding your application status. If accepted, you can choose to accept or decline the offer.",
     },
     {
-      question: "[For Organizations] Is there a verification process for organizations?",
+      question: "Organizations: Is there a verification process for organizations?",
       answer:
         "Currently, there is no verification required to create an organization profile. However, if you notice an entity impersonating your organization, please contact us immediately, and our team will take swift action to resolve the issue.",
     },
     {
-      question: "[For Organizations] Does Mira partner with nonprofits?",
+      question: "Organizations: Does Mira partner with nonprofits?",
       answer:
         "Yes! While we don’t actively seek partnerships as frequently, Mira collaborates with select organizations by offering lifetime Pro memberships in exchange for backlinks and promotional reposts.",
     },
     {
-      question: "[For Organizations] How can I cancel my subscription?",
+      question: "Organizations: How can I cancel my subscription?",
       answer:
         "To cancel your Mira Pro subscription, please contact our support team. If you have a valid reason for cancellation, we will review your request and process a full refund if eligible.",
     },
@@ -96,7 +96,7 @@ const FAQ = () => {
   
 
   return (
-    <section id="faq" className="relative py-12 sm:py-16 md:py-24 lg:py-32 overflow-hidden">
+    <section id="faq" className="relative section-spacing-compact overflow-hidden">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ 
@@ -105,13 +105,13 @@ const FAQ = () => {
           transition: { duration: 0.4 } // Adjusted for smoother animation
         }}
         viewport={{ once: true }}
-        className="max-w-3xl mx-auto px-3 sm:px-4 md:px-6"
+        className="max-w-3xl mx-auto px-6 sm:px-8 md:px-10"
       >
         <div className="text-center mb-8 sm:mb-10 md:mb-12">
           <h2 className="default-heading text-gray-900 mb-3 sm:mb-4">
             Frequently Asked Questions
           </h2>
-          <p className="default-text text-gray-600">
+          <p className="default-text text-gray-600 leading-relaxed">
             Everything you need to know about Mira!
           </p>
         </div>

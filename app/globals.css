@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -10,54 +11,80 @@
   }
 
   .default-heading {
-    @apply font-poppins font-semibold text-5xl max-lg:text-3xl
+    @apply font-sora font-bold text-5xl max-lg:text-3xl tracking-tight
   }
 
   .default-subheading {
-    @apply font-poppins font-semibold text-3xl max-lg:text-2xl
+    @apply font-sora font-semibold text-3xl max-lg:text-2xl tracking-tight
   }
 
   .default-text {
-    @apply font-poppins text-lg max-lg:text-base
+    @apply font-sora text-sm sm:text-base lg:text-lg
   }
 
   .default-label {
-    @apply font-poppins text-base max-lg:text-sm
+    @apply font-sora text-xs sm:text-sm lg:text-base
   }
 
   .default-button {
-    @apply w-fit text-white font-medium py-2 px-8 bg-primary-400 
-    rounded-lg shadow-sm transition-all duration-200
-    hover:bg-primary-500
+    @apply w-fit text-white font-medium py-2 px-8 bg-primary-500
+    rounded-xl transition-all duration-200
+    hover:bg-primary-600
     disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none
   }
 
   .outlined-button {
-    @apply w-fit font-medium py-2 px-8 bg-white text-gray-700 
-    border border-gray-200 rounded-lg shadow-sm transition-all duration-200
+    @apply w-fit font-medium py-2 px-8 bg-white text-gray-700
+    border-2 border-gray-200 rounded-xl transition-all duration-200
     hover:bg-gray-50 hover:border-gray-300
     disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none
   }
-  
+
   .back-button {
-    @apply flex items-center gap-2 text-gray-600 hover:text-primary-600 
-    transition-colors font-poppins
+    @apply flex items-center gap-2 text-gray-600 hover:text-primary-600
+    transition-colors font-sora
   }
 
   .default-field {
-    @apply flex-1 rounded-[12px] px-3 py-[10px]
-    text-sm font-poppins
+    @apply flex-1 rounded-md px-3 py-[10px]
+    text-sm font-sora
     bg-gray-50 border border-primary-100 hover:border-primary-300 outline-none
+    focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20
   }
 
   .default-card {
-    @apply bg-white p-6 rounded-lg 
-    border border-gray-100 hover:border-primary-200 
+    @apply bg-white p-6 rounded-xl
+    border border-gray-100 hover:border-primary-200
     transition-all duration-200
   }
 
   .default-tag {
-    @apply px-3 py-1 rounded-lg 
-    default-label bg-primary-400/10 text-primary-400
+    @apply px-3 py-1 rounded-lg
+    default-label bg-primary-50 text-primary-500 font-medium
+  }
+
+  /* Reusable Spacing Patterns */
+  .section-padding-default {
+    @apply px-6 sm:px-8 md:px-10 lg:px-12
+  }
+
+  .section-padding-tight {
+    @apply px-4 sm:px-6 md:px-8 lg:px-10
+  }
+
+  .section-padding-wide {
+    @apply px-8 sm:px-10 md:px-12 lg:px-16
+  }
+
+  .section-spacing-standard {
+    @apply py-12 sm:py-16 md:py-24 lg:py-32
+  }
+
+  .section-spacing-compact {
+    @apply py-8 sm:py-16 md:py-24 lg:py-32
+  }
+
+  .section-spacing-tight {
+    @apply py-12 sm:py-20 md:py-32
   }
 }

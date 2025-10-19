@@ -52,21 +52,19 @@ const Registration = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                     className="
-                    w-full max-w-xl bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-primary-100
-                    max-md:max-w-none max-md:w-[100vw]"
+                    w-full max-w-xl bg-white/90 backdrop-blur-xl rounded-2xl p-8 shadow-sm border border-gray-200/40
+                    max-md:max-w-none max-md:w-[100vw] max-md:rounded-none max-md:border-0"
                 >
                     <div className="flex justify-between items-center mb-6">
                         <h1 className="default-text font-semibold text-primary-900">
                             Create Your Account
                         </h1>
-                        <motion.button
+                        <button
                             onClick={signOut}
                             className="default-label text-xs text-gray-500 hover:text-gray-600 transition-colors"
-                            whileHover={{ scale: 1.01 }}
-                            whileTap={{ scale: 0.99 }}
                         >
                             Return
-                        </motion.button>
+                        </button>
                     </div>
 
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -88,14 +86,12 @@ const Registration = () => {
                             ))}
                         </div>
 
-                        <motion.button
+                        <button
                             type="submit"
                             className="default-button w-full !px-0"
-                            whileHover={{ scale: 1.01 }}
-                            whileTap={{ scale: 0.99 }}
                         >
                             Create Account
-                        </motion.button>
+                        </button>
                     </form>
                 </motion.div>
             </div>

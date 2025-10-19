@@ -7,6 +7,7 @@ import { getApplicationsByUser } from "@/utils/applicantFunctions";
 import DashboardNavBar from "@/components/dashboard/DashboardNavBar";
 import PositionListing from "@/components/dashboard/position-listing/PositionListing";
 import { Application } from "@/data/types";
+import { FiList, FiFileText, FiSettings } from "react-icons/fi";
 
 import Header from "./components/Header";
 
@@ -53,19 +54,19 @@ const ApplicantDashboard = () => {
   };
 
   return (
-    <>
+    <div className="min-h-screen bg-gradient-to-br from-white via-primary-50/20 to-white">
       <Header />
-      <div className="default-container w-full flex flex-col gap-6 mb-24">
-        <DashboardNavBar items={[
-          { label: "View Listings", link: "positions" }, 
-          { label: "Active Applications", link: "active-applications" },
-          { label: "Settings", link: "account-settings" }
-        ]} />
-        <div className="">
+      <DashboardNavBar items={[
+        { label: "View Listings", link: "positions", icon: <FiList /> },
+        { label: "Active Applications", link: "active-applications", icon: <FiFileText /> },
+        { label: "Settings", link: "account-settings", icon: <FiSettings /> }
+      ]} />
+      <div className="md:pl-[80px] min-h-screen">
+        <div className="default-container w-full flex flex-col gap-6 py-8 px-6 md:px-12 mb-24">
           {renderContent()}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

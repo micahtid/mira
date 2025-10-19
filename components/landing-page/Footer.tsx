@@ -16,26 +16,26 @@ const Footer = () => {
   };
 
   return (
-    <footer 
+    <footer
     id="contact"
-    className="relative border-t border-primary-100/20 bg-gradient-to-b from-white to-primary-50/10 py-12 sm:py-16 md:py-20">
+    className="relative border-t border-gray-200 bg-gradient-to-b from-white to-gray-50 py-12 sm:py-16 md:py-20">
       {/* Enhanced Background Effects */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(var(--primary-50),0.3),transparent_70%)]" />
-      <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(var(--primary-50),0.05)_1px,transparent_1px),linear-gradient(-45deg,rgba(var(--primary-50),0.05)_1px,transparent_1px)] bg-[size:20px_20px]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(109,81,251,0.02),transparent_70%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(109,81,251,0.01)_1px,transparent_1px),linear-gradient(-45deg,rgba(109,81,251,0.01)_1px,transparent_1px)] bg-[size:20px_20px]" />
       
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl section-padding-wide">
         {/* Logo and Social Links */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-8 md:gap-12 lg:gap-16 px-2 sm:px-4">
+        <div className="flex flex-col sm:flex-row justify-between items-center mb-8 sm:mb-10 md:mb-12 gap-6 sm:gap-8 md:gap-12">
           <div className="flex items-center gap-3">
             <Image
               src="/logo.png"
               alt="Logo"
-              width={60}
-              height={60}
-              className="rounded-xl"
+              width={50}
+              height={50}
+              className="rounded-xl sm:w-[60px] sm:h-[60px]"
             />
           </div>
-          <div className="flex items-center gap-4 sm:gap-6 md:gap-8">
+          <div className="flex items-center gap-3 sm:gap-4 md:gap-6">
             {[
               { icon: FiGlobe, label: "Website" },
               { icon: FiMail, href: "mailto:contact@mira.com", label: "Email" },
@@ -57,7 +57,7 @@ const Footer = () => {
                       e.preventDefault();
                     }
                   }}
-                  className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary-50 text-primary-500 flex items-center justify-center ${hasAction ? 'hover:bg-primary-100 hover:scale-110 active:scale-95 cursor-pointer' : 'cursor-default'} transition-all duration-200`}
+                  className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary-50 text-primary-500 flex items-center justify-center ${hasAction ? 'hover:bg-primary-100 hover:scale-110 active:scale-95 cursor-pointer' : 'cursor-default'} transition-all duration-200`}
                   aria-label={item.label}
                 >
                   <Icon size={18} className="sm:text-[20px]" />
@@ -68,23 +68,22 @@ const Footer = () => {
         </div>
 
         {/* Navigation Links */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8 sm:gap-10 md:gap-14 mb-10">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-8 md:gap-10 mb-8 sm:mb-10 md:mb-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            <h4 className="default-label font-semibold text-gray-900 mb-4">Platform</h4>
-            <ul className="space-y-3">
+            <h4 className="text-sm sm:text-base font-semibold text-gray-900 mb-3 sm:mb-4">Platform</h4>
+            <ul className="space-y-2 sm:space-y-3">
               {[
                 { name: "Browse Positions", href: "#home", onClick: signIn },
                 { name: "Post a Position", href: "#home", onClick: signIn },
                 { name: "How it Works", href: "#how-it-works" },
               ].map((item) => (
-                <li 
+                <li
                   key={item.name}
-                  className="hover:translate-x-1 transition-transform duration-200"
                 >
                   <Link
                     href={item.href}
@@ -94,10 +93,10 @@ const Footer = () => {
                         item.onClick();
                       }
                     }}
-                    className="default-label text-gray-600 hover:text-primary-500 transition-colors duration-200 flex items-center gap-2 group"
+                    className="text-sm sm:text-base text-gray-600 hover:text-primary-500 transition-colors duration-200 flex items-center gap-1 sm:gap-2 group"
                   >
-                    {item.name}
-                    <FiArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+                    <span className="truncate">{item.name}</span>
+                    <FiArrowRight className="w-3 h-3 sm:w-4 sm:h-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex-shrink-0" />
                   </Link>
                 </li>
               ))}
@@ -110,22 +109,21 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            <h4 className="default-label font-semibold text-gray-900 mb-4">Resources</h4>
-            <ul className="space-y-3">
+            <h4 className="text-sm sm:text-base font-semibold text-gray-900 mb-3 sm:mb-4">Resources</h4>
+            <ul className="space-y-2 sm:space-y-3">
               {[
                 { name: "For Students", href: "#platform" },
                 { name: "For Nonprofits", href: "#platform" }
               ].map((item) => (
-                <li 
+                <li
                   key={item.name}
-                  className="hover:translate-x-1 transition-transform duration-200"
                 >
                   <Link
                     href={item.href}
-                    className="default-label text-gray-600 hover:text-primary-500 transition-colors duration-200 flex items-center gap-2 group"
+                    className="text-sm sm:text-base text-gray-600 hover:text-primary-500 transition-colors duration-200 flex items-center gap-1 sm:gap-2 group"
                   >
-                    {item.name}
-                    <FiArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+                    <span className="truncate">{item.name}</span>
+                    <FiArrowRight className="w-3 h-3 sm:w-4 sm:h-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex-shrink-0" />
                   </Link>
                 </li>
               ))}
@@ -138,21 +136,20 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
           >
-            <h4 className="default-label font-semibold text-gray-900 mb-4">Company</h4>
-            <ul className="space-y-3">
+            <h4 className="text-sm sm:text-base font-semibold text-gray-900 mb-3 sm:mb-4">Company</h4>
+            <ul className="space-y-2 sm:space-y-3">
               {[
                 { name: "About Us", href: "#about" }
               ].map((item) => (
-                <li 
+                <li
                   key={item.name}
-                  className="hover:translate-x-1 transition-transform duration-200"
                 >
                   <Link
                     href={item.href}
-                    className="default-label text-gray-600 hover:text-primary-500 transition-colors duration-200 flex items-center gap-2 group"
+                    className="text-sm sm:text-base text-gray-600 hover:text-primary-500 transition-colors duration-200 flex items-center gap-1 sm:gap-2 group"
                   >
-                    {item.name}
-                    <FiArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+                    <span className="truncate">{item.name}</span>
+                    <FiArrowRight className="w-3 h-3 sm:w-4 sm:h-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex-shrink-0" />
                   </Link>
                 </li>
               ))}
@@ -165,22 +162,21 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.4 }}
           >
-            <h4 className="default-label font-semibold text-gray-900 mb-4">Legal</h4>
-            <ul className="space-y-3">
+            <h4 className="text-sm sm:text-base font-semibold text-gray-900 mb-3 sm:mb-4">Legal</h4>
+            <ul className="space-y-2 sm:space-y-3">
               {[
                 { name: "Privacy Policy", href: "/terms-and-policy#privacy-policy" },
                 { name: "Terms of Service", href: "/terms-and-policy#terms-of-service" }
               ].map((item) => (
-                <li 
+                <li
                   key={item.name}
-                  className="hover:translate-x-1 transition-transform duration-200"
                 >
                   <Link
                     href={item.href}
-                    className="default-label text-gray-600 hover:text-primary-500 transition-colors duration-200 flex items-center gap-2 group"
+                    className="text-sm sm:text-base text-gray-600 hover:text-primary-500 transition-colors duration-200 flex items-center gap-1 sm:gap-2 group"
                   >
-                    {item.name}
-                    <FiArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+                    <span className="truncate">{item.name}</span>
+                    <FiArrowRight className="w-3 h-3 sm:w-4 sm:h-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex-shrink-0" />
                   </Link>
                 </li>
               ))}
@@ -189,23 +185,23 @@ const Footer = () => {
         </div>
 
         {/* Newsletter Section */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative rounded-2xl bg-primary-50/50 p-6 sm:p-8 mb-12 overflow-hidden max-lg:hidden"
+          className="relative rounded-xl sm:rounded-2xl bg-gradient-to-br from-secondary-50/50 to-accent-50/30 p-4 sm:p-6 md:p-8 mb-8 sm:mb-10 md:mb-12 overflow-hidden"
         >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(var(--primary-100),0.3),transparent_70%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(81,138,251,0.08),transparent_70%)]" />
           <div className="relative">
-            <h4 className="default-text font-semibold text-gray-900 mb-2">Stay Updated</h4>
-            <p className="default-label text-gray-600 mb-4">Get the latest volunteer opportunities and nonprofit news.</p>
-            <div className="flex gap-3">
+            <h4 className="text-base sm:text-lg font-semibold text-gray-900 mb-1 sm:mb-2">Stay Updated</h4>
+            <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4">Get the latest volunteer opportunities and nonprofit news.</p>
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 px-4 py-2 rounded-lg bg-white border border-primary-100 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none default-label"
+                className="flex-1 px-3 sm:px-4 py-2 rounded-lg bg-white border border-primary-100 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none text-sm sm:text-base"
               />
-              <button className="px-6 py-2 bg-primary-500 text-white rounded-lg default-label font-medium hover:bg-primary-600 hover:-translate-y-[2px] active:translate-y-0 transition-all duration-200">
+              <button className="px-4 sm:px-6 py-2 bg-primary-500 text-white rounded-xl text-sm sm:text-base font-semibold hover:bg-primary-600 transition-all duration-200 whitespace-nowrap">
                 Subscribe
               </button>
             </div>
@@ -213,19 +209,20 @@ const Footer = () => {
         </motion.div>
 
         {/* Bottom Section */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-10 border-t border-primary-100/20 pb-24 sm:pb-10">
-          <p className="default-label text-gray-600 text-center md:text-left">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6 pt-8 sm:pt-10 border-t border-gray-200 pb-20 sm:pb-6">
+          <p className="text-sm sm:text-base text-gray-600 text-center sm:text-left order-2 sm:order-1">
             2025 All rights reserved.
           </p>
-          <div className="flex flex-wrap items-center gap-4 sm:gap-6 justify-center md:justify-end">
-            <Link href="tel:+62812357661234" className="default-label text-gray-600 hover:text-primary-500 transition-colors duration-200">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4 md:gap-6 justify-center sm:justify-end order-1 sm:order-2">
+            <Link href="tel:+62812357661234" className="text-xs sm:text-sm md:text-base text-gray-600 hover:text-primary-500 transition-colors duration-200">
               Support: +62 812 3576 1234
             </Link>
-            <Link href="/terms-and-policy" className="default-label text-gray-600 hover:text-primary-500 transition-colors duration-200">
+            <span className="hidden sm:inline text-gray-300">•</span>
+            <Link href="/terms-and-policy" className="text-xs sm:text-sm md:text-base text-gray-600 hover:text-primary-500 transition-colors duration-200">
               Terms
             </Link>
             <span className="text-gray-300">•</span>
-            <Link href="/terms-and-policy" className="default-label text-gray-600 hover:text-primary-500 transition-colors duration-200">
+            <Link href="/terms-and-policy" className="text-xs sm:text-sm md:text-base text-gray-600 hover:text-primary-500 transition-colors duration-200">
               Privacy
             </Link>
           </div>

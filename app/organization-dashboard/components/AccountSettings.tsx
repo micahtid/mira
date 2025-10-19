@@ -127,7 +127,7 @@ const AccountSettings = () => {
         {!isEditing ? (
           <button
             onClick={() => setIsEditing(true)}
-            className="outlined-button flex items-center justify-center gap-3 text-primary-500 border-primary-200 hover:bg-primary-50 w-full sm:w-auto"
+            className="outlined-button flex items-center justify-center gap-3 text-primary-600 border-primary-300 hover:bg-primary-50 w-full sm:w-auto rounded-xl font-semibold"
           >
             <Edit2 size={18} />
             Edit Profile
@@ -136,7 +136,7 @@ const AccountSettings = () => {
           <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
             <button
               onClick={cancelEdit}
-              className="outlined-button flex items-center justify-center gap-2 w-full sm:w-auto"
+              className="outlined-button flex items-center justify-center gap-2 w-full sm:w-auto rounded-xl font-semibold"
               disabled={loading}
             >
               <X size={18} />
@@ -144,7 +144,7 @@ const AccountSettings = () => {
             </button>
             <button
               onClick={handleSubmit(onSubmit)}
-              className="default-button flex items-center justify-center gap-3 w-full sm:w-auto"
+              className="default-button flex items-center justify-center gap-3 w-full sm:w-auto rounded-xl font-semibold"
               disabled={loading || !isDirty}
             >
               <Save size={18} />
@@ -155,9 +155,9 @@ const AccountSettings = () => {
       </div>
 
       {/* Profile Information */}
-      <div className="bg-white rounded-lg border border-gray-100 overflow-hidden">
-        <div className="p-5 border-b border-gray-100 bg-gray-50">
-          <h3 className="default-label font-medium flex items-center gap-3">
+      <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-gray-200/60 overflow-hidden shadow-sm">
+        <div className="p-5 border-b border-gray-100/60 bg-gradient-to-br from-primary-50/50 to-white">
+          <h3 className="default-label font-semibold flex items-center gap-3 text-gray-900">
             <User size={18} className="text-primary-500" />
             Profile Information
           </h3>
@@ -191,9 +191,9 @@ const AccountSettings = () => {
       </div>
 
       {/* Organization Information */}
-      <div className="bg-white rounded-lg border border-gray-100 overflow-hidden">
-        <div className="p-5 border-b border-gray-100 bg-gray-50">
-          <h3 className="default-label font-medium flex items-center gap-3">
+      <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-gray-200/60 overflow-hidden shadow-sm">
+        <div className="p-5 border-b border-gray-100/60 bg-gradient-to-br from-primary-50/50 to-white">
+          <h3 className="default-label font-semibold flex items-center gap-3 text-gray-900">
             <Building size={18} className="text-primary-500" />
             Organization Information
           </h3>
