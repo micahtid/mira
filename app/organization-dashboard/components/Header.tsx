@@ -72,19 +72,30 @@ const Header = () => {
   };
 
   return (
-    <section className="w-full flex justify-center items-center bg-gradient-to-r from-primary-400 to-primary-600">
-      <div className="default-container py-12 w-full flex items-center justify-between
-                      max-md:py-10 max-md:flex-col max-md:items-start max-md:gap-y-4">
+    <section className="relative w-full flex justify-center items-center bg-gradient-to-br from-primary-500 via-primary-600 to-primary-500 overflow-hidden md:pl-[80px]">
+      {/* Background pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(-45deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:24px_24px]" />
 
-        <h3 className="default-heading text-white">
-          Welcome Back, {accountData?.organizationName}
-        </h3>
-        
-        <div className="flex items-center gap-2">
+      {/* Gradient overlays */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-white/5 pointer-events-none" />
+
+      <div className="default-container py-16 px-6 md:px-12 w-full flex items-center justify-between
+                      max-md:py-12 max-md:flex-col max-md:items-start max-md:gap-y-6 relative z-10">
+
+        <div>
+          <h3 className="default-heading text-white font-sora tracking-tight">
+            Welcome Back, {accountData?.organizationName}
+          </h3>
+          <p className="default-text text-white/80 mt-2">
+            Manage your positions and connect with talent
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2 max-md:self-end">
           {/* Subscription Button with Tooltip */}
           <HeaderButton
-            icon={isPremium ? 
-              <Crown size={22} className="text-yellow-300" /> : 
+            icon={isPremium ?
+              <Crown size={22} className="text-yellow-300" /> :
               <ArrowUpCircle size={24} className="text-white" />
             }
             tooltip={isPremium ? "Manage Subscription" : "Upgrade to Pro"}
@@ -93,7 +104,7 @@ const Header = () => {
             disabled={isPremium && isLoading}
             padding={isPremium ? "p-[9px]" : "p-2"}
           />
-          
+
           {/* Help Button with Tooltip */}
           <HeaderButton
             icon={<HelpCircle size={24} className="text-white" />}

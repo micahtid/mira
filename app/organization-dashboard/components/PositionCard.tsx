@@ -35,14 +35,14 @@ const PositionCard = ({ position, onVisibilityChange, onDelete, isDeleting }: Po
 
   // CSS Class Helpers
   const badgeClasses = {
-    base: "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium",
+    base: "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold",
     locked: "w-min text-nowrap bg-gray-100 text-gray-700",
     visible: "w-min text-nowrap bg-green-50 text-green-700",
     hidden: "w-min text-nowrap bg-amber-50 text-amber-700",
     type: "bg-primary-50 text-primary-700"
   };
-  
-  const statClasses = "inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-medium";
+
+  const statClasses = "inline-flex items-center gap-2 px-3 py-2 rounded-xl border text-sm font-semibold";
   
   // Render Helper Functions
   const renderStatusBadge = () => {
@@ -73,7 +73,7 @@ const PositionCard = ({ position, onVisibilityChange, onDelete, isDeleting }: Po
   };
 
   return (
-    <div className="w-full bg-white border-[1px] border-gray-200 rounded-lg font-poppins overflow-hidden p-6">
+    <div className="w-full bg-white/90 backdrop-blur-sm border border-gray-200/60 rounded-2xl font-poppins overflow-hidden p-6 transition-all duration-200">
       <div className="flex flex-col gap-5">
         {/* Position Title and Type */}
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
@@ -124,18 +124,18 @@ const PositionCard = ({ position, onVisibilityChange, onDelete, isDeleting }: Po
       </div>
 
       {/* Actions */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-8 pt-4 border-t border-gray-200">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-8 pt-4 border-t border-gray-100/60">
         <div className="flex items-center gap-3 w-full sm:w-auto">
           <Switch.Root
             checked={isVisible}
             onCheckedChange={(checked) => onVisibilityChange(pid, checked, isLocked)}
-            className={`w-10 h-6 bg-gray-200 rounded-full relative data-[state=checked]:bg-primary-600 
+            className={`w-10 h-6 bg-gray-200 rounded-full relative data-[state=checked]:bg-primary-600
               outline-none cursor-default ${isLocked ? 'opacity-50 cursor-not-allowed' : ''}`}
             disabled={isLocked}
           >
             <Switch.Thumb className="block w-4 h-4 bg-white rounded-full transition-transform duration-100 translate-x-1 will-change-transform data-[state=checked]:translate-x-5" />
           </Switch.Root>
-          <span className="text-sm font-medium text-gray-700 font-poppins whitespace-nowrap">
+          <span className="text-sm font-semibold text-gray-700 font-poppins whitespace-nowrap">
             {isVisible ? 'Visible to Public' : 'Hidden from Public'}
           </span>
         </div>
@@ -143,16 +143,16 @@ const PositionCard = ({ position, onVisibilityChange, onDelete, isDeleting }: Po
         <div className="flex flex-wrap items-center gap-3">
           <Link
             href={`/organization-dashboard/review?pid=${pid}`}
-            className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-primary-50 text-primary-700 border border-primary-200 rounded-lg font-poppins font-medium"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-primary-50 text-primary-700 border border-primary-200 rounded-xl font-poppins font-semibold hover:bg-primary-100 transition-all duration-200"
           >
             <FiEye className="w-4 h-4" />
             Review Applications
           </Link>
-          
+
           <button
             onClick={() => onDelete(pid)}
             disabled={isDeleting || isLocked}
-            className={`outlined-button inline-flex items-center justify-center gap-2 bg-red-50 text-red-700 border-red-200 ${(isDeleting || isLocked) ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`outlined-button inline-flex items-center justify-center gap-2 bg-red-50 text-red-700 border-red-200 rounded-xl font-semibold hover:bg-red-100 transition-all duration-200 ${(isDeleting || isLocked) ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             <FiTrash2 className="w-4 h-4" />
             {isDeleting ? 'Deleting...' : 'Delete'}

@@ -48,7 +48,7 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
 
   // Style Definitions
   const badgeClasses = {
-    base: "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full default-label text-sm font-medium",
+    base: "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full default-label text-sm font-semibold",
     accepted: "bg-emerald-50 text-emerald-600",
     pending: "bg-amber-50 text-amber-600",
     rejected: "bg-red-50 text-red-600",
@@ -132,7 +132,7 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
   // Renders Search and Filters Section
   const renderFilters = () => {
     return (
-      <div className="space-y-4 bg-white rounded-lg border border-gray-100 p-4">
+      <div className="space-y-4 bg-white/90 backdrop-blur-sm rounded-2xl border border-gray-200/60 p-5">
         {/* Search Bar */}
         <div className="relative">
           <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -144,7 +144,7 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
             className="default-field w-full pl-10 pr-4"
           />
         </div>
-        
+
         {/* Filters */}
         <div className="flex flex-wrap gap-4">
           <div className="flex-1 min-w-[200px]">
@@ -164,7 +164,7 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
   
   // Renders Empty State When No Applications Exist or No Matches Found
   const renderEmptyState = () => {
-    const emptyStateClasses = "text-center py-16 bg-white border border-gray-200 rounded-lg shadow-sm";
+    const emptyStateClasses = "text-center py-16 bg-white/90 backdrop-blur-sm border border-gray-200/60 rounded-2xl";
     
     // Different empty state messages based on filters
     if (searchQuery || selectedStatus) {
@@ -216,10 +216,10 @@ const ActiveApplications: React.FC<ActiveApplicationsProps> = ({ applications })
       <div className="flex flex-col gap-6">
         {filteredApplications.length > 0 ? (
           filteredApplications.map((application) => (
-          <div key={application.pid} className="w-full bg-white shadow-sm rounded-lg overflow-hidden border border-gray-100">
+          <div key={application.pid} className="w-full bg-white/90 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-200/60 hover:border-gray-300 transition-all duration-200">
             {/* Application Card */}
-            
-            <div className="p-4 sm:p-6">
+
+            <div className="p-5 sm:p-7">
               <div className="flex flex-col gap-4 sm:gap-5">
                 {/* Position Info and Status */}
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 sm:gap-4">

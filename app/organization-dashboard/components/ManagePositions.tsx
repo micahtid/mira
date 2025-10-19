@@ -136,10 +136,10 @@ const ManagePositions = () => {
             <p className="default-label text-gray-500 mt-1 font-poppins">Review and manage your positions!</p>
           </div>
 
-          <button 
+          <button
             onClick={() => router.push('/organization-dashboard/create-position')}
             disabled={positionLimitReached}
-            className={`outlined-button inline-flex items-center justify-center gap-2 w-full sm:w-auto ${positionLimitReached ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`outlined-button inline-flex items-center justify-center gap-2 w-full sm:w-auto rounded-xl font-semibold ${positionLimitReached ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             <FiPlus className="w-4 h-4" />
             <span>Create Position</span>
@@ -148,13 +148,13 @@ const ManagePositions = () => {
         
         {/* Plan Limitation Notice */}
         {positionLimitReached && (
-          <div className="p-4 bg-amber-50 border border-amber-100 rounded-lg flex items-start gap-3">
+          <div className="p-4 bg-amber-50/90 backdrop-blur-sm border border-amber-200/60 rounded-2xl flex items-start gap-3 shadow-sm">
             <FiLock className="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" />
             <div>
-              <p className="default-label text-amber-600">
+              <p className="default-label text-amber-700 font-semibold">
                 You&apos;ve reached the maximum active positions for your plan.
                 {!isPremium && (
-                  <span> <a href="/organization-dashboard/upgrade" className="text-primary-600 hover:underline">Upgrade to Pro</a> for more.</span>
+                  <span> <a href="/organization-dashboard/upgrade" className="text-primary-600 hover:underline font-semibold">Upgrade to Pro</a> for more.</span>
                 )}
               </p>
             </div>
@@ -162,7 +162,7 @@ const ManagePositions = () => {
         )}
         
         {/* Search and Filters */}
-        <div className="space-y-4 bg-white rounded-lg border border-gray-100 p-4">
+        <div className="space-y-4 bg-white/90 backdrop-blur-sm rounded-2xl border border-gray-200/60 p-5 shadow-sm">
           {/* Search Bar */}
           <div className="relative">
             <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -174,7 +174,7 @@ const ManagePositions = () => {
               className="default-field w-full pl-10 pr-4 font-poppins"
             />
           </div>
-          
+
           {/* Filters */}
           <div className="flex flex-wrap gap-4">
             <div className="flex-1 min-w-[200px]">
@@ -194,7 +194,7 @@ const ManagePositions = () => {
   };
 
   const renderEmptyState = () => {
-    const emptyStateClasses = "text-center py-16 bg-white border border-gray-200 rounded-lg font-poppins";
+    const emptyStateClasses = "text-center py-16 bg-white/90 backdrop-blur-sm border border-gray-200/60 rounded-2xl shadow-sm font-poppins";
     
     // Different Empty State Messages
     if (searchQuery || selectedStatus) {

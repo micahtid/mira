@@ -23,7 +23,7 @@ const OrganizationLink: React.FC<{ oid: string; name: string }> = ({ oid, name }
     onClick={(e) => e.stopPropagation()} 
   >
     <FaBuilding className="w-3.5 h-3.5" />
-    <span className="font-poppins text-sm">{name}</span>
+    <span className="default-label">{name}</span>
   </Link>
 );
 
@@ -41,25 +41,25 @@ const PositionCard: React.FC<PositionCardProps> = ({
   };
 
   // CSS Class Helpers
-  const badgeClasses = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium border";
-  const statClasses = "inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium";
-  const textWithIconClasses = "inline-flex items-center gap-1.5 text-sm text-gray-600";
+  const badgeClasses = "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold border";
+  const statClasses = "inline-flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-semibold";
+  const textWithIconClasses = "inline-flex items-center gap-1.5 text-sm text-gray-600 font-medium";
 
   return (
     <div
       onClick={onClick}
-      className={`cursor-pointer bg-white border rounded-lg font-poppins transition-all duration-200 ${
-        isSelected 
-          ? 'border-primary-300 border-opacity-70' 
-          : 'border-gray-200'
+      className={`cursor-pointer bg-white/90 backdrop-blur-sm border rounded-2xl transition-all duration-200 ${
+        isSelected
+          ? 'border-primary-300 ring-1 ring-primary-100'
+          : 'border-gray-200/60 hover:border-gray-300'
       }`}
     >
-      
-      <div className="p-5">
+
+      <div className="p-6">
         <div className="space-y-4">
           {/* Header: Title and Organization */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2 font-poppins">
+            <h3 className="default-text font-semibold text-gray-900 mb-2">
               {position.positionTitle}
             </h3>
             
@@ -100,11 +100,11 @@ const PositionCard: React.FC<PositionCardProps> = ({
 
           {/* Footer: Apply Button */}
           {allowApply && (
-            <div className="flex justify-end pt-4 mt-2 border-t border-gray-100">
+            <div className="flex justify-end pt-4 mt-2 border-t border-gray-100/60">
               <button
                 onClick={handleApplyClick}
                 disabled={hasApplied}
-                className={`lg:hidden inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-poppins font-medium max-lg:w-full ${
+                className={`lg:hidden inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-poppins font-semibold max-lg:w-full transition-all duration-200 ${
                   hasApplied
                     ? 'bg-gray-100 text-gray-500 cursor-not-allowed'
                     : 'bg-primary-600 text-white hover:bg-primary-700'
