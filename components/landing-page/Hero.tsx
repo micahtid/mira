@@ -18,7 +18,7 @@ const Hero = () => {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(109,81,251,0.06),transparent_70%)]" />
       <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(109,81,251,0.02)_1px,transparent_1px),linear-gradient(-45deg,rgba(109,81,251,0.02)_1px,transparent_1px)] bg-[size:24px_24px]" />
 
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 md:px-10 lg:px-12 relative">
+      <div className="max-w-7xl mx-auto section-padding-default relative">
         {/* Header Content - Centered */}
         <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16 px-2">
           {/* Main Heading */}

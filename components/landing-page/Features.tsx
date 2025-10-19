@@ -75,7 +75,7 @@ const Features = () => {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(81,138,251,0.03),transparent_60%)] z-0" />
       <div className="absolute inset-0 opacity-[0.015] bg-[linear-gradient(45deg,#000_1px,transparent_1px),linear-gradient(-45deg,#000_1px,transparent_1px)] bg-[size:3rem_3rem] z-0" />
       
-      <div className="relative max-w-7xl mx-auto px-6 sm:px-8 md:px-10 lg:px-12 z-10">
+      <div className="relative max-w-7xl mx-auto section-padding-default z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

@@ -31,10 +31,10 @@ const steps = [
 
 const VideoDemo = () => {
   return (
-    <section id="how-it-works" className="relative py-12 sm:py-16 md:py-24 lg:py-32 overflow-hidden">
+    <section id="how-it-works" className="relative section-spacing-standard overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-white via-accent-50/20 to-white" />
-      
-      <div className="relative max-w-7xl mx-auto px-6 sm:px-8 md:px-10 lg:px-12">
+
+      <div className="relative max-w-7xl mx-auto section-padding-default">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

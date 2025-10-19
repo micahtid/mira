@@ -51,8 +51,8 @@ const Pricing = () => {
       {/* Floating Elements */}
       <div className="absolute top-1/4 -right-16 w-64 h-64 bg-accent-100/25 rounded-full blur-3xl" />
       <div className="absolute bottom-1/3 -left-20 w-72 h-72 bg-secondary-100/25 rounded-full blur-3xl" />
-      
-      <div className="relative max-w-7xl mx-auto px-6 sm:px-8 md:px-10 lg:px-12 z-10">
+
+      <div className="relative max-w-7xl mx-auto section-padding-default z-10">
         <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8 md:mb-16">
           <span className="inline-block px-4 py-2 rounded-xl bg-primary-50 text-primary-500 default-label font-semibold mb-3 sm:mb-4">
             Pricing Plans

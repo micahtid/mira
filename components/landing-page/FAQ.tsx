@@ -73,22 +73,22 @@ const FAQ = () => {
         "Mira is a platform that connects youth-led organizations with high school students, making it easier to find and manage volunteers. We streamline the volunteer process, helping organizations grow while providing students with meaningful opportunities to make an impact.",
     },
     {
-      question: "[For Students] How does the application process work?",
+      question: "Students: How does the application process work?",
       answer:
       "After finding a position, simply answer the organization's application questions and submit your application. You will receive an email within a few days regarding your application status. If accepted, you can choose to accept or decline the offer.",
     },
     {
-      question: "[For Organizations] Is there a verification process for organizations?",
+      question: "Organizations: Is there a verification process for organizations?",
       answer:
         "Currently, there is no verification required to create an organization profile. However, if you notice an entity impersonating your organization, please contact us immediately, and our team will take swift action to resolve the issue.",
     },
     {
-      question: "[For Organizations] Does Mira partner with nonprofits?",
+      question: "Organizations: Does Mira partner with nonprofits?",
       answer:
         "Yes! While we don’t actively seek partnerships as frequently, Mira collaborates with select organizations by offering lifetime Pro memberships in exchange for backlinks and promotional reposts.",
     },
     {
-      question: "[For Organizations] How can I cancel my subscription?",
+      question: "Organizations: How can I cancel my subscription?",
       answer:
         "To cancel your Mira Pro subscription, please contact our support team. If you have a valid reason for cancellation, we will review your request and process a full refund if eligible.",
     },
@@ -96,7 +96,7 @@ const FAQ = () => {
   
 
   return (
-    <section id="faq" className="relative py-8 sm:py-16 md:py-24 lg:py-32 overflow-hidden">
+    <section id="faq" className="relative section-spacing-compact overflow-hidden">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ 

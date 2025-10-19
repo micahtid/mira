@@ -14,12 +14,12 @@ const floatingAnimation = {
 
 const CTA = () => {
   return (
-    <section id="about" className="relative py-12 sm:py-20 md:py-32 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-white via-secondary-50/10 to-white" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(81,138,251,0.05),transparent_70%)]" />
-      <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(81,138,251,0.02)_1px,transparent_1px),linear-gradient(-45deg,rgba(81,138,251,0.02)_1px,transparent_1px)] bg-[size:20px_20px]" />
-      
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 md:px-8 lg:px-10">
+    <section id="about" className="relative section-spacing-tight overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-white via-secondary-50/30 to-white" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(81,138,251,0.12),transparent_70%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(81,138,251,0.04)_1px,transparent_1px),linear-gradient(-45deg,rgba(81,138,251,0.04)_1px,transparent_1px)] bg-[size:20px_20px]" />
+
+      <div className="relative mx-auto max-w-7xl section-padding-tight">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -43,7 +43,7 @@ const CTA = () => {
           />
 
           {/* Main Content Card */}
-          <div className="relative rounded-3xl overflow-hidden backdrop-blur-sm border border-gray-200/30 bg-white/90">
+          <div className="relative rounded-3xl overflow-hidden backdrop-blur-sm border-2 border-gray-200/50 bg-white/90">
             <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 to-white" />
             <div className="relative px-3 xs:px-6 sm:px-8 py-12 sm:py-16 md:p-20">
               {/* Section Header */}
@@ -115,7 +115,7 @@ const CTA = () => {
                     transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
                     className="relative group"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary-50/40 to-white border border-primary-500/30 rounded-2xl hover:scale-[1.03] transition-transform duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary-50/40 to-white border border-primary-500/10 rounded-2xl hover:scale-[1.03] transition-transform duration-300" />
                     <div className="relative px-3 py-6 xs:px-4 xs:py-8 sm:p-6 text-center">
                       <div className="mb-4">
                         <svg className="w-8 h-8 text-primary-300 mx-auto" fill="currentColor" viewBox="0 0 24 24">

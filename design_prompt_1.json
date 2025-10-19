@@ -25,6 +25,28 @@
     }
   },
 
+  "___DESIGN_PRINCIPLES___": {
+    "mobileFirst": {
+      "whitespace": "Prioritize generous white space on mobile for better readability",
+      "typography": "Use smaller text sizes on mobile, scale up for larger screens",
+      "padding": "Progressive horizontal padding: mobile (smaller) → desktop (larger)"
+    },
+    "animations": {
+      "hover": "No translation effects - use only color, opacity, and scale transitions",
+      "duration": "Keep transitions smooth and fast (200ms standard)"
+    },
+    "shadows": {
+      "buttons": "No shadows on buttons - use solid backgrounds only",
+      "cards": "Minimal shadows (sm/md) - avoid overwhelming shadow effects",
+      "principle": "Flat, modern aesthetic with subtle depth"
+    },
+    "consistency": {
+      "spacing": "Consistent horizontal padding across sections",
+      "typography": "Use design system classes (default-text, default-label, etc.)",
+      "responsive": "All text and spacing should scale responsively"
+    }
+  },
+
   "tokens": {
     "colors": {
       "brand": {
@@ -90,6 +112,13 @@
         "8xl": "60px",
         "9xl": "80px"
       },
+      "responsiveTextClasses": {
+        "default-heading": "font-bold text-3xl lg:text-5xl tracking-tight",
+        "default-subheading": "font-semibold text-2xl lg:text-3xl tracking-tight",
+        "default-text": "text-sm sm:text-base lg:text-lg",
+        "default-label": "text-xs sm:text-sm lg:text-base",
+        "note": "All text scales from mobile (smaller) → tablet → desktop (larger)"
+      },
       "lineHeight": {
         "none": 1,
         "tight": 1.25,
@@ -146,6 +175,21 @@
         "20": "80px",
         "24": "96px",
         "32": "128px"
+      },
+      "responsivePaddingPatterns": {
+        "sectionDefault": "px-6 sm:px-8 md:px-10 lg:px-12",
+        "sectionTight": "px-4 sm:px-6 md:px-8 lg:px-10",
+        "sectionWide": "px-8 sm:px-10 md:px-12 lg:px-16",
+        "contentBlock": "px-6 sm:px-8 md:px-10",
+        "testimonialCard": "px-3 py-6 xs:px-4 xs:py-8 sm:p-6",
+        "note": "Progressive padding: more white space on larger screens"
+      },
+      "sectionVerticalSpacing": {
+        "hero": "pt-40 md:pt-48 pb-16 md:pb-24",
+        "standard": "py-12 sm:py-16 md:py-24 lg:py-32",
+        "compact": "py-8 sm:py-16 md:py-24 lg:py-32",
+        "tight": "py-12 sm:py-20 md:py-32",
+        "note": "Reduced spacing on mobile for better content density"
       }
     },
 
@@ -175,10 +219,13 @@
       "md": "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
       "lg": "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
       "xl": "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-      "buttonPrimary": "0 3px 0 0 $tokens.colors.brand.primaryAccent, 0 1px 4px 0 rgba(0, 0, 0, 0.12)",
-      "buttonPrimaryActive": "0 1px 0 0 $tokens.colors.brand.primaryAccent, 0 1px 4px 0 rgba(0, 0, 0, 0.12)",
       "phone": "0px 4px 57.3px 0px rgba(0, 0, 0, 0.25)",
-      "phoneDark": "0px 4px 57.3px 0px rgba(255, 255, 255, 0.15)"
+      "phoneDark": "0px 4px 57.3px 0px rgba(255, 255, 255, 0.15)",
+      "_usage": {
+        "buttons": "NO SHADOWS - buttons use solid backgrounds only",
+        "cards": "Use 'sm' or 'md' only - avoid xl shadows for flat, modern look",
+        "principle": "Minimal shadows throughout - prefer flat design with subtle depth"
+      }
     },
 
     "transitions": {
@@ -186,7 +233,13 @@
       "base": "200ms",
       "normal": "300ms",
       "slow": "500ms",
-      "slower": "700ms"
+      "slower": "700ms",
+      "_guidelines": {
+        "hover": "Use color, opacity, background changes - NO translate/transform",
+        "scale": "Subtle scale (1.03 max) acceptable for cards on hover",
+        "duration": "Keep most transitions at 200ms for snappy feel",
+        "forbidden": "No -translate-y, translate-x, or vertical movement on hover"
+      }
     },
 
     "zIndex": {
@@ -220,6 +273,54 @@
       "80": 0.8,
       "90": 0.9,
       "100": 1
+    }
+  },
+
+  "___IMPLEMENTATION_SUMMARY___": {
+    "typography": {
+      "approach": "Mobile-first responsive scaling",
+      "classes": {
+        "default-heading": "text-3xl on mobile → text-5xl on desktop",
+        "default-text": "text-sm on mobile → text-lg on desktop",
+        "default-label": "text-xs on mobile → text-base on desktop"
+      },
+      "result": "Better readability on mobile with meaningful white space"
+    },
+    "spacing": {
+      "horizontal": {
+        "mostSections": "px-6 sm:px-8 md:px-10 lg:px-12",
+        "testimonials": "px-4 sm:px-6 md:px-8 lg:px-10 (tighter)",
+        "footer": "px-8 sm:px-10 md:px-12 lg:px-16 (wider)"
+      },
+      "vertical": {
+        "hero": "pt-40 md:pt-48 (extends behind navbar)",
+        "faq": "py-8 on mobile (reduced from py-12)",
+        "cta": "py-12 sm:py-20 md:py-32 (progressive)"
+      },
+      "principle": "More padding on larger screens for generous white space"
+    },
+    "shadows": {
+      "buttons": "REMOVED - no shadows on any buttons",
+      "cards": "Reduced to sm/md only (was xl/2xl)",
+      "navbar": "Changed from shadow-xl to shadow-sm",
+      "result": "Flat, modern aesthetic with subtle depth"
+    },
+    "animations": {
+      "removed": "All translate effects on hover",
+      "kept": "Color transitions, opacity changes, subtle scale (max 1.03)",
+      "duration": "200ms standard for snappy interactions"
+    },
+    "colorUsage": {
+      "primary": "Purple (#6d51fb) - maintained from original design",
+      "intensity": "Reduced purple opacity significantly (0.06 vs 0.1)",
+      "variety": "Added secondary (blue) and accent (pink) for diversity",
+      "badges": "All use consistent primary-50/primary-500"
+    },
+    "components": {
+      "testimonials": "Reduced from 3 to 2 cards",
+      "grid": "Changed from lg:grid-cols-3 to lg:grid-cols-2",
+      "footer": "Enhanced responsive design with 2-col mobile grid",
+      "pricing": "Uses consistent design system text classes"
     }
   }
 }

@@ -23,7 +23,7 @@ const Footer = () => {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(109,81,251,0.02),transparent_70%)]" />
       <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(109,81,251,0.01)_1px,transparent_1px),linear-gradient(-45deg,rgba(109,81,251,0.01)_1px,transparent_1px)] bg-[size:20px_20px]" />
       
-      <div className="relative mx-auto max-w-7xl px-8 sm:px-10 md:px-12 lg:px-16">
+      <div className="relative mx-auto max-w-7xl section-padding-wide">
         {/* Logo and Social Links */}
         <div className="flex flex-col sm:flex-row justify-between items-center mb-8 sm:mb-10 md:mb-12 gap-6 sm:gap-8 md:gap-12">
           <div className="flex items-center gap-3">
