@@ -5,7 +5,7 @@ import { signOut } from '@/utils/firebaseFunctions';
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { motion } from 'framer-motion';
-import { FiMenu, FiX, FiLogOut, FiBriefcase, FiFileText, FiSettings, FiList } from 'react-icons/fi';
+import { FiMenu, FiX, FiLogOut } from 'react-icons/fi';
 
 interface NavItem {
   label: string;
